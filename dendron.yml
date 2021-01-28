@@ -19,13 +19,14 @@ site:
         - projects
         - arutam
         - philosophy
+        - private
         - garage
     siteRootDir: docs
     logo: "docs/assets/images/network-5572119__340.png"
     siteUrl: https://oolonek.github.io
     siteProtocol: https
     usePrettyRefs: true
-    gh_edit_repository: https://github.com/oolonek/dendron
+    gh_edit_repository: https://github.com/oolonek/dendron-private
     gh_edit_branch: main
-    title: grndstt's dendron
+    title: grndstt's dendron-private
     author: "grndstt" 
