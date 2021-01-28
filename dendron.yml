@@ -1,0 +1,31 @@
+version: 1
+vaults:
+    - fsPath: vault
+mermaid: true
+site:
+    copyAssets: true
+    assetsPrefix: dendron
+    siteHierarchies:
+        - welcome
+        - dendron
+        - pledge
+        - public
+        - knowledge
+        - cli
+        - tools
+        - todo
+        - writing
+        - readlist
+        - projects
+        - arutam
+        - philosophy
+        - garage
+    siteRootDir: docs
+    logo: "docs/assets/images/network-5572119__340.png"
+    siteUrl: https://oolonek.github.io
+    siteProtocol: https
+    usePrettyRefs: true
+    gh_edit_repository: https://github.com/oolonek/dendron
+    gh_edit_branch: main
+    title: grndstt's dendron
+    author: "grndstt" 

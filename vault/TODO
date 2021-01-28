@@ -1,0 +1,173 @@
+
+Arutam:
+
+  ☐ Contact Lou Jost for Andreas pics
+  ☐ Upload Andreas Collection to GBif
+       
+OpenNPDB:
+  
+  ☐ get in touch with ChemBL people or related contacts for ref management
+  ☐ answer Maria Sorokina @due(tomorrow)
+
+EcoMetabolomics:
+
+  ☐ Match try_species.cv against DNP for Tom W.
+  - Treat earth samples Tom 
+  
+  EcoMetabolomics.geobio:
+    
+    ☐ Write a paragraph (a ZK note, with snippet architecture)
+    This paragraph will be on the concepts and object that should be handled to allow for 
+    interexperiment comparison accross metabolomic MS datasets.
+    Namely the spectral and the structural object.
+
+Collabs:
+
+  Luis_Molina seeds metabo:
+    - make MN:
+        ssh allardp@x2go.epgl-geneve.org
+        cd Desktop/FARMAnetwork/RECHERCHE/COMMON\ FASIE-FATHO/PMA/Ubuntu_VM_img/ISDB_DNP/results/
+      stoped here  /Users/pma/Dropbox/Research_UNIGE/git_repos/pf_project/src/peaklist_formatter.py
+    ☐ make report @1h
+    ☐ send it @10m
+    
+  Sudan_Mycetoma:
+
+     ☐ Send data to halim.mahmoud@swisstph.ch <halim.mahmoud@swisstph.ch>
+     ☐ Have a look at the Mycetoma samples which have allready been profiled.
+  
+  Vitthal_project:
+      Vitthal Barvkar <vbarvkar@gmail.com>
+      We are working on Nothapodytes nimmoniana which is an important medicinal plant producing camptothecin. 
+     ☐ convert data to .mzXML
+
+  Thilo:
+    - Treat samples for smll acids 
+
+  Citrus_Metabolomics:
+      ☐ check with Katia for possibility regarding Xanthomons citri bioassay
+  
+Metabomaps:
+   ☐ Send feedback enquiry
+   ☐ answer back to Florence Henry @high
+
+   Frederique_Legendre:
+    ☐ Draft a small report 
+  
+PF_project: 
+  ☐ ask about the VGF labels issue in the PF tables
+  ☐ prepare gdocs table
+  - //TODO list 
+
+Bio2Bio: 
+  ☐ Insect data report
+
+Skills:
+  ☐ train for typing once a week.
+  ☐ daily Anki review
+
+Archive:
+  ✔ grab back latest Mzmine project @started(21-01-03 13:40) @done(21-01-03 13:42) @lasted(2m26s) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ make MN metadata file @started(21-01-03 13:42) @done(21-01-03 13:47) @lasted(5m16s) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ upload stuff to GNPS @started(21-01-03 13:47) @done(21-01-03 15:06) @lasted(1h19m56s) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ briefly check MN in cytoscape @15m @started(21-01-03 15:56) @done(21-01-03 16:06) @lasted(10m11s) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ Run ISDB @1h @done(21-01-03 18:05) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ upload mgf and attributes to x2go @15m @started(21-01-03 16:06) @done(21-01-03 16:37) @lasted(31m29s) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ run isdb via command line (x2go not working)  @30m @started(21-01-03 16:37) @done(21-01-10 20:58) @lasted(1w4h21m55s) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ get back top 50 locally @10m @started(21-01-03 16:42) @done(21-01-03 16:46) @lasted(4m31s) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ run taxo reponderation using Arabidopsis @1h @1h @started(21-01-03 17:47) @done(21-01-03 18:05) @lasted(18m24s) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ download latest version @started(21-01-03 14:30) @done(21-01-03 15:06) @lasted(36m54s) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ script a metadata formatter that take a sample metadata and feature table and generates a sample metadat grouped feature table (for cytoscape display) @4h @done(21-01-04 16:14) @project(Collabs.Luis_Molina seeds metabo)
+  ✔ work on a NPclassifier batch script @done(21-01-03 11:45) @project(OpenNPDB)
+  ✔ NPClassify DNP @done(21-01-03 11:45) @project(OpenNPDB)
+  ✔ Answer LF @done(21-01-01 14:06) @project(UniFr)
+  ✔ Correction TP-UV @high @done(21-01-01 14:05) @project(TP)
+  ✔ Course Resume for Laure @critical @done(21-01-01 14:05) @project(UniFr)
+  ✔ send wd2lotus table to Maria @done(21-01-01 14:05) @project(OpenNPDB)
+  ✔ check COCONUT webapp (after docker compose check the local port :8091) @done(20-12-13 21:36) @project(OpenNPDB)
+  ✔ @done(20-12-13 21:36)
+  ✔ Subset compadre_spp_chem.csv for Hormones derivatives @done(20-12-13 21:37) @project(EcoMetabolomics)
+  ✔ Prepare earth samples Tom @done(20-12-13 21:37) @project(EcoMetabolomics)
+  ✔ Match Stefan's Metabolight species list to Gbif @done(20-12-13 21:38) @project(EcoMetabolomics.EcoMetabolomics.geobio)
+  ✔ Check for species list extraction from GNPS Redu, Massive @done(20-12-13 21:38) @project(EcoMetabolomics.EcoMetabolomics.geobio)
+  ✔ Answer PD and LF @done(20-12-13 21:38 @project(Collabs)
+  ✔ check Smiles to IK conversion of NAP outputs @done(20-12-13 21:38) @project(Collabs.KyoBin)
+  ✔ Convert Mycetoma Samples @done(20-12-13 21:38) @project(Collabs.Sudan_Mycetoma)
+  ✔ Received 6 samples. Profile pos/neg on orbi. @done(20-12-13 21:39) @project(Collabs.Thilo)
+  ✔ Send rest of PF plates to Thilo @done(20-12-13 21:39) @project(Collabs.Thilo)
+  ✔ separate PF project plant from the rest of the collection (check with Fred) @done(20-12-13 21:40) @project(PF_project)
+  ✔ compare latest roots extracts with previous Nauclea tramadol run. @done(20-12-13 21:40) @project(Tramadol)
+  ✔ Mail Leo to descirbe procedure for DMT postage @done(20-12-13 21:40) @project(Citrus_Metabolomics)
+  ✔ Set meeting with Katia G. @done(20-10-23 11:35) @project(Fungal_MN)
+  ✔ Check and comment Moncef's draft @review @ml @done(20-10-23 11:35) @project(Reviews )
+  ✔ Draft a paragraph (use ctno snippets) on the datafluxes among ecometabolomics data repos @done(20-10-23 11:32) @project(EcoMetabolomics.JOE)
+  ✔ reaquire files @done(20-10-23 11:34) @project(Metabomaps.Frederique_Legendre)
+  ✔ SSD papa @done(20-10-18 12:19) @project(Home)
+  ✔ get back SSD enclosure from lab @done(20-10-18 12:19) @project(Home)
+  ✔ get back Nata's data @done(20-10-18 12:19) @project(Home)
+  ✔ Check Leo's Draft @review @done(20-10-03 21:01) @project(Reviews )
+  ✔ Relancer Vince pour discuter geobio @done(20-10-03 21:00) @project(EcoMetabolomics.EcoMetabolomics.geobio)
+  ✔ Mail Franzi geobio @done(20-10-03 21:00) @project(EcoMetabolomics)
+  ✔ Get back mzXML files @est(20m) @done(20-10-03 20:24) @project(Metabomaps.Frederique_Legendre)
+  ✔ MZMIne treatment @est(1h) @done(20-10-03 20:24) @project(Metabomaps.Frederique_Legendre)
+  ✔ Taxo repond (classic one) @est(30m) @done(20-10-03 20:24) @project(Metabomaps.Frederique_Legendre)
+  ✔ Answer mail @done(20-10-02 09:21) @project(External_collabs.Brendan)
+  ✔ get back .mzXML files @done(20-09-30 14:26) @project(Tramadol)
+  ✔ convert them @done(20-09-30 14:26) @project(Tramadol)
+  ✔ have a look at the profiles @done(20-09-30 14:26) @project(Tramadol)
+  ✔ send report to Emerson and co. @done(20-09-30 14:26) @project(Tramadol)
+  ✔ write a snippet for context/need/task/object @done(20-09-30 13:40) @project(Dendron)
+  ✔ reimplement Anki routine for plant genus/fam @done(20-09-30 13:38) @project(Skills)
+  ✔ check git hub payment academic @done(20-09-29 19:37) @project(Admin)
+  ✔ Inscription these Josep @done(20-09-29 18:31) @project(Admin)
+  ✔ Review Kyo Bin MS @review @due(20-10-01 09:10) @est(2h) @started(20-09-29 15:27) @done(20-09-29 18:31) @lasted(3h4m9s) @project(Reviews )
+    https://acs.manuscriptcentral.com/acs-np?URL_MASK=ac8ff675aaae4b53965b5e3f484e7aca
+  ✔ Sign Noemitz book @done(20-09-29 17:40) @project(Admin)
+  ✔ Correct TP Biblio barem @started(20-09-29 15:13) @done(20-09-29 15:17) @lasted(4m10s) @project(TP)
+  ✔ Send Cyphostemma list to JL @done(20-09-29 15:00) @project(PF_project)
+  ✔ create gdoc spreadsheat for plant exchange with PF @started(20-09-29 14:24) @done(20-09-29 15:00) @lasted(36m40s) @project(PF_project)
+  ✔ Check at the mzXML data @rissard ? @started(20-09-29 13:55) @done(20-09-29 14:03) @lasted(8m9s) @project(External_collabs.Brendan)
+  ✔ Quetiapine paper : check answers @est(30m) @started(20-09-28 15:03) @done(20-09-28 15:17) @lasted(14m48s) @project(Reviews )
+  ✔ Reponses reviewer check Joelltz assignations in J Paper @started(20-09-28 14:32) @done(20-09-28 14:55) @lasted(23m3s) @project(Reviews )
+  ✔ Call Thonon agglo @done(20-09-28 11:57) @project(Home)
+  ✔ upload Zoom video @est(2h) @done(20-09-28 13:44) @project(External_collabs.Polo)
+  ✔ Corrections TP Biblios @high @est(30min) @started(20-09-28 13:46) @done(20-09-28 13:59) @lasted(13m40s) @project(TP)
+  ✔ Send data table to Maria (data/validation/manuallyValidated.tsv.gz) @done(20-09-27 16:37) @project(OpenNPDB)
+  ✔ Send Science review reply + add JL and lab in acknowledgments @critical @done(20-09-27 16:37) @project(EcoMetabolomics)
+  ✔ send second plate @done(20-09-27 16:13) @project(Internal_collabs.Thilo_Kohler)
+  ✔ Put Kyo Bin and Tom Walker in touch @done(20-09-27 16:13) @project(External_collabs.Kyo_Bin)
+  ✔ Check Draft Wilmar @done(20-09-25 20:13) @project(Reviews )
+  ✔ Draft to all for Friday @due(20-09-25 18:53) @high @done(20-09-25 19:19) @project(OpenNPDB)
+  ✔ prepare UV standards solutions @done(20-09-25 19:19) @project(TP)
+  ✔ Zoom with Marie @est(tomorrow at 15:30) @done(20-09-24 19:14) @project(OpenNPDB)
+  ✔ read and evaluate travaux de diplome (Florence Delie) @est(25 Sept 2020) @critical @done(20-09-24 19:13) @project(TP)
+  ✔ check with Wero the room 1509 spectros @est(11pm) @done(20-09-24 19:13) @project(TP)
+  ✔ Read gdoc !!!! @high @done(20-09-23 20:14) @project(OpenNPDB)
+  ✔ Clean draft for Wednesday @due(20-09-23 18:52) @done(20-09-23 20:14) @project(OpenNPDB)
+  ✔ Anything with a colon at the end of the line is a project @done(20-09-23 20:10) @project(Projects)
+  ✔ Projects will show some statistics next to them @1h @done(20-09-23 20:10) @project(Projects)
+  ✔ By default those statistics are the number of pending //TODOs and the sum of their time estimates @30m @done(20-09-23 20:11) @project(Projects)
+  ✔ You can nest projects inside each other and fold them @done(20-09-23 20:10) @project(Projects)
+  ✔ Read Science Forum: Wikidata as a knowledge graph for the life sciences (20-09-22 19:38) @project(OpenNPDB) @done(20-09-23 20:02)
+  ✔ Mail copyrights (20-09-22 19:37) @project(OpenNPDB) @done(20-09-23 20:02)
+  ✔ Mail C. Steinbeck (20-09-22 09:49) @project(OpenNPDB) @done(20-09-23 20:02)
+  ✔ Taxo repond Clitorea samples (20-09-21 19:57) @project(External_collabs / Munirah_Clitorea) @done(20-09-23 20:02)
+  ✔ Taxo repond samples (20-09-19 12:44) @project(External_collabs / Miwa_Kubo) @done(20-09-23 20:02)
+  ✔ Sign report Jo-Lene (20-09-19 10:09) @project(Admin) @done(20-09-23 20:02)
+  ✔ Appela addcaes Tel : 04 79 72 46 08 lundi et jeudi après-midi de 13h15 à 15h30 @due(20-09-17 15:45) (20-09-17 11:24) @project(Home) @done(20-09-23 20:02)
+  ✔ Create a Slack channel see with Nabil (20-09-17 09:50) @project(Sinergia_project) @done(20-09-23 20:02)
+  ✔ Send mail regarding plants order to Bruno and Antonio (20-09-16 17:38) @project(PF_project) @done(20-09-23 20:02)
+  ✔ Send Metadata to Wolfrum's postdoc (20-09-16 17:38) @project(Sinergia_project) @done(20-09-23 20:02)
+  ✔ check details maintenance @due(20-09-16 20:56) (20-09-16 15:51) @project(MS_orbi) @done(20-09-23 20:02)
+  ✔ Send plates (20-09-16 15:51) @project(Internal_collabs / Thilo_Kohler) @done(20-09-23 20:02)
+  ✔ Send MS data (20-09-16 10:47) @project(Internal_collabs / Magdi) @done(20-09-23 20:02)
+  ✔ send plates to Thilo (20-09-14 14:17) @project(Internal_collabs / Thilo_Kohler) @done(20-09-23 20:02)
+  ✔ Send TY mail @due(20-09-14 19:34) (20-09-14 13:47) @project(Metabomaps) @done(20-09-23 20:02)
+  With additional data (ions tables, keynote of presentation)
+  ✔ Draft paragraph 10 @due(20-09-14 17:43) (20-09-14 13:26) @project(EcoMetabolomics) @done(20-09-23 20:02)
+  ✔ Check draft Manu Deffossez @due(20-09-14 18:54) (20-09-13 22:58) @project(Reviews ) @done(20-09-23 20:02)
+  ✔ Check and comment Paragraph #3 - JoE special feature Metabolomics Review @review @due(20-09-14 17:40) (20-09-13 22:58) @project(Reviews ) @done(20-09-23 20:02)
+  ✔ Check Brendans Draft @review (20-09-13 15:36) @project(Reviews ) @done(20-09-23 20:02)
+  ✔ Check Wilmar's draft @review @due(20-09-19 14:08) (20-09-12 18:50) @project(Reviews ) @done(20-09-23 20:02)
+  ✔ Read Joelletz Reviewers answers @review @due(20-09-15 14:08) @started(20-09-12 14:09) (20-09-12 17:27) @project(Reviews ) @done(20-09-23 20:02) @lasted(1w4d5h53m38s)
+
