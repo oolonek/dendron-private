@@ -2,7 +2,7 @@
 id: 7e06f6eb-35b2-4eb0-aa4d-f1697e73e104
 title: Web
 desc: ''
-updated: 1611827742349
+updated: 1611832817608
 created: 1611825283591
 ---
 
@@ -44,6 +44,8 @@ This is what I did up to now and what I plan to do to tackle this
     - [ ] http://pomf.se/
     - [ ] https://www.netlify.com/
     - [ ] https://wowchemy.com/
+    - [ ] https://www.freecodecamp.org/news/two-ways-to-deploy-a-public-github-pages-site-from-a-private-hugo-repository-627312ec63b9/
+    
 
 ## Object (of the note/paragraph/text/paper/project)
 This is a self contained ctno snippet. It does not aim to introduce anything other than itself.

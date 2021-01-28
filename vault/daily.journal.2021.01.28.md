@@ -2,7 +2,7 @@
 id: a0b465e4-4912-4499-922d-57507519e90a
 title: '28'
 desc: ''
-updated: 1611825254813
+updated: 1611836156306
 created: 1611821006206
 stub: false
 ---
@@ -11,6 +11,10 @@ stub: false
 
 - `09:04` _Start_
 - `09:42` Mail //_dailycheck_
-- `09:42` Dendron //_working on autosave_
+- `12:15` Dendron //_working on autosave_
+- `13:10` //Pausa
+- `13:15` Mail //Unige
+- `13:15` Dendron //_working on autosave_
+
 
 
