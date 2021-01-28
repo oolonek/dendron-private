@@ -1,7 +1,6 @@
 {
   "name": "vault",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +11,7 @@
   "dependencies": {
     "@dendronhq/dendron-11ty": "^1.26.0",
     "@dendronhq/dendron-cli": "^0.26.2-alpha.0"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }
