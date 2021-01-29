@@ -19,11 +19,10 @@ site:
         - projects
         - arutam
         - philosophy
-        - private
         - garage
     siteRootDir: docs
     logo: "docs/assets/images/network-5572119__340.png"
-    siteUrl: https://oolonek.github.io
+    siteUrl: https://focused-goldstine-5662bb.netlify.app/
     siteProtocol: https
     usePrettyRefs: true
     gh_edit_repository: https://github.com/oolonek/dendron-private
