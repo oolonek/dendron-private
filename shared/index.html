@@ -1,0 +1,358 @@
+<!DOCTYPE html><html><head>
+      <title>Luis_molina</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({"extensions":["tex2jax.js"],"jax":["input/TeX","output/HTML-CSS"],"messageStyle":"none","tex2jax":{"processEnvironments":false,"processEscapes":true,"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"TeX":{"extensions":["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]},"HTML-CSS":{"availableFonts":["TeX"]}});
+        </script>
+        <script type="text/javascript" async src="file:////Users/pma/.vscode/extensions/dendron.dendron-markdown-preview-enhanced-0.10.19/node_modules/@dendronhq/mume/dependencies/mathjax/MathJax.js" charset="UTF-8"></script>
+        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  " id="a5f4841e-0a88-474f-9369-1c6a1cba38e0">
+      <hr>
+<p>id: a5f4841e-0a88-474f-9369-1c6a1cba38e0 title: Luis_molina desc: &#x2019;&#x2019; updated: 1610628961555 created: 1609678304075 &#x2014;# Luis Molina and Lena {#luis-molina-and-lena }</p>
+<p>The projects aims to explore the metabolomics of dormant and non-dormant Arabidopsis seeds, different ecotypes</p>
+<p>Preparing MN upload 3 files uploaded</p>
+<p>-rwx&#x2014;&#x2014; 1 pma staff 3562351 7 d&#xE9;c 15:52 lena_pos_quant.csv -rwx&#x2014;&#x2014;@ 1 pma staff 2894190 7 d&#xE9;c 15:52 lena_pos.mgf -rw-r&#x2013;r&#x2013;@ 1 pma staff 2619 3 jan 13:46 lena_metadata_gnps.tsv</p>
+<p>Launched job <a href="https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=e97d9482aa464b699a547ecc7ebfd0a3" class="uri">https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=e97d9482aa464b699a547ecc7ebfd0a3</a> at</p>
+<pre class="text language-text" data-role="codeBlock" data-info="text"><code>    Read length of metadata 61
+    Empty line filtered length of metadata 61
+    filename header not in metadata file, please refer to documentation - https://ccms-ucsd.github.io/GNPSDocumentation/networking/#metadata 
+    Tool execution terminates abnormally with exit code [1]</code></pre>
+<p>Problem is apparently because of the metadata file format which requires to have the term filename as header for the files. See doc here</p>
+<p>New job is <a href="https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=fcdc83b1a76c422d9a6d2ea2296d30d7" class="uri">https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=fcdc83b1a76c422d9a6d2ea2296d30d7</a></p>
+<p>Qiime emperor plot <a href="https://view.qiime2.org/visualization/?type=html&amp;src=https%3A%2F%2Fcors-anywhere.herokuapp.com%2Fhttps%3A%2F%2Fgnps.ucsd.edu%2FProteoSAFe%2FDownloadResultFile%3Ftask%3Dfcdc83b1a76c422d9a6d2ea2296d30d7%26file%3Dqiime2_output%2Fqiime2_emperor.qzv%26block%3Dmain" class="uri">https://view.qiime2.org/visualization/?type=html&amp;src=https%3A%2F%2Fcors-anywhere.herokuapp.com%2Fhttps%3A%2F%2Fgnps.ucsd.edu%2FProteoSAFe%2FDownloadResultFile%3Ftask%3Dfcdc83b1a76c422d9a6d2ea2296d30d7%26file%3Dqiime2_output%2Fqiime2_emperor.qzv%26block%3Dmain</a> Indicates that we should remove bk to see something</p>
+<p>Two files moved</p>
+<p>-rwxr-xr-x 1 allardp utilisateurs du domaine 2789127 Jan 3 16:19 fbmn_lena_metabo_specs_ms.mgf -rwxr-xr-x 1 allardp utilisateurs du domaine 1589444 Jan 3 16:20 fbmn_lena_metabo_attributes.tsv</p>
+<h1 id="set-the-tolerance-to-be-used">Set the tolerance to be used</h1>
+<p>TOLERANCE=0.01</p>
+<h1 id="score-threshold">Score threshold</h1>
+<p>SCORE_THRESHOLD=0.2</p>
+<h1 id="top-k-results">Top K results</h1>
+<p>TOP_K_RESULTS=50</p>
+<p>running ISDB spectral match</p>
+<p>bash run_new_dnp_top50.sh fbmn_lena_metabo_specs_ms.mgf fbmn_lena_metabo_attributes.tsv fbmn_lena_metabo_results_DNP_top50.out</p>
+<p>To fetch back data we use rsync rsync -rvz -e &#x2018;ssh&#x2019; &#x2013;progress &#x201C;<a href="mailto:allardp@x2go.epgl-geneve.org">allardp@x2go.epgl-geneve.org</a>:/home/farma.unige.ch/allardp/Desktop/FARMAnetwork/RECHERCHE/COMMON\ FASIE-FATHO/PMA/Ubuntu_VM_img/ISDB_DNP/results/fbmn_lena_metabo_results_DNP_top50.out&#x201D; ./ Note: double quotes allow to bypass the otherwise problematic \</p>
+<p>Taxo_scorer_evolved didnt work</p>
+<p>(check with Adriano)</p>
+<p>Used classical script -rw-r&#x2013;r&#x2013;@ 1 pma staff 15942 3 jan 17:54 210103_taxo_classy_lena.Rmd Output is -rw-r&#x2013;r&#x2013; 1 pma staff 2366916 3 jan 17:52 fbmn_lena_metabo_results_DNP_top5_repond.tsv</p>
+<h1 id="drafting-report">Drafting report</h1>
+<h2 id="research-question-and-background">Research question and background</h2>
+<p><img src="assets/images/2021-01-12-19-00-32.png"></p>
+<h2 id="preliminary-results">Preliminary results</h2>
+<h3 id="lcms-profiling">LCMS profiling</h3>
+<h4 id="pos-mode-orbitrap-ddms2">Pos mode, Orbitrap, ddMS2</h4>
+<p><img src="assets/images/2021-01-12-19-05-46.png"></p>
+<ul>
+<li>First observation : the profile are nicely aligned and we see peeks ! Sample prep is OK. //DONE Ask Luis and Lena: what is the exact nature of the samples</li>
+</ul>
+<h3 id="multivariate-data-analysis">Multivariate data analysis</h3>
+<h4 id="unsupervised">Unsupervised</h4>
+<h5 id="ecotype-mapping">Ecotype mapping</h5>
+<p>After alignement we can have a look at the unsupervised analysis. Here after the removal of three outliers (Col1, Ler27 and WS2AR) Color code according to Ecotype</p>
+<p><img src="assets/images/2021-01-12-19-13-50.png"></p>
+<p>We can see a clear grouping according to ecotype on PC1/PC2</p>
+<h5 id="treatment-mapping-nonear">Treatment mapping (None/AR)</h5>
+<p><img src="assets/images/2021-01-12-19-17-38.png"></p>
+<p>Treatment effects are confounded on PC1/PC2</p>
+<p>We decide to check for the treatment effect at each ecotype level</p>
+<p>The same is observed on the other components</p>
+<p><img src="assets/images/2021-01-12-19-48-21.png"></p>
+<h5 id="treatment-mapping-nonear-for-col">Treatment mapping (None/AR) for Col</h5>
+<p><img src="assets/images/2021-01-12-19-22-09.png"></p>
+<h5 id="treatment-mapping-nonear-for-cvi">Treatment mapping (None/AR) for Cvi</h5>
+<p><img src="assets/images/2021-01-12-19-23-24.png"></p>
+<h5 id="treatment-mapping-nonear-for-ler">Treatment mapping (None/AR) for Ler</h5>
+<p><img src="assets/images/2021-01-12-19-27-09.png"></p>
+<h5 id="treatment-mapping-nonear-for-ws">Treatment mapping (None/AR) for WS</h5>
+<p><img src="assets/images/2021-01-12-19-31-17.png"></p>
+<p>Hard to distinguish overall, even tough it appears that there is clustering for some of the ecotypes.</p>
+<h4 id="supervised">Supervised</h4>
+<p>In order to check more in details we used supervised analysis to force group discrimination We use the exported feature table (/Users/pma/tmp/Lena_metabo_local/lena_pos_ttmt_MA.csv) in Metaboanalyst</p>
+<p><em>Samples are in columns and features in rows. The uploaded file is in comma separated values (.csv) format. The uploaded data file contains 48 (samples) by 3390 (peaks(mz/rt)) data matrix. Samples are not paired. 2 groups were detected in samples. Only English letters, numbers, underscore, hyphen and forward slash (/) are allowed. Other special characters or punctuations (if any) will be stripped off. Non-numeric values were found and replaced by NA. 70 features with a constant or single value across samples were found and deleted. A total of 14061 (8.8%) missing values were detected. </em></p>
+<p>No normalization. No scaling.</p>
+<p>As you might know, OPLSDA allways works !</p>
+<p><img src="assets/images/2021-01-12-19-51-34.png"></p>
+<p>Small cluster of interest in the S-Plot indicating up regulated feature in the AR group</p>
+<p><img src="assets/images/2021-01-12-19-58-44.png"></p>
+<h4 id="volcano-plot">Volcano plot</h4>
+<p><img src="assets/images/2021-01-12-20-14-04.png"></p>
+<p>We can check here for feature presenting the alternative pattern : over-expression in the None treatment (Freezer). However the signals are not as clear, indeed if you look closely only a subset of the None treated samples express these ions.</p>
+<h4 id="heatmap">Heatmap</h4>
+<p><img src="assets/images/2021-01-14-13-34-35.png"></p>
+<p>Detailed view on the top 60</p>
+<p><img src="assets/images/2021-01-14-13-36-50.png"></p>
+<h3 id="molecular-networks">Molecular Networks</h3>
+<p>In order to have some qualitative insights on the feature higlighted by the stats we build a molecular network on the MSMS of the acquired spectra and map the metadata information.</p>
+<p><img src="assets/images/2021-01-14-13-55-48.png"></p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
