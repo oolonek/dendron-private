@@ -4,7 +4,7 @@ vaults:
 mermaid: true
 site:
     copyAssets: true
-    assetsPrefix: dendron-private
+    #assetsPrefix: dendron-private
     siteHierarchies:
         - welcome
         - dendron
