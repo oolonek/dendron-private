@@ -9,16 +9,16 @@
 
   <link
     rel="shortcut icon"
-    href="https://oolonek.github.io/dendron/favicon.ico"
+    href="https://oolonek.github.io/dendron-private/favicon.ico"
     type="image/x-icon"
   />
   <link
     rel="stylesheet"
-    href="https://oolonek.github.io/dendron/assets/css/just-the-docs-default.css"
+    href="https://oolonek.github.io/dendron-private/assets/css/just-the-docs-default.css"
   />
   <script
     type="text/javascript"
-    src="https://oolonek.github.io/dendron/assets/js/just-the-docs.js"
+    src="https://oolonek.github.io/dendron-private/assets/js/just-the-docs.js"
   ></script>
   <link
     rel="stylesheet"
@@ -32,7 +32,7 @@
   />
   <script
     type="text/javascript"
-    src="https://oolonek.github.io/dendron/assets/js/vendor/lunr.min.js"
+    src="https://oolonek.github.io/dendron-private/assets/js/vendor/lunr.min.js"
   ></script>
   
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -97,7 +97,7 @@
   
     <div class="side-bar">
       <div class="site-header">
-        <a href="https://oolonek.github.io/dendron" class="site-title lh-tight">
+        <a href="https://oolonek.github.io/dendron-private" class="site-title lh-tight">
   <div class="site-logo"></div>
 
  </a>
@@ -129,7 +129,7 @@
       
         
           <nav aria-label="Breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="https://oolonek.github.io/dendron/notes/7fbc169b-77e5-4a93-bf05-3544d725fdf5.html">Tools</a></li><li class="breadcrumb-nav-list-item"><a href="https://oolonek.github.io/dendron/notes/8c2d21e6-cd72-4b60-b6bf-1783aefea103.html">Digital</a></li><li class="breadcrumb-nav-list-item"><a href="https://oolonek.github.io/dendron/notes/07d2abc7-ec37-4803-a113-e209ff26280a.html">Chemoinformatics</a></li><li class="breadcrumb-nav-list-item"><a href="https://oolonek.github.io/dendron/notes/98709615-b33f-45fe-b691-549b63fd602a.html">Qiime</a></li><li class="breadcrumb-nav-list-item">Cscs</li></ol>
+            <ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="https://oolonek.github.io/dendron-private/notes/7fbc169b-77e5-4a93-bf05-3544d725fdf5.html">Tools</a></li><li class="breadcrumb-nav-list-item"><a href="https://oolonek.github.io/dendron-private/notes/8c2d21e6-cd72-4b60-b6bf-1783aefea103.html">Digital</a></li><li class="breadcrumb-nav-list-item"><a href="https://oolonek.github.io/dendron-private/notes/07d2abc7-ec37-4803-a113-e209ff26280a.html">Chemoinformatics</a></li><li class="breadcrumb-nav-list-item"><a href="https://oolonek.github.io/dendron-private/notes/98709615-b33f-45fe-b691-549b63fd602a.html">Qiime</a></li><li class="breadcrumb-nav-list-item">Cscs</li></ol>
           </nav>
         
       
@@ -174,9 +174,9 @@
 <p><code>curl -d "" 'https://gnps.ucsd.edu/ProteoSAFe/DownloadResult?task=5729dd0f7a47475abc879e164c237f56&#x26;view=download_cluster_buckettable' -o GNPS_output.zip</code></p>
 <p>fetch the metadata table :</p>
 <p><code>cp GNPS_output/quantification_table_reformatted/d6548148e7e040bb8d573bc6d4954d4b.csv GNPS_buckettable.csv</code></p>
-<p>eventually remove some columns see <a href="https://oolonek.github.io/dendron/notes/403.html">20200611160123</a> terminal_directly_cut_csv_column</p>
+<p>eventually remove some columns see <a href="https://oolonek.github.io/dendron-private/notes/403.html">20200611160123</a> terminal_directly_cut_csv_column</p>
 <p><code>cut --complement -f 2,3 -d, GNPS_buckettable.csv > GNPS_buckettable_tomod.csv</code></p>
-<p>then convert from csv to tsv see <a href="https://oolonek.github.io/dendron/notes/403.html">20200611161504</a> terminal_convert_csv_to_tsv</p>
+<p>then convert from csv to tsv see <a href="https://oolonek.github.io/dendron-private/notes/403.html">20200611161504</a> terminal_convert_csv_to_tsv</p>
 <p><code>cat GNPS_buckettable_tomod.csv | tr "," "\\t" > GNPS_buckettable.tsv</code></p>
 <p>you can now convert to BIOM format </p>
 <p>`biom convert -i GNPS_buckettable.tsv -o GNPS_buckettable.biom --table-type="OTU table" --to-hdf5</p>

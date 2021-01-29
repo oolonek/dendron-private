@@ -1,5 +1,5 @@
 {
-  "name": "dendron",
+  "name": "dendron-private",
   "version": "1.0.0",
   "description": "Testing publication possibilities of a set of mixed public/private dendron notes without using the multivault option",
   "main": "index.js",
@@ -7,23 +7,21 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dendron-cli": "dendron-cli"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oolonek/dendron.git"
+    "url": "git+https://github.com/oolonek/dendron-private.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/oolonek/dendron/issues"
+    "url": "https://github.com/oolonek/dendron-private/issues"
   },
-  "homepage": "https://github.com/oolonek/dendron#readme",
+  "homepage": "https://github.com/oolonek/dendron-private#readme",
   "dependencies": {
     "@dendronhq/dendron-11ty": "^1.26.0",
-    "@dendronhq/dendron-cli": "^0.26.0"
-  },
-  "devDependencies": {}
+    "@dendronhq/dendron-cli": "^0.26.2-alpha.0"
+  }
 }
