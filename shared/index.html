@@ -1,376 +1,947 @@
-<!DOCTYPE html><html><head>
-      <title>Report</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      
-      
-        <script type="text/x-mathjax-config">
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Report</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <script type="text/x-mathjax-config">
           MathJax.Hub.Config({"extensions":["tex2jax.js"],"jax":["input/TeX","output/HTML-CSS"],"messageStyle":"none","tex2jax":{"processEnvironments":false,"processEscapes":true,"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"TeX":{"extensions":["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]},"HTML-CSS":{"availableFonts":["TeX"]}});
         </script>
-        <script type="text/javascript" async src="file:////Users/pma/.vscode/extensions/dendron.dendron-markdown-preview-enhanced-0.10.22/node_modules/@dendronhq/mume/dependencies/mathjax/MathJax.js" charset="UTF-8"></script>
-        
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <style>
-      /**
+  <script type="text/javascript" async
+    src="file:////Users/pma/.vscode/extensions/dendron.dendron-markdown-preview-enhanced-0.10.22/node_modules/@dendronhq/mume/dependencies/mathjax/MathJax.js"
+    charset="UTF-8"></script>
+
+
+
+
+
+
+
+
+
+
+  <style>
+    /**
  * prism.js Github theme based on GitHub's theme.
  * @author Sam Clarke
  */
-code[class*="language-"],
-pre[class*="language-"] {
-  color: #333;
-  background: none;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  word-wrap: normal;
-  line-height: 1.4;
+    code[class*="language-"],
+    pre[class*="language-"] {
+      color: #333;
+      background: none;
+      font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      word-break: normal;
+      word-wrap: normal;
+      line-height: 1.4;
 
-  -moz-tab-size: 8;
-  -o-tab-size: 8;
-  tab-size: 8;
+      -moz-tab-size: 8;
+      -o-tab-size: 8;
+      tab-size: 8;
 
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-}
+      -webkit-hyphens: none;
+      -moz-hyphens: none;
+      -ms-hyphens: none;
+      hyphens: none;
+    }
 
-/* Code blocks */
-pre[class*="language-"] {
-  padding: .8em;
-  overflow: auto;
-  /* border: 1px solid #ddd; */
-  border-radius: 3px;
-  /* background: #fff; */
-  background: #f5f5f5;
-}
+    /* Code blocks */
+    pre[class*="language-"] {
+      padding: .8em;
+      overflow: auto;
+      /* border: 1px solid #ddd; */
+      border-radius: 3px;
+      /* background: #fff; */
+      background: #f5f5f5;
+    }
 
-/* Inline code */
-:not(pre) > code[class*="language-"] {
-  padding: .1em;
-  border-radius: .3em;
-  white-space: normal;
-  background: #f5f5f5;
-}
+    /* Inline code */
+    :not(pre)>code[class*="language-"] {
+      padding: .1em;
+      border-radius: .3em;
+      white-space: normal;
+      background: #f5f5f5;
+    }
 
-.token.comment,
-.token.blockquote {
-  color: #969896;
-}
+    .token.comment,
+    .token.blockquote {
+      color: #969896;
+    }
 
-.token.cdata {
-  color: #183691;
-}
+    .token.cdata {
+      color: #183691;
+    }
 
-.token.doctype,
-.token.punctuation,
-.token.variable,
-.token.macro.property {
-  color: #333;
-}
+    .token.doctype,
+    .token.punctuation,
+    .token.variable,
+    .token.macro.property {
+      color: #333;
+    }
 
-.token.operator,
-.token.important,
-.token.keyword,
-.token.rule,
-.token.builtin {
-  color: #a71d5d;
-}
+    .token.operator,
+    .token.important,
+    .token.keyword,
+    .token.rule,
+    .token.builtin {
+      color: #a71d5d;
+    }
 
-.token.string,
-.token.url,
-.token.regex,
-.token.attr-value {
-  color: #183691;
-}
+    .token.string,
+    .token.url,
+    .token.regex,
+    .token.attr-value {
+      color: #183691;
+    }
 
-.token.property,
-.token.number,
-.token.boolean,
-.token.entity,
-.token.atrule,
-.token.constant,
-.token.symbol,
-.token.command,
-.token.code {
-  color: #0086b3;
-}
+    .token.property,
+    .token.number,
+    .token.boolean,
+    .token.entity,
+    .token.atrule,
+    .token.constant,
+    .token.symbol,
+    .token.command,
+    .token.code {
+      color: #0086b3;
+    }
 
-.token.tag,
-.token.selector,
-.token.prolog {
-  color: #63a35c;
-}
+    .token.tag,
+    .token.selector,
+    .token.prolog {
+      color: #63a35c;
+    }
 
-.token.function,
-.token.namespace,
-.token.pseudo-element,
-.token.class,
-.token.class-name,
-.token.pseudo-class,
-.token.id,
-.token.url-reference .token.variable,
-.token.attr-name {
-  color: #795da3;
-}
+    .token.function,
+    .token.namespace,
+    .token.pseudo-element,
+    .token.class,
+    .token.class-name,
+    .token.pseudo-class,
+    .token.id,
+    .token.url-reference .token.variable,
+    .token.attr-name {
+      color: #795da3;
+    }
 
-.token.entity {
-  cursor: help;
-}
+    .token.entity {
+      cursor: help;
+    }
 
-.token.title,
-.token.title .token.punctuation {
-  font-weight: bold;
-  color: #1d3e81;
-}
+    .token.title,
+    .token.title .token.punctuation {
+      font-weight: bold;
+      color: #1d3e81;
+    }
 
-.token.list {
-  color: #ed6a43;
-}
+    .token.list {
+      color: #ed6a43;
+    }
 
-.token.inserted {
-  background-color: #eaffea;
-  color: #55a532;
-}
+    .token.inserted {
+      background-color: #eaffea;
+      color: #55a532;
+    }
 
-.token.deleted {
-  background-color: #ffecec;
-  color: #bd2c00;
-}
+    .token.deleted {
+      background-color: #ffecec;
+      color: #bd2c00;
+    }
 
-.token.bold {
-  font-weight: bold;
-}
+    .token.bold {
+      font-weight: bold;
+    }
 
-.token.italic {
-  font-style: italic;
-}
-
-
-/* JSON */
-.language-json .token.property {
-  color: #183691;
-}
-
-.language-markup .token.tag .token.punctuation {
-  color: #333;
-}
-
-/* CSS */
-code.language-css,
-.language-css .token.function {
-  color: #0086b3;
-}
-
-/* YAML */
-.language-yaml .token.atrule {
-  color: #63a35c;
-}
-
-code.language-yaml {
-  color: #183691;
-}
-
-/* Ruby */
-.language-ruby .token.function {
-  color: #333;
-}
-
-/* Markdown */
-.language-markdown .token.url {
-  color: #795da3;
-}
-
-/* Makefile */
-.language-makefile .token.symbol {
-  color: #795da3;
-}
-
-.language-makefile .token.variable {
-  color: #183691;
-}
-
-.language-makefile .token.builtin {
-  color: #0086b3;
-}
-
-/* Bash */
-.language-bash .token.keyword {
-  color: #0086b3;
-}
-
-/* highlight */
-pre[data-line] {
-  position: relative;
-  padding: 1em 0 1em 3em;
-}
-pre[data-line] .line-highlight-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: transparent;
-  display: block;
-  width: 100%;
-}
-
-pre[data-line] .line-highlight {
-  position: absolute;
-  left: 0;
-  right: 0;
-  padding: inherit 0;
-  margin-top: 1em;
-  background: hsla(24, 20%, 50%,.08);
-  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
-  pointer-events: none;
-  line-height: inherit;
-  white-space: pre;
-}
-
-pre[data-line] .line-highlight:before, 
-pre[data-line] .line-highlight[data-end]:after {
-  content: attr(data-start);
-  position: absolute;
-  top: .4em;
-  left: .6em;
-  min-width: 1em;
-  padding: 0 .5em;
-  background-color: hsla(24, 20%, 50%,.4);
-  color: hsl(24, 20%, 95%);
-  font: bold 65%/1.5 sans-serif;
-  text-align: center;
-  vertical-align: .3em;
-  border-radius: 999px;
-  text-shadow: none;
-  box-shadow: 0 1px white;
-}
-
-pre[data-line] .line-highlight[data-end]:after {
-  content: attr(data-end);
-  top: auto;
-  bottom: .4em;
-}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
-/* Please visit the URL below for more information: */
-/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
-
-      </style>
-    </head>
-    <body for="html-export">
-      <div class="mume markdown-preview  " id="bf51881f-1334-42da-b762-1ea39617b614">
-      <div><hr>
-<p>id: bf51881f-1334-42da-b762-1ea39617b614 title: Report desc: &#x2019;&#x2019; updated: 1612382771388 created: 1610631059696 html: embed_local_images: true embed_svg: true offline: true toc: true print_background: false export_on_save: html: true toc: depth_from: 1 depth_to: 6 ordered: false &#x2014;[MUMETOC]</p>
-<h1 id="report">2021-01-14 Report</h1>
-<p>[updated 2021-01-20 08:24]</p>
-<h2 id="research-question-and-background">Research question and background</h2>
-<p>Some biblio on alkanolamides and Arabido.</p>
-<p><a href="https://www.pnas.org/content/pnas/103/32/12197.full.pdf" class="uri">https://www.pnas.org/content/pnas/103/32/12197.full.pdf</a></p>
-<h1 id="next-steps">Next Steps :</h1>
-<ul>
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> ask Luis and Lena the extraction protocol</li>
-<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> reanalyse a batch of seeds <em><strong>together with appropriate extraction blancks</strong> </em></li>
-</ul>
-<p><img src="assets/images/2021-01-22-10-18-53.png"></p>
-
-<link rel="import" href="vault/assets/private.assets/sariette_pos_chemo_sunburst.html">
-
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~elizabethts/9.embed" height="525" width="100%"></iframe>
-
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="vault/assets/private.assets/sariette_pos_chemo_sunburst.html.embed" height="525" width="100%"></iframe>
-
-<p><a href="vault/assets/private.assets/sariette_pos_chemo_sunburst.html">sariette_pos_chemo_sunburst.html</a></p>
-<p><a href="sariette_pos_organisms_sunburst.html">sariette_pos_organisms_sunburst.html</a></p>
+    .token.italic {
+      font-style: italic;
+    }
 
 
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
+    /* JSON */
+    .language-json .token.property {
+      color: #183691;
+    }
 
-<div>
-  <div id="0dfed4fa-d30c-48c7-8c76-94a87d8e85fc" class="plotly-graph-div" style="height:100%; width:100%;">
-  </div>
-  <script type="text/javascript">
-    window.PLOTLYENV=window.PLOTLYENV || {};if (document.getElementById("0dfed4fa-d30c-48c7-8c76-94a87d8e85fc")) {Plotly.newPlot("0dfed4fa-d30c-48c7-8c76-94a87d8e85fc",[{"branchvalues": "total", "domain": {"x": [0.0, 1.0], "y": [0.0, 1.0]}, "hovertemplate": "labels=%{label}<br>count=%{value}<br>parent=%{parent}<br>id=%{id}<extra></extra>", "ids": ["[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Adina\']/[\'Adina cordifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Amaranthus\']/[\'Amaranthus retroflexus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Andrographis\']/[\'Andrographis ceylanica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Angostura\']/[\'Angostura trifoliata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Anisochilus\']/[\'Anisochilus carnosus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']/[\'Aquilaria\']/[\'Aquilaria agallocha\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']/[\'Artemisia annua\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']/[\'Artemisia umbelliformis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']/[\'Artemisia vestita\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Asimina\']/[\'Asimina parviflora\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Avicennia\']/[\'Avicennia marina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ayapana\']/[\'Ayapana amygdalina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Baccharis\']/[\'Baccharis dracunculifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']/[\'Bellardia\']/[\'Bellardia trixago\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Bidens\']/[\'Bidens parviflora\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Brachanthemum\']/[\'Brachanthemum baranovii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']/[\'Byrsonima\']/[\'Byrsonima microphylla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']/[\'Calamus\']/[\'Calamus draco\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']/[\'Camellia\']/[\'Camellia sinensis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Cedronella\']/[\'Cedronella canariensis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Chenopodium\']/[\'Chenopodium berlandieri\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Chrysojasminum\']/[\'Chrysojasminum odoratissimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Clinopodium\']/[\'Clinopodium gilliesii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']/[\'Codonopsis\']/[\'Codonopsis cordifolioidea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Condea\']/[\'Condea verticillata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']/[\'Cucumis\']/[\'Cucumis callosus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']/[\'Cydonia\']/[\'Cydonia oblonga\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Dendrobates\']/[\'Dendrobates auratus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']/[\'Dichapetalum\']/[\'Dichapetalum toxicarium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Dictamnus\']/[\'Dictamnus albus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']/[\'Didymocarpus\']/[\'Didymocarpus aurantiacus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']/[\'Diospyros\']/[\'Diospyros martabanica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Doellingeria\']/[\'Doellingeria umbellata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Dracocephalum\']/[\'Dracocephalum forrestii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']/[\'Eremophila\']/[\'Eremophila drummondii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Fabiana\']/[\'Fabiana imbricata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Galium\']/[\'Galium mollugo\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Genipa\']/[\'Genipa americana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Glycyrrhiza\']/[\'Glycyrrhiza glabra\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helianthus\']/[\'Helianthus annuus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helichrysum\']/[\'Helichrysum nudifolium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Heterotheca\']/[\'Heterotheca grandiflora\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']/[\'Humulus\']/[\'Humulus lupulus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Hyssopus\']/[\'Hyssopus officinalis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Incarvillea\']/[\'Incarvillea diffusa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']/[\'Ipomoea cairica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']/[\'Ipomoea obscura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']/[\'Iris\']/[\'Iris germanica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']/[\'Isodon eriocalyx\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']/[\'Isodon nervosus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']/[\'Isodon oresbius\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Jasminum\']/[\'Jasminum grandiflorum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']/[\'Krameria\']/[\'Krameria cytisoides\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Laggera\']/[\'Laggera alata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']/[\'Lavandula gibsonii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']/[\'Lavandula stoechas\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lepechinia\']/[\'Lepechinia bullata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ligularia\']/[\'Ligularia macrophylla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']/[\'Lindera\']/[\'Lindera umbellata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']/[\'Lippia\']/[\'Lippia dulcis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']/[\'Macaranga\']/[\'Macaranga peltata\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']/[\'Mantella\']/[\'Mantella madagascariensis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Melissa\']/[\'Melissa officinalis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']/[\'Mentha diemenica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']/[\'Mentha gentilis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']/[\'Mesembryanthemum\']/[\'Mesembryanthemum cordifolium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']/[\'Myristica\']/[\'Myristica fragrans\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']/[\'Nepeta cataria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']/[\'Nepeta tenuifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Notopterygium\']/[\'Notopterygium incisum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']/[\'Ocimum americanum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']/[\'Ocimum basilicum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']/[\'Penstemon\']/[\'Penstemon hirsutus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Perilla\']/[\'Perilla frutescens\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Petasites\']/[\'Petasites japonicus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Plectranthus\']/[\'Plectranthus ovatus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Pogostemon\']/[\'Pogostemon cablin\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']/[\'Premna herbacea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']/[\'Premna serratifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']/[\'Premna tomentosa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Prostanthera\']/[\'Prostanthera rotundifolia\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Ranitomeya\']/[\'Ranitomeya fulgurita\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']/[\'Rhododendron\']/[\'Rhododendron przewalskii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']/[\'Rodgersia\']/[\'Rodgersia podophylla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Rydingia\']/[\'Rydingia integrifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia candelabrum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia divaricata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia dorisiana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia fruticosa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia napifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia sclarea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']/[\'Santalum\']/[\'Santalum album\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']/[\'Schisandra\']/[\'Schisandra sphenanthera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Sideritis\']/[\'Sideritis varoi\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Solanum\']/[\'Solanum etuberosum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Tabebuia\']/[\'Tabebuia rosea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Tamarindus\']/[\'Tamarindus indica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium carolipaui\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium marum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium polium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium ramosissimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium yemense\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Thymus\']/[\'Thymus serpyllum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Tithonia\']/[\'Tithonia diversifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mosla\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Opopanax\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']/[\'Semecarpus\']/[\'Unknown\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']/[\'Theonella\']/[\'Unknown\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Uvaria\']/[\'Uvaria angolensis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']/[\'Viburnum\']/[\'Viburnum dilatatum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Adina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Amaranthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Andrographis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Angostura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Anisochilus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']/[\'Aquilaria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Asimina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Avicennia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ayapana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Baccharis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']/[\'Bellardia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Bidens\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Brachanthemum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']/[\'Byrsonima\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']/[\'Calamus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']/[\'Camellia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Cedronella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Chenopodium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Chrysojasminum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Clinopodium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']/[\'Codonopsis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Condea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']/[\'Cucumis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']/[\'Cydonia\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Dendrobates\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']/[\'Dichapetalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Dictamnus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']/[\'Didymocarpus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']/[\'Diospyros\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Doellingeria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Dracocephalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']/[\'Eremophila\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Fabiana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Galium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Genipa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Glycyrrhiza\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helianthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helichrysum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Heterotheca\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']/[\'Humulus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Hyssopus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Incarvillea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']/[\'Iris\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Jasminum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']/[\'Krameria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Laggera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lepechinia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ligularia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']/[\'Lindera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']/[\'Lippia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']/[\'Macaranga\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']/[\'Mantella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Melissa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']/[\'Mesembryanthemum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mosla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']/[\'Myristica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Notopterygium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Opopanax\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']/[\'Penstemon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Perilla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Petasites\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Plectranthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Pogostemon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Prostanthera\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Ranitomeya\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']/[\'Rhododendron\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']/[\'Rodgersia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Rydingia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']/[\'Santalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']/[\'Schisandra\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']/[\'Semecarpus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Sideritis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Solanum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Tabebuia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Tamarindus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']/[\'Theonella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Thymus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Tithonia\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Uvaria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']/[\'Viburnum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Animalia\']/[\'Chordata\']", "[\'Animalia\']/[\'Porifera\']", "[\'Plantae\']/[\'Tracheophyta\']", "[\'Unknown\']/[\'Unknown\']", "[\'Animalia\']", "[\'Plantae\']", "[\'Unknown\']"], "labels": ["[\'Adina cordifolia\']", "[\'Amaranthus retroflexus\']", "[\'Andrographis ceylanica\']", "[\'Angostura trifoliata\']", "[\'Anisochilus carnosus\']", "[\'Aquilaria agallocha\']", "[\'Artemisia annua\']", "[\'Artemisia umbelliformis\']", "[\'Artemisia vestita\']", "[\'Asimina parviflora\']", "[\'Avicennia marina\']", "[\'Ayapana amygdalina\']", "[\'Baccharis dracunculifolia\']", "[\'Bellardia trixago\']", "[\'Bidens parviflora\']", "[\'Brachanthemum baranovii\']", "[\'Byrsonima microphylla\']", "[\'Calamus draco\']", "[\'Camellia sinensis\']", "[\'Cedronella canariensis\']", "[\'Chenopodium berlandieri\']", "[\'Chrysojasminum odoratissimum\']", "[\'Clinopodium gilliesii\']", "[\'Codonopsis cordifolioidea\']", "[\'Condea verticillata\']", "[\'Cucumis callosus\']", "[\'Cydonia oblonga\']", "[\'Dendrobates auratus\']", "[\'Dichapetalum toxicarium\']", "[\'Dictamnus albus\']", "[\'Didymocarpus aurantiacus\']", "[\'Diospyros martabanica\']", "[\'Doellingeria umbellata\']", "[\'Dracocephalum forrestii\']", "[\'Eremophila drummondii\']", "[\'Fabiana imbricata\']", "[\'Galium mollugo\']", "[\'Genipa americana\']", "[\'Glycyrrhiza glabra\']", "[\'Helianthus annuus\']", "[\'Helichrysum nudifolium\']", "[\'Heterotheca grandiflora\']", "[\'Humulus lupulus\']", "[\'Hyssopus officinalis\']", "[\'Incarvillea diffusa\']", "[\'Ipomoea cairica\']", "[\'Ipomoea obscura\']", "[\'Iris germanica\']", "[\'Isodon eriocalyx\']", "[\'Isodon nervosus\']", "[\'Isodon oresbius\']", "[\'Jasminum grandiflorum\']", "[\'Krameria cytisoides\']", "[\'Laggera alata\']", "[\'Lavandula gibsonii\']", "[\'Lavandula stoechas\']", "[\'Lepechinia bullata\']", "[\'Ligularia macrophylla\']", "[\'Lindera umbellata\']", "[\'Lippia dulcis\']", "[\'Macaranga peltata\']", "[\'Mantella madagascariensis\']", "[\'Melissa officinalis\']", "[\'Mentha diemenica\']", "[\'Mentha gentilis\']", "[\'Mesembryanthemum cordifolium\']", "[\'Myristica fragrans\']", "[\'Nepeta cataria\']", "[\'Nepeta tenuifolia\']", "[\'Notopterygium incisum\']", "[\'Ocimum americanum\']", "[\'Ocimum basilicum\']", "[\'Penstemon hirsutus\']", "[\'Perilla frutescens\']", "[\'Petasites japonicus\']", "[\'Plectranthus ovatus\']", "[\'Pogostemon cablin\']", "[\'Premna herbacea\']", "[\'Premna serratifolia\']", "[\'Premna tomentosa\']", "[\'Prostanthera rotundifolia\']", "[\'Ranitomeya fulgurita\']", "[\'Rhododendron przewalskii\']", "[\'Rodgersia podophylla\']", "[\'Rydingia integrifolia\']", "[\'Salvia candelabrum\']", "[\'Salvia divaricata\']", "[\'Salvia dorisiana\']", "[\'Salvia fruticosa\']", "[\'Salvia napifolia\']", "[\'Salvia sclarea\']", "[\'Santalum album\']", "[\'Schisandra sphenanthera\']", "[\'Sideritis varoi\']", "[\'Solanum etuberosum\']", "[\'Tabebuia rosea\']", "[\'Tamarindus indica\']", "[\'Teucrium carolipaui\']", "[\'Teucrium marum\']", "[\'Teucrium polium\']", "[\'Teucrium ramosissimum\']", "[\'Teucrium yemense\']", "[\'Thymus serpyllum\']", "[\'Tithonia diversifolia\']", "[\'Unknown\']", "[\'Unknown\']", "[\'Unknown\']", "[\'Unknown\']", "[\'Unknown\']", "[\'Uvaria angolensis\']", "[\'Viburnum dilatatum\']", "[\'Adina\']", "[\'Amaranthus\']", "[\'Andrographis\']", "[\'Angostura\']", "[\'Anisochilus\']", "[\'Aquilaria\']", "[\'Artemisia\']", "[\'Asimina\']", "[\'Avicennia\']", "[\'Ayapana\']", "[\'Baccharis\']", "[\'Bellardia\']", "[\'Bidens\']", "[\'Brachanthemum\']", "[\'Byrsonima\']", "[\'Calamus\']", "[\'Camellia\']", "[\'Cedronella\']", "[\'Chenopodium\']", "[\'Chrysojasminum\']", "[\'Clinopodium\']", "[\'Codonopsis\']", "[\'Condea\']", "[\'Cucumis\']", "[\'Cydonia\']", "[\'Dendrobates\']", "[\'Dichapetalum\']", "[\'Dictamnus\']", "[\'Didymocarpus\']", "[\'Diospyros\']", "[\'Doellingeria\']", "[\'Dracocephalum\']", "[\'Eremophila\']", "[\'Fabiana\']", "[\'Galium\']", "[\'Genipa\']", "[\'Glycyrrhiza\']", "[\'Helianthus\']", "[\'Helichrysum\']", "[\'Heterotheca\']", "[\'Humulus\']", "[\'Hyssopus\']", "[\'Incarvillea\']", "[\'Ipomoea\']", "[\'Iris\']", "[\'Isodon\']", "[\'Jasminum\']", "[\'Krameria\']", "[\'Laggera\']", "[\'Lavandula\']", "[\'Lepechinia\']", "[\'Ligularia\']", "[\'Lindera\']", "[\'Lippia\']", "[\'Macaranga\']", "[\'Mantella\']", "[\'Melissa\']", "[\'Mentha\']", "[\'Mesembryanthemum\']", "[\'Mosla\']", "[\'Myristica\']", "[\'Nepeta\']", "[\'Notopterygium\']", "[\'Ocimum\']", "[\'Opopanax\']", "[\'Penstemon\']", "[\'Perilla\']", "[\'Petasites\']", "[\'Plectranthus\']", "[\'Pogostemon\']", "[\'Premna\']", "[\'Prostanthera\']", "[\'Ranitomeya\']", "[\'Rhododendron\']", "[\'Rodgersia\']", "[\'Rydingia\']", "[\'Salvia\']", "[\'Santalum\']", "[\'Schisandra\']", "[\'Semecarpus\']", "[\'Sideritis\']", "[\'Solanum\']", "[\'Tabebuia\']", "[\'Tamarindus\']", "[\'Teucrium\']", "[\'Theonella\']", "[\'Thymus\']", "[\'Tithonia\']", "[\'Unknown\']", "[\'Uvaria\']", "[\'Viburnum\']", "[\'Acanthaceae\']", "[\'Adoxaceae\']", "[\'Aizoaceae\']", "[\'Amaranthaceae\']", "[\'Anacardiaceae\']", "[\'Annonaceae\']", "[\'Apiaceae\']", "[\'Arecaceae\']", "[\'Asteraceae\']", "[\'Bignoniaceae\']", "[\'Campanulaceae\']", "[\'Cannabaceae\']", "[\'Convolvulaceae\']", "[\'Cucurbitaceae\']", "[\'Dendrobatidae\']", "[\'Dichapetalaceae\']", "[\'Ebenaceae\']", "[\'Ericaceae\']", "[\'Euphorbiaceae\']", "[\'Fabaceae\']", "[\'Gesneriaceae\']", "[\'Iridaceae\']", "[\'Krameriaceae\']", "[\'Lamiaceae\']", "[\'Lauraceae\']", "[\'Malpighiaceae\']", "[\'Mantellidae\']", "[\'Myristicaceae\']", "[\'Oleaceae\']", "[\'Orobanchaceae\']", "[\'Plantaginaceae\']", "[\'Rosaceae\']", "[\'Rubiaceae\']", "[\'Rutaceae\']", "[\'Santalaceae\']", "[\'Saxifragaceae\']", "[\'Schisandraceae\']", "[\'Scrophulariaceae\']", "[\'Solanaceae\']", "[\'Theaceae\']", "[\'Theonellidae\']", "[\'Thymelaeaceae\']", "[\'Unknown\']", "[\'Verbenaceae\']", "[\'Anura\']", "[\'Apiales\']", "[\'Arecales\']", "[\'Asparagales\']", "[\'Asterales\']", "[\'Austrobaileyales\']", "[\'Caryophyllales\']", "[\'Cucurbitales\']", "[\'Dipsacales\']", "[\'Ericales\']", "[\'Fabales\']", "[\'Gentianales\']", "[\'Lamiales\']", "[\'Laurales\']", "[\'Magnoliales\']", "[\'Malpighiales\']", "[\'Malvales\']", "[\'Rosales\']", "[\'Santalales\']", "[\'Sapindales\']", "[\'Saxifragales\']", "[\'Solanales\']", "[\'Tetractinellida\']", "[\'Unknown\']", "[\'Zygophyllales\']", "[\'Amphibia\']", "[\'Demospongiae\']", "[\'Liliopsida\']", "[\'Magnoliopsida\']", "[\'Unknown\']", "[\'Chordata\']", "[\'Porifera\']", "[\'Tracheophyta\']", "[\'Unknown\']", "[\'Animalia\']", "[\'Plantae\']", "[\'Unknown\']"], "name": "", "parents": ["[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Adina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Amaranthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Andrographis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Angostura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Anisochilus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']/[\'Aquilaria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Asimina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Avicennia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ayapana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Baccharis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']/[\'Bellardia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Bidens\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Brachanthemum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']/[\'Byrsonima\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']/[\'Calamus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']/[\'Camellia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Cedronella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Chenopodium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Chrysojasminum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Clinopodium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']/[\'Codonopsis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Condea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']/[\'Cucumis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']/[\'Cydonia\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Dendrobates\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']/[\'Dichapetalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Dictamnus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']/[\'Didymocarpus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']/[\'Diospyros\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Doellingeria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Dracocephalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']/[\'Eremophila\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Fabiana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Galium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Genipa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Glycyrrhiza\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helianthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helichrysum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Heterotheca\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']/[\'Humulus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Hyssopus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Incarvillea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']/[\'Iris\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Jasminum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']/[\'Krameria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Laggera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lepechinia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ligularia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']/[\'Lindera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']/[\'Lippia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']/[\'Macaranga\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']/[\'Mantella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Melissa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']/[\'Mesembryanthemum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']/[\'Myristica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Notopterygium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']/[\'Penstemon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Perilla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Petasites\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Plectranthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Pogostemon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Prostanthera\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Ranitomeya\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']/[\'Rhododendron\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']/[\'Rodgersia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Rydingia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']/[\'Santalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']/[\'Schisandra\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Sideritis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Solanum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Tabebuia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Tamarindus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Thymus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Tithonia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mosla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Opopanax\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']/[\'Semecarpus\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']/[\'Theonella\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Uvaria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']/[\'Viburnum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Animalia\']/[\'Chordata\']", "[\'Animalia\']/[\'Porifera\']", "[\'Plantae\']/[\'Tracheophyta\']", "[\'Plantae\']/[\'Tracheophyta\']", "[\'Unknown\']/[\'Unknown\']", "[\'Animalia\']", "[\'Animalia\']", "[\'Plantae\']", "[\'Unknown\']", "", "", ""], "type": "sunburst", "values": [1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 3, 2, 6, 2, 5, 1, 1, 1, 3, 1, 3, 2, 1, 1, 1, 2, 2, 1, 4, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 4, 1, 2, 5, 1, 1, 1, 1, 1, 2, 1, 5, 2, 1, 8, 1, 2, 5, 1, 1, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 4, 1, 2, 1, 3, 1, 2, 1, 2, 4, 1, 1, 1, 1, 1, 26, 1, 1, 1, 1, 1, 2, 1, 1, 4, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 3, 2, 6, 2, 5, 1, 1, 1, 3, 1, 3, 2, 1, 1, 1, 2, 2, 1, 4, 1, 2, 2, 2, 4, 1, 1, 1, 2, 1, 2, 1, 4, 1, 2, 5, 2, 1, 1, 1, 3, 1, 7, 1, 1, 8, 1, 2, 5, 4, 2, 2, 1, 1, 2, 7, 1, 2, 1, 4, 1, 2, 1, 9, 1, 4, 1, 26, 1, 1, 2, 1, 1, 2, 1, 2, 2, 1, 21, 4, 1, 4, 2, 2, 4, 5, 1, 1, 1, 2, 1, 2, 1, 81, 1, 2, 2, 1, 2, 2, 1, 6, 3, 3, 1, 1, 2, 3, 3, 1, 1, 1, 26, 4, 6, 2, 1, 2, 22, 2, 3, 2, 1, 3, 2, 3, 100, 1, 3, 8, 1, 10, 1, 4, 1, 5, 1, 26, 1, 6, 1, 3, 175, 26, 6, 1, 178, 26, 7, 178, 26]}],                        {"legend": {"title": {"font": {"color": "black"}}, "tracegroupgap": 0}, "margin": {"b": 50, "l": 50, "r": 50, "t": 100}, "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "autotypenumbers": "strict", "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"font": {"color": "black", "family": "Courier New", "size": 14}, "text": "<b> Overview of the consensus chemical annotions <br> as the superclass, class, subclass and parent_1 level for <br><span style=\\"font-size: 20px;\\">sariette_pos_pos</span></b>", "x": 0.5, "xanchor": "center", "y": 0.96, "yanchor": "top"}},{"responsive": true})};
-  </script>
-</div>
+    .language-markup .token.tag .token.punctuation {
+      color: #333;
+    }
+
+    /* CSS */
+    code.language-css,
+    .language-css .token.function {
+      color: #0086b3;
+    }
+
+    /* YAML */
+    .language-yaml .token.atrule {
+      color: #63a35c;
+    }
+
+    code.language-yaml {
+      color: #183691;
+    }
+
+    /* Ruby */
+    .language-ruby .token.function {
+      color: #333;
+    }
+
+    /* Markdown */
+    .language-markdown .token.url {
+      color: #795da3;
+    }
+
+    /* Makefile */
+    .language-makefile .token.symbol {
+      color: #795da3;
+    }
+
+    .language-makefile .token.variable {
+      color: #183691;
+    }
+
+    .language-makefile .token.builtin {
+      color: #0086b3;
+    }
+
+    /* Bash */
+    .language-bash .token.keyword {
+      color: #0086b3;
+    }
+
+    /* highlight */
+    pre[data-line] {
+      position: relative;
+      padding: 1em 0 1em 3em;
+    }
+
+    pre[data-line] .line-highlight-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: transparent;
+      display: block;
+      width: 100%;
+    }
+
+    pre[data-line] .line-highlight {
+      position: absolute;
+      left: 0;
+      right: 0;
+      padding: inherit 0;
+      margin-top: 1em;
+      background: hsla(24, 20%, 50%, .08);
+      background: linear-gradient(to right, hsla(24, 20%, 50%, .1) 70%, hsla(24, 20%, 50%, 0));
+      pointer-events: none;
+      line-height: inherit;
+      white-space: pre;
+    }
+
+    pre[data-line] .line-highlight:before,
+    pre[data-line] .line-highlight[data-end]:after {
+      content: attr(data-start);
+      position: absolute;
+      top: .4em;
+      left: .6em;
+      min-width: 1em;
+      padding: 0 .5em;
+      background-color: hsla(24, 20%, 50%, .4);
+      color: hsl(24, 20%, 95%);
+      font: bold 65%/1.5 sans-serif;
+      text-align: center;
+      vertical-align: .3em;
+      border-radius: 999px;
+      text-shadow: none;
+      box-shadow: 0 1px white;
+    }
+
+    pre[data-line] .line-highlight[data-end]:after {
+      content: attr(data-end);
+      top: auto;
+      bottom: .4em;
+    }
+
+    html body {
+      font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      background-color: #fff;
+      overflow: initial;
+      box-sizing: border-box;
+      word-wrap: break-word
+    }
+
+    html body>:first-child {
+      margin-top: 0
+    }
+
+    html body h1,
+    html body h2,
+    html body h3,
+    html body h4,
+    html body h5,
+    html body h6 {
+      line-height: 1.2;
+      margin-top: 1em;
+      margin-bottom: 16px;
+      color: #000
+    }
+
+    html body h1 {
+      font-size: 2.25em;
+      font-weight: 300;
+      padding-bottom: .3em
+    }
+
+    html body h2 {
+      font-size: 1.75em;
+      font-weight: 400;
+      padding-bottom: .3em
+    }
+
+    html body h3 {
+      font-size: 1.5em;
+      font-weight: 500
+    }
+
+    html body h4 {
+      font-size: 1.25em;
+      font-weight: 600
+    }
+
+    html body h5 {
+      font-size: 1.1em;
+      font-weight: 600
+    }
+
+    html body h6 {
+      font-size: 1em;
+      font-weight: 600
+    }
+
+    html body h1,
+    html body h2,
+    html body h3,
+    html body h4,
+    html body h5 {
+      font-weight: 600
+    }
+
+    html body h5 {
+      font-size: 1em
+    }
+
+    html body h6 {
+      color: #5c5c5c
+    }
+
+    html body strong {
+      color: #000
+    }
+
+    html body del {
+      color: #5c5c5c
+    }
+
+    html body a:not([href]) {
+      color: inherit;
+      text-decoration: none
+    }
+
+    html body a {
+      color: #08c;
+      text-decoration: none
+    }
+
+    html body a:hover {
+      color: #00a3f5;
+      text-decoration: none
+    }
+
+    html body img {
+      max-width: 100%
+    }
+
+    html body>p {
+      margin-top: 0;
+      margin-bottom: 16px;
+      word-wrap: break-word
+    }
+
+    html body>ul,
+    html body>ol {
+      margin-bottom: 16px
+    }
+
+    html body ul,
+    html body ol {
+      padding-left: 2em
+    }
+
+    html body ul.no-list,
+    html body ol.no-list {
+      padding: 0;
+      list-style-type: none
+    }
+
+    html body ul ul,
+    html body ul ol,
+    html body ol ol,
+    html body ol ul {
+      margin-top: 0;
+      margin-bottom: 0
+    }
+
+    html body li {
+      margin-bottom: 0
+    }
+
+    html body li.task-list-item {
+      list-style: none
+    }
+
+    html body li>p {
+      margin-top: 0;
+      margin-bottom: 0
+    }
+
+    html body .task-list-item-checkbox {
+      margin: 0 .2em .25em -1.8em;
+      vertical-align: middle
+    }
+
+    html body .task-list-item-checkbox:hover {
+      cursor: pointer
+    }
+
+    html body blockquote {
+      margin: 16px 0;
+      font-size: inherit;
+      padding: 0 15px;
+      color: #5c5c5c;
+      background-color: #f0f0f0;
+      border-left: 4px solid #d6d6d6
+    }
+
+    html body blockquote>:first-child {
+      margin-top: 0
+    }
+
+    html body blockquote>:last-child {
+      margin-bottom: 0
+    }
+
+    html body hr {
+      height: 4px;
+      margin: 32px 0;
+      background-color: #d6d6d6;
+      border: 0 none
+    }
+
+    html body table {
+      margin: 10px 0 15px 0;
+      border-collapse: collapse;
+      border-spacing: 0;
+      display: block;
+      width: 100%;
+      overflow: auto;
+      word-break: normal;
+      word-break: keep-all
+    }
+
+    html body table th {
+      font-weight: bold;
+      color: #000
+    }
+
+    html body table td,
+    html body table th {
+      border: 1px solid #d6d6d6;
+      padding: 6px 13px
+    }
+
+    html body dl {
+      padding: 0
+    }
+
+    html body dl dt {
+      padding: 0;
+      margin-top: 16px;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: bold
+    }
+
+    html body dl dd {
+      padding: 0 16px;
+      margin-bottom: 16px
+    }
+
+    html body code {
+      font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+      font-size: .85em !important;
+      color: #000;
+      background-color: #f0f0f0;
+      border-radius: 3px;
+      padding: .2em 0
+    }
+
+    html body code::before,
+    html body code::after {
+      letter-spacing: -0.2em;
+      content: "\00a0"
+    }
+
+    html body pre>code {
+      padding: 0;
+      margin: 0;
+      font-size: .85em !important;
+      word-break: normal;
+      white-space: pre;
+      background: transparent;
+      border: 0
+    }
+
+    html body .highlight {
+      margin-bottom: 16px
+    }
+
+    html body .highlight pre,
+    html body pre {
+      padding: 1em;
+      overflow: auto;
+      font-size: .85em !important;
+      line-height: 1.45;
+      border: #d6d6d6;
+      border-radius: 3px
+    }
+
+    html body .highlight pre {
+      margin-bottom: 0;
+      word-break: normal
+    }
+
+    html body pre code,
+    html body pre tt {
+      display: inline;
+      max-width: initial;
+      padding: 0;
+      margin: 0;
+      overflow: initial;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent;
+      border: 0
+    }
+
+    html body pre code:before,
+    html body pre tt:before,
+    html body pre code:after,
+    html body pre tt:after {
+      content: normal
+    }
+
+    html body p,
+    html body blockquote,
+    html body ul,
+    html body ol,
+    html body dl,
+    html body pre {
+      margin-top: 0;
+      margin-bottom: 16px
+    }
+
+    html body kbd {
+      color: #000;
+      border: 1px solid #d6d6d6;
+      border-bottom: 2px solid #c7c7c7;
+      padding: 2px 4px;
+      background-color: #f0f0f0;
+      border-radius: 3px
+    }
+
+    @media print {
+      html body {
+        background-color: #fff
+      }
+
+      html body h1,
+      html body h2,
+      html body h3,
+      html body h4,
+      html body h5,
+      html body h6 {
+        color: #000;
+        page-break-after: avoid
+      }
+
+      html body blockquote {
+        color: #5c5c5c
+      }
+
+      html body pre {
+        page-break-inside: avoid
+      }
+
+      html body table {
+        display: table
+      }
+
+      html body img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%
+      }
+
+      html body pre,
+      html body code {
+        word-wrap: break-word;
+        white-space: pre
+      }
+    }
+
+    .markdown-preview {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box
+    }
+
+    .markdown-preview .pagebreak,
+    .markdown-preview .newpage {
+      page-break-before: always
+    }
+
+    .markdown-preview pre.line-numbers {
+      position: relative;
+      padding-left: 3.8em;
+      counter-reset: linenumber
+    }
+
+    .markdown-preview pre.line-numbers>code {
+      position: relative
+    }
+
+    .markdown-preview pre.line-numbers .line-numbers-rows {
+      position: absolute;
+      pointer-events: none;
+      top: 1em;
+      font-size: 100%;
+      left: 0;
+      width: 3em;
+      letter-spacing: -1px;
+      border-right: 1px solid #999;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none
+    }
+
+    .markdown-preview pre.line-numbers .line-numbers-rows>span {
+      pointer-events: none;
+      display: block;
+      counter-increment: linenumber
+    }
+
+    .markdown-preview pre.line-numbers .line-numbers-rows>span:before {
+      content: counter(linenumber);
+      color: #999;
+      display: block;
+      padding-right: .8em;
+      text-align: right
+    }
+
+    .markdown-preview .mathjax-exps .MathJax_Display {
+      text-align: center !important
+    }
+
+    .markdown-preview:not([for="preview"]) .code-chunk .btn-group {
+      display: none
+    }
+
+    .markdown-preview:not([for="preview"]) .code-chunk .status {
+      display: none
+    }
+
+    .markdown-preview:not([for="preview"]) .code-chunk .output-div {
+      margin-bottom: 16px
+    }
+
+    .scrollbar-style::-webkit-scrollbar {
+      width: 8px
+    }
+
+    .scrollbar-style::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: transparent
+    }
+
+    .scrollbar-style::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background-color: rgba(150, 150, 150, 0.66);
+      border: 4px solid rgba(150, 150, 150, 0.66);
+      background-clip: content-box
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode]) {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      margin: 0;
+      padding: 0;
+      overflow: auto
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview {
+      position: relative;
+      top: 0
+    }
+
+    @media screen and (min-width:914px) {
+      html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview {
+        padding: 2em calc(50% - 457px + 2em)
+      }
+    }
+
+    @media screen and (max-width:914px) {
+      html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview {
+        padding: 2em
+      }
+    }
+
+    @media screen and (max-width:450px) {
+      html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview {
+        font-size: 14px !important;
+        padding: 1em
+      }
+    }
+
+    @media print {
+      html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn {
+        display: none
+      }
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn {
+      position: fixed;
+      bottom: 8px;
+      left: 8px;
+      font-size: 28px;
+      cursor: pointer;
+      color: inherit;
+      z-index: 99;
+      width: 32px;
+      text-align: center;
+      opacity: .4
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn {
+      opacity: 1
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 100%;
+      padding: 32px 0 48px 0;
+      font-size: 14px;
+      box-shadow: 0 0 4px rgba(150, 150, 150, 0.33);
+      box-sizing: border-box;
+      overflow: auto;
+      background-color: inherit
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar {
+      width: 8px
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: transparent
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background-color: rgba(150, 150, 150, 0.66);
+      border: 4px solid rgba(150, 150, 150, 0.66);
+      background-clip: content-box
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a {
+      text-decoration: none
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul {
+      padding: 0 1.6em;
+      margin-top: .8em
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li {
+      margin-bottom: .8em
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul {
+      list-style-type: none
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview {
+      left: 300px;
+      width: calc(100% - 300px);
+      padding: 2em calc(50% - 457px - 150px);
+      margin: 0;
+      box-sizing: border-box
+    }
+
+    @media screen and (max-width:1274px) {
+      html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview {
+        padding: 2em
+      }
+    }
+
+    @media screen and (max-width:450px) {
+      html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview {
+        width: 100%
+      }
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview {
+      left: 50%;
+      transform: translateX(-50%)
+    }
+
+    html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc {
+      display: none
+    }
+
+    /* Please visit the URL below for more information: */
+    /*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+  </style>
+</head>
+
+<body for="html-export">
+  <div class="mume markdown-preview  " id="bf51881f-1334-42da-b762-1ea39617b614">
+    <div>
+      <hr>
+      <p>id: bf51881f-1334-42da-b762-1ea39617b614 title: Report desc: &#x2019;&#x2019; updated: 1612382771388 created:
+        1610631059696 html: embed_local_images: true embed_svg: true offline: true toc: true print_background: false
+        export_on_save: html: true toc: depth_from: 1 depth_to: 6 ordered: false &#x2014;[MUMETOC]</p>
+      <h1 id="report">2021-01-14 Report</h1>
+      <p>[updated 2021-01-20 08:24]</p>
+      <h2 id="research-question-and-background">Research question and background</h2>
+      <p>Some biblio on alkanolamides and Arabido.</p>
+      <p><a href="https://www.pnas.org/content/pnas/103/32/12197.full.pdf"
+          class="uri">https://www.pnas.org/content/pnas/103/32/12197.full.pdf</a></p>
+      <h1 id="next-steps">Next Steps :</h1>
+      <ul>
+        <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> ask Luis and Lena the
+          extraction protocol</li>
+        <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> reanalyse a batch of seeds
+          <em><strong>together with appropriate extraction blancks</strong> </em></li>
+      </ul>
+      <p><img src="assets/images/2021-01-22-10-18-53.png"></p>
+
+      <link rel="import" href="vault/assets/private.assets/sariette_pos_chemo_sunburst.html">
+
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless"
+        src="https://plot.ly/~elizabethts/9.embed" height="525" width="100%"></iframe>
+
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless"
+        src="vault/assets/private.assets/sariette_pos_chemo_sunburst.html.embed" height="525" width="100%"></iframe>
+
+      <p><a href="vault/assets/private.assets/sariette_pos_chemo_sunburst.html">sariette_pos_chemo_sunburst.html</a></p>
+      <p><a href="sariette_pos_organisms_sunburst.html">sariette_pos_organisms_sunburst.html</a></p>
 
 
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<div class="container">
-  <div id="one-tab-content">
-      <h5 class="title is-5" style="text-align:center;"> Composés reportés dans le genre Satureja </h5>
-  <div class="columns is-centered"
-    <p style="text-align: center">
-      <iframe width=100% height="600" style="border:none;" src="https://query.wikidata.org/embed.html#SELECT%20DISTINCT%20%3Fcompound%20%3FcompoundLabel%20%3Finchikey%20%3Finchi%20%3Fsmiles_isomeric%20%3Fsmiles_canonical%20%3Fcas%20%3Fchebi%20%3Fchembl%20%3Fpubchem%20%3Ftaxon%20%3Ftaxon_name%20%3Ftaxon_id_gbif%20%3Ftaxon_id_ncbi%20%3Freference%20%3Freference_doi%20%3Freference_title%20WHERE%20%7B%0A%20%20%3Ftaxon%20wdt%3AP171%20%3Fparent_taxon.%0A%20%20%3Fparent_taxon%20wdt%3AP225%20%27Satureja%27.%0A%20%20%3Fcompound%20wdt%3AP235%20%3Finchikey.%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP231%20%3Fcas.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP233%20%3Fsmiles_canonical.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP234%20%3Finchi.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP592%20%3Fchembl.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP662%20%3Fpubchem.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP683%20%3Fchebi.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP2017%20%3Fsmiles_isomeric.%20%7D%0A%20%20%7B%0A%20%20%20%20%3Fcompound%20p%3AP703%20%3Fstatement.%0A%20%20%20%20%3Fstatement%20ps%3AP703%20%3Ftaxon.%0A%20%20%20%20OPTIONAL%20%7B%20%3Ftaxon%20wdt%3AP225%20%3Ftaxon_name.%20%7D%0A%20%20%20%20OPTIONAL%20%7B%20%3Ftaxon%20wdt%3AP846%20%3Ftaxon_id_gbif.%20%7D%0A%20%20%20%20OPTIONAL%20%7B%20%3Ftaxon%20wdt%3AP685%20%3Ftaxon_id_ncbi.%20%7D%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%3Fstatement%20prov%3AwasDerivedFrom%20%3Fref.%0A%20%20%20%20%20%20%3Fref%20pr%3AP248%20%3Freference.%0A%20%20%20%20%20%20%3Freference%20wdt%3AP356%20%3Freference_doi%3B%0A%20%20%20%20%20%20%20%20wdt%3AP1476%20%3Freference_title.%0A%20%20%20%20%7D%0A%20%20%7D%0A%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22.%20%7D%0A%7D"></iframe>
-    </p>
-  </div>
-    </div>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
-</div>
+      <div>
+        <div id="0dfed4fa-d30c-48c7-8c76-94a87d8e85fc" class="plotly-graph-div" style="height:100%; width:100%;"></div>
+        <script type="text/javascript">
+    window.PLOTLYENV = window.PLOTLYENV || {}; if (document.getElementById("0dfed4fa-d30c-48c7-8c76-94a87d8e85fc")) { Plotly.newPlot("0dfed4fa-d30c-48c7-8c76-94a87d8e85fc", [{ "branchvalues": "total", "domain": { "x": [0.0, 1.0], "y": [0.0, 1.0] }, "hovertemplate": "labels=%{label}<br>count=%{value}<br>parent=%{parent}<br>id=%{id}<extra></extra>", "ids": ["[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Adina\']/[\'Adina cordifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Amaranthus\']/[\'Amaranthus retroflexus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Andrographis\']/[\'Andrographis ceylanica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Angostura\']/[\'Angostura trifoliata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Anisochilus\']/[\'Anisochilus carnosus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']/[\'Aquilaria\']/[\'Aquilaria agallocha\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']/[\'Artemisia annua\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']/[\'Artemisia umbelliformis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']/[\'Artemisia vestita\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Asimina\']/[\'Asimina parviflora\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Avicennia\']/[\'Avicennia marina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ayapana\']/[\'Ayapana amygdalina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Baccharis\']/[\'Baccharis dracunculifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']/[\'Bellardia\']/[\'Bellardia trixago\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Bidens\']/[\'Bidens parviflora\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Brachanthemum\']/[\'Brachanthemum baranovii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']/[\'Byrsonima\']/[\'Byrsonima microphylla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']/[\'Calamus\']/[\'Calamus draco\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']/[\'Camellia\']/[\'Camellia sinensis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Cedronella\']/[\'Cedronella canariensis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Chenopodium\']/[\'Chenopodium berlandieri\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Chrysojasminum\']/[\'Chrysojasminum odoratissimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Clinopodium\']/[\'Clinopodium gilliesii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']/[\'Codonopsis\']/[\'Codonopsis cordifolioidea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Condea\']/[\'Condea verticillata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']/[\'Cucumis\']/[\'Cucumis callosus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']/[\'Cydonia\']/[\'Cydonia oblonga\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Dendrobates\']/[\'Dendrobates auratus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']/[\'Dichapetalum\']/[\'Dichapetalum toxicarium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Dictamnus\']/[\'Dictamnus albus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']/[\'Didymocarpus\']/[\'Didymocarpus aurantiacus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']/[\'Diospyros\']/[\'Diospyros martabanica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Doellingeria\']/[\'Doellingeria umbellata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Dracocephalum\']/[\'Dracocephalum forrestii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']/[\'Eremophila\']/[\'Eremophila drummondii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Fabiana\']/[\'Fabiana imbricata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Galium\']/[\'Galium mollugo\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Genipa\']/[\'Genipa americana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Glycyrrhiza\']/[\'Glycyrrhiza glabra\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helianthus\']/[\'Helianthus annuus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helichrysum\']/[\'Helichrysum nudifolium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Heterotheca\']/[\'Heterotheca grandiflora\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']/[\'Humulus\']/[\'Humulus lupulus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Hyssopus\']/[\'Hyssopus officinalis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Incarvillea\']/[\'Incarvillea diffusa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']/[\'Ipomoea cairica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']/[\'Ipomoea obscura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']/[\'Iris\']/[\'Iris germanica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']/[\'Isodon eriocalyx\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']/[\'Isodon nervosus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']/[\'Isodon oresbius\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Jasminum\']/[\'Jasminum grandiflorum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']/[\'Krameria\']/[\'Krameria cytisoides\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Laggera\']/[\'Laggera alata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']/[\'Lavandula gibsonii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']/[\'Lavandula stoechas\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lepechinia\']/[\'Lepechinia bullata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ligularia\']/[\'Ligularia macrophylla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']/[\'Lindera\']/[\'Lindera umbellata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']/[\'Lippia\']/[\'Lippia dulcis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']/[\'Macaranga\']/[\'Macaranga peltata\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']/[\'Mantella\']/[\'Mantella madagascariensis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Melissa\']/[\'Melissa officinalis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']/[\'Mentha diemenica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']/[\'Mentha gentilis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']/[\'Mesembryanthemum\']/[\'Mesembryanthemum cordifolium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']/[\'Myristica\']/[\'Myristica fragrans\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']/[\'Nepeta cataria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']/[\'Nepeta tenuifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Notopterygium\']/[\'Notopterygium incisum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']/[\'Ocimum americanum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']/[\'Ocimum basilicum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']/[\'Penstemon\']/[\'Penstemon hirsutus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Perilla\']/[\'Perilla frutescens\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Petasites\']/[\'Petasites japonicus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Plectranthus\']/[\'Plectranthus ovatus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Pogostemon\']/[\'Pogostemon cablin\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']/[\'Premna herbacea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']/[\'Premna serratifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']/[\'Premna tomentosa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Prostanthera\']/[\'Prostanthera rotundifolia\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Ranitomeya\']/[\'Ranitomeya fulgurita\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']/[\'Rhododendron\']/[\'Rhododendron przewalskii\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']/[\'Rodgersia\']/[\'Rodgersia podophylla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Rydingia\']/[\'Rydingia integrifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia candelabrum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia divaricata\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia dorisiana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia fruticosa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia napifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']/[\'Salvia sclarea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']/[\'Santalum\']/[\'Santalum album\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']/[\'Schisandra\']/[\'Schisandra sphenanthera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Sideritis\']/[\'Sideritis varoi\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Solanum\']/[\'Solanum etuberosum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Tabebuia\']/[\'Tabebuia rosea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Tamarindus\']/[\'Tamarindus indica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium carolipaui\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium marum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium polium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium ramosissimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']/[\'Teucrium yemense\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Thymus\']/[\'Thymus serpyllum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Tithonia\']/[\'Tithonia diversifolia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mosla\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Opopanax\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']/[\'Semecarpus\']/[\'Unknown\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']/[\'Theonella\']/[\'Unknown\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Uvaria\']/[\'Uvaria angolensis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']/[\'Viburnum\']/[\'Viburnum dilatatum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Adina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Amaranthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Andrographis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Angostura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Anisochilus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']/[\'Aquilaria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Asimina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Avicennia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ayapana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Baccharis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']/[\'Bellardia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Bidens\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Brachanthemum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']/[\'Byrsonima\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']/[\'Calamus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']/[\'Camellia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Cedronella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Chenopodium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Chrysojasminum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Clinopodium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']/[\'Codonopsis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Condea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']/[\'Cucumis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']/[\'Cydonia\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Dendrobates\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']/[\'Dichapetalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Dictamnus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']/[\'Didymocarpus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']/[\'Diospyros\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Doellingeria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Dracocephalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']/[\'Eremophila\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Fabiana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Galium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Genipa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Glycyrrhiza\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helianthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helichrysum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Heterotheca\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']/[\'Humulus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Hyssopus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Incarvillea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']/[\'Iris\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Jasminum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']/[\'Krameria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Laggera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lepechinia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ligularia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']/[\'Lindera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']/[\'Lippia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']/[\'Macaranga\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']/[\'Mantella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Melissa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']/[\'Mesembryanthemum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mosla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']/[\'Myristica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Notopterygium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Opopanax\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']/[\'Penstemon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Perilla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Petasites\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Plectranthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Pogostemon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Prostanthera\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Ranitomeya\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']/[\'Rhododendron\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']/[\'Rodgersia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Rydingia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']/[\'Santalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']/[\'Schisandra\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']/[\'Semecarpus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Sideritis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Solanum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Tabebuia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Tamarindus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']/[\'Theonella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Thymus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Tithonia\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Uvaria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']/[\'Viburnum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Animalia\']/[\'Chordata\']", "[\'Animalia\']/[\'Porifera\']", "[\'Plantae\']/[\'Tracheophyta\']", "[\'Unknown\']/[\'Unknown\']", "[\'Animalia\']", "[\'Plantae\']", "[\'Unknown\']"], "labels": ["[\'Adina cordifolia\']", "[\'Amaranthus retroflexus\']", "[\'Andrographis ceylanica\']", "[\'Angostura trifoliata\']", "[\'Anisochilus carnosus\']", "[\'Aquilaria agallocha\']", "[\'Artemisia annua\']", "[\'Artemisia umbelliformis\']", "[\'Artemisia vestita\']", "[\'Asimina parviflora\']", "[\'Avicennia marina\']", "[\'Ayapana amygdalina\']", "[\'Baccharis dracunculifolia\']", "[\'Bellardia trixago\']", "[\'Bidens parviflora\']", "[\'Brachanthemum baranovii\']", "[\'Byrsonima microphylla\']", "[\'Calamus draco\']", "[\'Camellia sinensis\']", "[\'Cedronella canariensis\']", "[\'Chenopodium berlandieri\']", "[\'Chrysojasminum odoratissimum\']", "[\'Clinopodium gilliesii\']", "[\'Codonopsis cordifolioidea\']", "[\'Condea verticillata\']", "[\'Cucumis callosus\']", "[\'Cydonia oblonga\']", "[\'Dendrobates auratus\']", "[\'Dichapetalum toxicarium\']", "[\'Dictamnus albus\']", "[\'Didymocarpus aurantiacus\']", "[\'Diospyros martabanica\']", "[\'Doellingeria umbellata\']", "[\'Dracocephalum forrestii\']", "[\'Eremophila drummondii\']", "[\'Fabiana imbricata\']", "[\'Galium mollugo\']", "[\'Genipa americana\']", "[\'Glycyrrhiza glabra\']", "[\'Helianthus annuus\']", "[\'Helichrysum nudifolium\']", "[\'Heterotheca grandiflora\']", "[\'Humulus lupulus\']", "[\'Hyssopus officinalis\']", "[\'Incarvillea diffusa\']", "[\'Ipomoea cairica\']", "[\'Ipomoea obscura\']", "[\'Iris germanica\']", "[\'Isodon eriocalyx\']", "[\'Isodon nervosus\']", "[\'Isodon oresbius\']", "[\'Jasminum grandiflorum\']", "[\'Krameria cytisoides\']", "[\'Laggera alata\']", "[\'Lavandula gibsonii\']", "[\'Lavandula stoechas\']", "[\'Lepechinia bullata\']", "[\'Ligularia macrophylla\']", "[\'Lindera umbellata\']", "[\'Lippia dulcis\']", "[\'Macaranga peltata\']", "[\'Mantella madagascariensis\']", "[\'Melissa officinalis\']", "[\'Mentha diemenica\']", "[\'Mentha gentilis\']", "[\'Mesembryanthemum cordifolium\']", "[\'Myristica fragrans\']", "[\'Nepeta cataria\']", "[\'Nepeta tenuifolia\']", "[\'Notopterygium incisum\']", "[\'Ocimum americanum\']", "[\'Ocimum basilicum\']", "[\'Penstemon hirsutus\']", "[\'Perilla frutescens\']", "[\'Petasites japonicus\']", "[\'Plectranthus ovatus\']", "[\'Pogostemon cablin\']", "[\'Premna herbacea\']", "[\'Premna serratifolia\']", "[\'Premna tomentosa\']", "[\'Prostanthera rotundifolia\']", "[\'Ranitomeya fulgurita\']", "[\'Rhododendron przewalskii\']", "[\'Rodgersia podophylla\']", "[\'Rydingia integrifolia\']", "[\'Salvia candelabrum\']", "[\'Salvia divaricata\']", "[\'Salvia dorisiana\']", "[\'Salvia fruticosa\']", "[\'Salvia napifolia\']", "[\'Salvia sclarea\']", "[\'Santalum album\']", "[\'Schisandra sphenanthera\']", "[\'Sideritis varoi\']", "[\'Solanum etuberosum\']", "[\'Tabebuia rosea\']", "[\'Tamarindus indica\']", "[\'Teucrium carolipaui\']", "[\'Teucrium marum\']", "[\'Teucrium polium\']", "[\'Teucrium ramosissimum\']", "[\'Teucrium yemense\']", "[\'Thymus serpyllum\']", "[\'Tithonia diversifolia\']", "[\'Unknown\']", "[\'Unknown\']", "[\'Unknown\']", "[\'Unknown\']", "[\'Unknown\']", "[\'Uvaria angolensis\']", "[\'Viburnum dilatatum\']", "[\'Adina\']", "[\'Amaranthus\']", "[\'Andrographis\']", "[\'Angostura\']", "[\'Anisochilus\']", "[\'Aquilaria\']", "[\'Artemisia\']", "[\'Asimina\']", "[\'Avicennia\']", "[\'Ayapana\']", "[\'Baccharis\']", "[\'Bellardia\']", "[\'Bidens\']", "[\'Brachanthemum\']", "[\'Byrsonima\']", "[\'Calamus\']", "[\'Camellia\']", "[\'Cedronella\']", "[\'Chenopodium\']", "[\'Chrysojasminum\']", "[\'Clinopodium\']", "[\'Codonopsis\']", "[\'Condea\']", "[\'Cucumis\']", "[\'Cydonia\']", "[\'Dendrobates\']", "[\'Dichapetalum\']", "[\'Dictamnus\']", "[\'Didymocarpus\']", "[\'Diospyros\']", "[\'Doellingeria\']", "[\'Dracocephalum\']", "[\'Eremophila\']", "[\'Fabiana\']", "[\'Galium\']", "[\'Genipa\']", "[\'Glycyrrhiza\']", "[\'Helianthus\']", "[\'Helichrysum\']", "[\'Heterotheca\']", "[\'Humulus\']", "[\'Hyssopus\']", "[\'Incarvillea\']", "[\'Ipomoea\']", "[\'Iris\']", "[\'Isodon\']", "[\'Jasminum\']", "[\'Krameria\']", "[\'Laggera\']", "[\'Lavandula\']", "[\'Lepechinia\']", "[\'Ligularia\']", "[\'Lindera\']", "[\'Lippia\']", "[\'Macaranga\']", "[\'Mantella\']", "[\'Melissa\']", "[\'Mentha\']", "[\'Mesembryanthemum\']", "[\'Mosla\']", "[\'Myristica\']", "[\'Nepeta\']", "[\'Notopterygium\']", "[\'Ocimum\']", "[\'Opopanax\']", "[\'Penstemon\']", "[\'Perilla\']", "[\'Petasites\']", "[\'Plectranthus\']", "[\'Pogostemon\']", "[\'Premna\']", "[\'Prostanthera\']", "[\'Ranitomeya\']", "[\'Rhododendron\']", "[\'Rodgersia\']", "[\'Rydingia\']", "[\'Salvia\']", "[\'Santalum\']", "[\'Schisandra\']", "[\'Semecarpus\']", "[\'Sideritis\']", "[\'Solanum\']", "[\'Tabebuia\']", "[\'Tamarindus\']", "[\'Teucrium\']", "[\'Theonella\']", "[\'Thymus\']", "[\'Tithonia\']", "[\'Unknown\']", "[\'Uvaria\']", "[\'Viburnum\']", "[\'Acanthaceae\']", "[\'Adoxaceae\']", "[\'Aizoaceae\']", "[\'Amaranthaceae\']", "[\'Anacardiaceae\']", "[\'Annonaceae\']", "[\'Apiaceae\']", "[\'Arecaceae\']", "[\'Asteraceae\']", "[\'Bignoniaceae\']", "[\'Campanulaceae\']", "[\'Cannabaceae\']", "[\'Convolvulaceae\']", "[\'Cucurbitaceae\']", "[\'Dendrobatidae\']", "[\'Dichapetalaceae\']", "[\'Ebenaceae\']", "[\'Ericaceae\']", "[\'Euphorbiaceae\']", "[\'Fabaceae\']", "[\'Gesneriaceae\']", "[\'Iridaceae\']", "[\'Krameriaceae\']", "[\'Lamiaceae\']", "[\'Lauraceae\']", "[\'Malpighiaceae\']", "[\'Mantellidae\']", "[\'Myristicaceae\']", "[\'Oleaceae\']", "[\'Orobanchaceae\']", "[\'Plantaginaceae\']", "[\'Rosaceae\']", "[\'Rubiaceae\']", "[\'Rutaceae\']", "[\'Santalaceae\']", "[\'Saxifragaceae\']", "[\'Schisandraceae\']", "[\'Scrophulariaceae\']", "[\'Solanaceae\']", "[\'Theaceae\']", "[\'Theonellidae\']", "[\'Thymelaeaceae\']", "[\'Unknown\']", "[\'Verbenaceae\']", "[\'Anura\']", "[\'Apiales\']", "[\'Arecales\']", "[\'Asparagales\']", "[\'Asterales\']", "[\'Austrobaileyales\']", "[\'Caryophyllales\']", "[\'Cucurbitales\']", "[\'Dipsacales\']", "[\'Ericales\']", "[\'Fabales\']", "[\'Gentianales\']", "[\'Lamiales\']", "[\'Laurales\']", "[\'Magnoliales\']", "[\'Malpighiales\']", "[\'Malvales\']", "[\'Rosales\']", "[\'Santalales\']", "[\'Sapindales\']", "[\'Saxifragales\']", "[\'Solanales\']", "[\'Tetractinellida\']", "[\'Unknown\']", "[\'Zygophyllales\']", "[\'Amphibia\']", "[\'Demospongiae\']", "[\'Liliopsida\']", "[\'Magnoliopsida\']", "[\'Unknown\']", "[\'Chordata\']", "[\'Porifera\']", "[\'Tracheophyta\']", "[\'Unknown\']", "[\'Animalia\']", "[\'Plantae\']", "[\'Unknown\']"], "name": "", "parents": ["[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Adina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Amaranthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Andrographis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Angostura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Anisochilus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']/[\'Aquilaria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Artemisia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Asimina\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']/[\'Avicennia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ayapana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Baccharis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']/[\'Bellardia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Bidens\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Brachanthemum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']/[\'Byrsonima\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']/[\'Calamus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']/[\'Camellia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Cedronella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']/[\'Chenopodium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Chrysojasminum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Clinopodium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']/[\'Codonopsis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Condea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']/[\'Cucumis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']/[\'Cydonia\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Dendrobates\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']/[\'Dichapetalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']/[\'Dictamnus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']/[\'Didymocarpus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']/[\'Diospyros\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Doellingeria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Dracocephalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']/[\'Eremophila\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Fabiana\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Galium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']/[\'Genipa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Glycyrrhiza\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helianthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Helichrysum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Heterotheca\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']/[\'Humulus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Hyssopus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Incarvillea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']/[\'Ipomoea\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']/[\'Iris\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Isodon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']/[\'Jasminum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']/[\'Krameria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Laggera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lavandula\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Lepechinia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Ligularia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']/[\'Lindera\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']/[\'Lippia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']/[\'Macaranga\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']/[\'Mantella\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Melissa\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mentha\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']/[\'Mesembryanthemum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']/[\'Myristica\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Nepeta\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Notopterygium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Ocimum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']/[\'Penstemon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Perilla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Petasites\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Plectranthus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Pogostemon\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Premna\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Prostanthera\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']/[\'Ranitomeya\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']/[\'Rhododendron\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']/[\'Rodgersia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Rydingia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Salvia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']/[\'Santalum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']/[\'Schisandra\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Sideritis\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']/[\'Solanum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']/[\'Tabebuia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']/[\'Tamarindus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Teucrium\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Thymus\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']/[\'Tithonia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']/[\'Mosla\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']/[\'Opopanax\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']/[\'Semecarpus\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']/[\'Theonella\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']/[\'Uvaria\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']/[\'Viburnum\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']/[\'Thymelaeaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Acanthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Orobanchaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Malpighiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']/[\'Arecaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Theaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Amaranthaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Campanulaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']/[\'Cucurbitaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Rosaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Dichapetalaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Rutaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Gesneriaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ebenaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Scrophulariaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']/[\'Rubiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']/[\'Cannabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Convolvulaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']/[\'Iridaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Oleaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']/[\'Krameriaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']/[\'Lauraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Verbenaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']/[\'Euphorbiaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Mantellidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']/[\'Aizoaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Myristicaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']/[\'Apiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Plantaginaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']/[\'Dendrobatidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']/[\'Ericaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']/[\'Saxifragaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']/[\'Santalaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']/[\'Schisandraceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']/[\'Anacardiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']/[\'Solanaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Bignoniaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']/[\'Fabaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']/[\'Theonellidae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']/[\'Lamiaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']/[\'Asteraceae\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']/[\'Annonaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']/[\'Adoxaceae\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Dipsacales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Caryophyllales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Apiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Arecales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Asterales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Cucurbitales\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Fabales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']/[\'Asparagales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Zygophyllales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Laurales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malpighiales\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']/[\'Anura\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Magnoliales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Rosales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Gentianales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Sapindales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Santalales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Saxifragales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Austrobaileyales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Solanales\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Ericales\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']/[\'Tetractinellida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Malvales\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']/[\'Lamiales\']", "[\'Animalia\']/[\'Chordata\']/[\'Amphibia\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Liliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Animalia\']/[\'Porifera\']/[\'Demospongiae\']", "[\'Unknown\']/[\'Unknown\']/[\'Unknown\']", "[\'Plantae\']/[\'Tracheophyta\']/[\'Magnoliopsida\']", "[\'Animalia\']/[\'Chordata\']", "[\'Animalia\']/[\'Porifera\']", "[\'Plantae\']/[\'Tracheophyta\']", "[\'Plantae\']/[\'Tracheophyta\']", "[\'Unknown\']/[\'Unknown\']", "[\'Animalia\']", "[\'Animalia\']", "[\'Plantae\']", "[\'Unknown\']", "", "", ""], "type": "sunburst", "values": [1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 3, 2, 6, 2, 5, 1, 1, 1, 3, 1, 3, 2, 1, 1, 1, 2, 2, 1, 4, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 4, 1, 2, 5, 1, 1, 1, 1, 1, 2, 1, 5, 2, 1, 8, 1, 2, 5, 1, 1, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 4, 1, 2, 1, 3, 1, 2, 1, 2, 4, 1, 1, 1, 1, 1, 26, 1, 1, 1, 1, 1, 2, 1, 1, 4, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 3, 2, 6, 2, 5, 1, 1, 1, 3, 1, 3, 2, 1, 1, 1, 2, 2, 1, 4, 1, 2, 2, 2, 4, 1, 1, 1, 2, 1, 2, 1, 4, 1, 2, 5, 2, 1, 1, 1, 3, 1, 7, 1, 1, 8, 1, 2, 5, 4, 2, 2, 1, 1, 2, 7, 1, 2, 1, 4, 1, 2, 1, 9, 1, 4, 1, 26, 1, 1, 2, 1, 1, 2, 1, 2, 2, 1, 21, 4, 1, 4, 2, 2, 4, 5, 1, 1, 1, 2, 1, 2, 1, 81, 1, 2, 2, 1, 2, 2, 1, 6, 3, 3, 1, 1, 2, 3, 3, 1, 1, 1, 26, 4, 6, 2, 1, 2, 22, 2, 3, 2, 1, 3, 2, 3, 100, 1, 3, 8, 1, 10, 1, 4, 1, 5, 1, 26, 1, 6, 1, 3, 175, 26, 6, 1, 178, 26, 7, 178, 26] }], { "legend": { "title": { "font": { "color": "black" } }, "tracegroupgap": 0 }, "margin": { "b": 50, "l": 50, "r": 50, "t": 100 }, "template": { "data": { "bar": [{ "error_x": { "color": "#2a3f5f" }, "error_y": { "color": "#2a3f5f" }, "marker": { "line": { "color": "#E5ECF6", "width": 0.5 } }, "type": "bar" }], "barpolar": [{ "marker": { "line": { "color": "#E5ECF6", "width": 0.5 } }, "type": "barpolar" }], "carpet": [{ "aaxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "baxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "type": "carpet" }], "choropleth": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "choropleth" }], "contour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour" }], "contourcarpet": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "contourcarpet" }], "heatmap": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap" }], "heatmapgl": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl" }], "histogram": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "histogram" }], "histogram2d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d" }], "histogram2dcontour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour" }], "mesh3d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "mesh3d" }], "parcoords": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "parcoords" }], "pie": [{ "automargin": true, "type": "pie" }], "scatter": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatter" }], "scatter3d": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatter3d" }], "scattercarpet": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattercarpet" }], "scattergeo": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergeo" }], "scattergl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergl" }], "scattermapbox": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattermapbox" }], "scatterpolar": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolar" }], "scatterpolargl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolargl" }], "scatterternary": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterternary" }], "surface": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface" }], "table": [{ "cells": { "fill": { "color": "#EBF0F8" }, "line": { "color": "white" } }, "header": { "fill": { "color": "#C8D4E3" }, "line": { "color": "white" } }, "type": "table" }] }, "layout": { "annotationdefaults": { "arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1 }, "autotypenumbers": "strict", "coloraxis": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "colorscale": { "diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]] }, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": { "color": "#2a3f5f" }, "geo": { "bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white" }, "hoverlabel": { "align": "left" }, "hovermode": "closest", "mapbox": { "style": "light" }, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": { "angularaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "radialaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "scene": { "xaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "yaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "zaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" } }, "shapedefaults": { "line": { "color": "#2a3f5f" } }, "ternary": { "aaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "baxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "caxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "title": { "x": 0.05 }, "xaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 },zerolinecolor": "white", "zerolinewidth": 2 }, "yaxis": { "automargin": ti          dcolor": "white", "linecolor": "white", "ticks": "", "titl          e": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidt          h": 2 } } }, "title": { "font": { "color": "blac k", "famil            : "Courier New", "size":            4 }, "text": "<b> Overview of the consensus chemical annoti              <br> as the superclass, class, subclass and parent_1 le            l for <br              an style=\\"font- size: 20px; \\">sariette_pos_pos</span><            >"          , "x":center", "y": 0.96, "yanchor": "top" }}, { "responsive": true })};
+        </script>
       </div>
-      <div class="md-sidebar-toc"><ul>
-<li><a href="#report">2021-01-14 Report</a>
-<ul>
-<li><a href="#research-question-and-background">Research question and background</a></li>
-<li><a href="#preliminary-results">Preliminary results</a>
-<ul>
-<li><a href="#lcms-profiling">LCMS profiling</a>
-<ul>
-<li><a href="#pos-mode-orbitrap-ddms2">Pos mode, Orbitrap, ddMS2</a></li>
-</ul>
-</li>
-<li><a href="#multivariate-data-analysis">Multivariate data analysis</a>
-<ul>
-<li><a href="#unsupervised">Unsupervised</a>
-<ul>
-<li><a href="#ecotype-mapping">Ecotype mapping</a></li>
-<li><a href="#treatment-mapping-nonear">Treatment mapping (None/AR)</a></li>
-<li><a href="#treatment-mapping-nonear-for-col">Treatment mapping (None/AR) for Col</a></li>
-<li><a href="#treatment-mapping-nonear-for-cvi">Treatment mapping (None/AR) for Cvi</a></li>
-<li><a href="#treatment-mapping-nonear-for-ler">Treatment mapping (None/AR) for Ler</a></li>
-<li><a href="#treatment-mapping-nonear-for-ws">Treatment mapping (None/AR) for WS</a></li>
-</ul>
-</li>
-<li><a href="#supervised">Supervised</a></li>
-<li><a href="#volcano-plot">Volcano plot</a></li>
-<li><a href="#heatmap">Heatmap</a></li>
-</ul>
-</li>
-<li><a href="#molecular-networks">Molecular Networks</a>
-<ul>
-<li><a href="#mn-ecotype-mapping">MN ecotype mapping</a></li>
-<li><a href="#mn-treatment-mapping">MN treatment mapping</a></li>
-<li><a href="#mn-ecotype-treatment-mapping">MN ecotype + treatment mapping</a></li>
-<li><a href="#mn-individual-mapping">MN individual mapping</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#metabolite-annotation">Metabolite annotation</a></li>
-</ul>
-</li>
-<li><a href="#next-steps">Next Steps :</a></li>
-</ul>
-</div>
-      <a id="sidebar-toc-btn">&#x2261;</a>
-    
-    
-    
-    
-    
-    
-    
-    
-<script>
+
+
+
+      <div class="container">
+        <div id="one-tab-content">
+          <h5 class="title is-5" style="text-align:center;"> Composés reportés dans le genre Satureja </h5>
+          <div class="columns is-centered" <p style="text-align: center">
+            <iframe width=100% height="600" style="border:none;"
+              src="https://query.wikidata.org/embed.html#SELECT%20DISTINCT%20%3Fcompound%20%3FcompoundLabel%20%3Finchikey%20%3Finchi%20%3Fsmiles_isomeric%20%3Fsmiles_canonical%20%3Fcas%20%3Fchebi%20%3Fchembl%20%3Fpubchem%20%3Ftaxon%20%3Ftaxon_name%20%3Ftaxon_id_gbif%20%3Ftaxon_id_ncbi%20%3Freference%20%3Freference_doi%20%3Freference_title%20WHERE%20%7B%0A%20%20%3Ftaxon%20wdt%3AP171%20%3Fparent_taxon.%0A%20%20%3Fparent_taxon%20wdt%3AP225%20%27Satureja%27.%0A%20%20%3Fcompound%20wdt%3AP235%20%3Finchikey.%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP231%20%3Fcas.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP233%20%3Fsmiles_canonical.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP234%20%3Finchi.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP592%20%3Fchembl.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP662%20%3Fpubchem.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP683%20%3Fchebi.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fcompound%20wdt%3AP2017%20%3Fsmiles_isomeric.%20%7D%0A%20%20%7B%0A%20%20%20%20%3Fcompound%20p%3AP703%20%3Fstatement.%0A%20%20%20%20%3Fstatement%20ps%3AP703%20%3Ftaxon.%0A%20%20%20%20OPTIONAL%20%7B%20%3Ftaxon%20wdt%3AP225%20%3Ftaxon_name.%20%7D%0A%20%20%20%20OPTIONAL%20%7B%20%3Ftaxon%20wdt%3AP846%20%3Ftaxon_id_gbif.%20%7D%0A%20%20%20%20OPTIONAL%20%7B%20%3Ftaxon%20wdt%3AP685%20%3Ftaxon_id_ncbi.%20%7D%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%3Fstatement%20prov%3AwasDerivedFrom%20%3Fref.%0A%20%20%20%20%20%20%3Fref%20pr%3AP248%20%3Freference.%0A%20%20%20%20%20%20%3Freference%20wdt%3AP356%20%3Freference_doi%3B%0A%20%20%20%20%20%20%20%20wdt%3AP1476%20%3Freference_title.%0A%20%20%20%20%7D%0A%20%20%7D%0A%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22.%20%7D%0A%7D"></iframe>
+            </p>
+          </div>
+        </div>
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    </div>
+  </div>
+  <div class="md-sidebar-toc">
+    <ul>
+      <li><a href="#report">2021-01-14 Report</a>
+        <ul>
+          <li><a href="#research-question-and-background">Research question and background</a></li>
+          <li><a href="#preliminary-results">Preliminary results</a>
+            <ul>
+              <li><a href="#lcms-profiling">LCMS profiling</a>
+                <ul>
+                  <li><a href="#pos-mode-orbitrap-ddms2">Pos mode, Orbitrap, ddMS2</a></li>
+                </ul>
+              </li>
+              <li><a href="#multivariate-data-analysis">Multivariate data analysis</a>
+                <ul>
+                  <li><a href="#unsupervised">Unsupervised</a>
+                    <ul>
+                      <li><a href="#ecotype-mapping">Ecotype mapping</a></li>
+                      <li><a href="#treatment-mapping-nonear">Treatment mapping (None/AR)</a></li>
+                      <li><a href="#treatment-mapping-nonear-for-col">Treatment mapping (None/AR) for Col</a></li>
+                      <li><a href="#treatment-mapping-nonear-for-cvi">Treatment mapping (None/AR) for Cvi</a></li>
+                      <li><a href="#treatment-mapping-nonear-for-ler">Treatment mapping (None/AR) for Ler</a></li>
+                      <li><a href="#treatment-mapping-nonear-for-ws">Treatment mapping (None/AR) for WS</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#supervised">Supervised</a></li>
+                  <li><a href="#volcano-plot">Volcano plot</a></li>
+                  <li><a href="#heatmap">Heatmap</a></li>
+                </ul>
+              </li>
+              <li><a href="#molecular-networks">Molecular Networks</a>
+                <ul>
+                  <li><a href="#mn-ecotype-mapping">MN ecotype mapping</a></li>
+                  <li><a href="#mn-treatment-mapping">MN treatment mapping</a></li>
+                  <li><a href="#mn-ecotype-treatment-mapping">MN ecotype + treatment mapping</a></li>
+                  <li><a href="#mn-individual-mapping">MN individual mapping</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#metabolite-annotation">Metabolite annotation</a></li>
+        </ul>
+      </li>
+      <li><a href="#next-steps">Next Steps :</a></li>
+    </ul>
+  </div>
+  <a id="sidebar-toc-btn">&#x2261;</a>
+
+
+
+
+
+
+
+
+  <script>
 document.body.setAttribute('html-show-sidebar-toc', true)
 var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
 sidebarTOCBtn.addEventListener('click', function(event) {
@@ -381,7 +952,9 @@ sidebarTOCBtn.addEventListener('click', function(event) {
     document.body.setAttribute('html-show-sidebar-toc', true)
   }
 })
-</script>
-      
-  
-    </body></html>
+  </script>
+
+
+</body>
+
+</html>
