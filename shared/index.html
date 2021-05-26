@@ -1,3 +1,1485 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bd63073f33c8a3e25341a9b40b8ca95ac2661f198acaf70388149f1e9041030c
-size 187964667
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="data:image/vnd.microsoft.icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA25g0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERAAAAAAAAAREAAAAAAAABEQAAAAAAAAERAAAAAAAAARERERAAAAABEREREAAAAAEREREQAAAAAREAAAAAAAABEQAAAAAAAAEREREQAAAAARERERAAAAABEREREAAAAAAAAAAAAAAAAAAAAAAAD//wAA//8AAPH/AADx/wAA8f8AAPH/AADwDwAA8A8AAPAPAADx/wAA8f8AAPAPAADwDwAA8A8AAP//AAD//wAA" />
+    <title></title>
+    <script src="https://unpkg.com/lore-engine@1.1.10/dist/lore.min.js"></script>
+    <script src="https://unpkg.com/smiles-drawer@1.2.0/dist/smiles-drawer.min.js"></script>
+    <link 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" 
+      integrity="sha256-piqEf7Ap7CMps8krDQsSOTZgF+MU/0MPyPW2enj5I40=" 
+      crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+        height: 100%;
+        user-select: none;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      #lore {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      #title {
+        position: absolute;
+        z-index: 9999;
+        pointer-events: none;
+        text-height: 1;
+        opacity: 0.0;
+        transition: opacity 0.5s ease-in;
+        
+          padding-bottom: 20px;
+        
+          font-size: 1.0em;
+        
+          color: #888888;
+        
+          font-family: 'Open Sans';
+        
+      }
+
+      #x-axis {
+        position: absolute;
+        z-index: 9999;
+        pointer-events: none;
+        text-height: 1;
+        opacity: 0.0;
+        transition: opacity 0.5s ease-in;
+        
+          padding-top: 20px;
+        
+          font-size: 0.7em;
+        
+          color: #888888;
+        
+          font-family: 'Open Sans';
+        
+      }
+
+      #y-axis {
+        position: absolute;
+        z-index: 9999;
+        pointer-events: none;
+        text-height: 1;
+        transition: opacity 0.5s ease-in;
+        
+          padding-bottom: 20px;
+        
+          font-size: 0.7em;
+        
+          color: #888888;
+        
+          font-family: 'Open Sans';
+        
+          transform: rotate(-90deg);
+        
+      }
+
+      #tip {
+        position: absolute;
+        z-index: 9999;
+        padding: 5px;
+        font-family: 'Open Sans';
+        background-color: rgba(255, 255, 255, 1.0);
+        border-radius: 2px;
+        border-left: 5px solid #000;
+        pointer-events: none;
+        opacity: 0.0;
+        transition: opacity 0.1s ease-out;
+        filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 1.0));
+      }
+
+      #tip.show {
+        opacity: 1.0;
+        transition: opacity 0.1s ease-out;
+      }
+
+      #tip-text {
+        position: relative;
+        max-width: 250px;
+        font-size: 0.8em;
+        font-weight: bold;
+        white-space: normal;
+        line-break: normal;
+      }
+
+      #hover-indicator {
+        display: none;
+        position: absolute;
+        z-index: 999;
+        border: 1px solid #fff;
+        background-color: rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      #hover-indicator.show {
+        display: block !important
+      }
+
+      .selected-indicator {
+        position: absolute;
+        z-index: 999;
+        pointer-events: none;
+      }
+
+      .selected-indicator .crosshair-x {
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        height: 2px;
+        width: 100%;
+        margin: auto;
+        
+          background-color: #fff;
+        
+      }
+
+      .selected-indicator .crosshair-y {
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        width: 2px;
+        height: 100%;
+        margin: auto;
+        
+          background-color: #fff;
+        
+      }
+
+      #legend {
+        position: absolute;
+        z-index: 9998;
+        
+          bottom: 10px;
+        
+          right: 10px;
+        
+          padding: 10px;
+        
+          border: 1px solid #262626;
+        
+          border-radius: 2px;
+        
+          background-color: #111111;
+        
+          filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+        
+          color: #eeeeee;
+        
+          font-family: 'Open Sans';
+        
+      }
+
+      #legend .container {
+        display: flex;
+        flex: auto;
+        align-items: flex-start;
+        
+        flex-direction: column;
+        
+      }
+
+      #legend .legend-section {
+        width: 100%;
+      }
+
+      #legend .legend-section:not(:first-child) {
+        
+      }
+
+      #legend h2 {
+        font-size: 1em;
+        font-weight: 600;
+        padding-top: 0;
+        margin-top: 0;
+        margin-bottom: 5px;
+        text-align: center;
+        max-width: 250px;
+        white-space: normal;
+      }
+
+      #legend h3 {
+        font-size: 0.8em;
+        margin-top: 10px;
+        margin-bottom: 0px;
+        max-width: 250px;
+        white-space: normal;
+      }
+
+      #legend select {
+        width: 100%;
+        margin-bottom: 5px;
+        background: transparent;
+        color: #fff;
+        border-radius: 2px;
+        font-size: 0.75em;
+      }
+
+      #legend select option {
+        background: #000;
+      }
+
+      #legend .legend-element, #legend .legend-element-range {
+        position: relative;
+        display: flex;
+        flex: auto;
+        align-items: flex-start;
+        padding-bottom: 2px;
+        padding-top: 2px;
+      }
+
+      #legend .legend-element {
+        align-items: flex-start;
+      }
+
+      #legend .legend-element-range {
+        flex-direction: column;
+      }
+
+      #legend .color-box {
+        
+          width: 15px;
+        
+          height: 15px;
+        
+          border: solid 0px;
+        
+      }
+
+      #legend .color-stripe {
+        
+          width: 15px;
+        
+          height: 1px;
+        
+          border: solid 0px;
+        
+      }
+
+      #legend .legend-label {
+        height: 15px;
+        font-size: 0.7em;
+        padding-left: 5px;
+      }
+
+      #legend .legend-label.max {
+        position: absolute;
+        top: 0px;
+        margin-left: 15px;
+      }
+
+      #legend .legend-label.min {
+        position: absolute;
+        bottom: 2px;
+        margin-left: 15px;
+      }
+
+      #selected {
+        position: absolute;
+        display: none;
+        z-index: 9998;
+        width: 250px;
+        
+          bottom: 10px;
+        
+          left: 10px;
+        
+          padding: 0px;
+        
+          border: 1px solid #262626;
+        
+          border-radius: 2px;
+        
+          background-color: #111111;
+        
+          filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+        
+          color: #eeeeee;
+        
+          font-family: 'Open Sans';
+        
+      }
+
+      #selected #selected-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 5px 10px;
+        border-bottom: 1px solid #262626;
+        font-size: 0.8em;
+        font-weight: bold;
+      }
+
+      #selected #selected-controls * {
+        display: inline-block;
+      }
+
+      #selected #selected-controls #selected-title {
+        flex-grow: 1;
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #aaa;
+      }
+
+      #selected #selected-controls a {
+        margin: 0px 2px;
+        font-size: 1.5em;
+        color: #fff;
+        opacity: 0.75;
+        transition: 0.2s;
+      }
+
+      #selected #selected-controls a:hover {
+        opacity: 1.0;
+      }
+
+      #selected #selected-controls a#selected-remove {
+        position: absolute;
+        right: 10px;
+        top: 42px;
+        color: #e74c3c;
+      }
+
+      #selected #selected-container {
+        padding: 10px;
+        font-size: 0.8em;
+      }
+
+      #selected #selected-container img {
+        margin-left: -10px;
+      }
+
+      #selected #selected-container .label {
+        font-weight: bold;
+        color: #aaa;
+        font-size: 0.7em;
+      }
+
+      #selected #selected-container .label:not(:first-child) {
+        margin-top: 2px;
+      }
+
+      #selected #selected-container .content {
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #selected #selected-container .content a {
+        text-decoration: none;
+        color: #3498db;
+      }
+
+      #controls {
+        position: absolute;
+        z-index: 9998;
+        
+          top: 10px;
+        
+          right: 10px;
+        
+          padding: 2px;
+        
+          border: 1px solid #262626;
+        
+          border-radius: 2px;
+        
+          background-color: #111111;
+        
+          filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+        
+          color: #eeeeee;
+        
+          font-family: 'Open Sans';
+        
+      }
+
+      #controls a {
+        display: inline-block;
+        padding: 5px 10px;
+        font-size: 1.2em;
+        color: #fff;
+        opacity: 0.75;
+        transition: 0.2s;
+      }
+
+      #controls a:hover {
+        opacity: 1.0;
+      }
+
+      #controls #more-controls {
+        display: inline-block;
+      }
+
+      #impress {
+        position: absolute;
+        z-index: 9999;
+        top: 10px;
+        left: 10px;
+        font-size: 0.7em;
+        color: #eee;
+      }
+
+      #impress a {
+        color: #3498db;
+        text-decoration: none;
+      }
+
+      #smiles-canvas {
+        position: absolute;
+        z-index: 9999;
+        left: -999px;
+        top: -999px;
+        width: 250px;
+        height: 250px;
+      }
+
+
+
+      #overlay-structure-container {
+        position: absolute;
+        z-index: 9999;
+        top: 50px;
+        left: 275px;
+        right: 100px;
+        bottom: 10px;
+        opacity: .5;
+        pointer-events: none;
+      }
+
+      #overlay-structure {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
+
+
+
+
+      .show {
+        opacity: 1.0 !important;
+      }
+
+      .hide {
+        display: none !important;
+      }
+
+      @media only screen and (max-width: 600px) {
+        #selected {
+          position: absolute;
+          display: none;
+          z-index: 9998;
+          width: 125px;
+          opacity: 0.8;
+          background-filter: blur(10px);
+        }
+
+        #selected img {
+          width: 125px;
+        }
+
+        #tip {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="smiles-canvas" data-bind="smilesCanvas"></canvas>
+    
+    
+    
+    
+
+    <div id="overlay-structure-container" data-binding-id="overlayStructureContainer" class="">
+      <canvas id="overlay-structure" data-binding-id="overlayStructure" width="450" height="687">
+
+      </canvas></div>
+    </div>
+
+    <div id="tip" data-bind="tip">
+      <div id="tip-text" data-bind="tipText"></div>
+    </div>
+    <div id="selected" data-bind="selected">
+      <div id="selected-controls" data-bind="selectedControls">
+        <a id="selected-toggle" data-bind="selectedToggle" href="#">
+          <i class="fas fa-toggle-on"></i>
+        </a>
+        <span>&nbsp;&nbsp;</span>
+        <span id="selected-title" data-bind="selectedTitle"></span>
+        <span>&nbsp;&nbsp;</span>
+        <span id="selected-current" data-bind="selectedCurrent" data-bind="selectedCurrent">0</span><span> / </span><span id="selected-total" data-bind="selectedTotal">0</span>
+        <span>&nbsp;&nbsp;</span>
+        <a id="selected-prev" data-bind="selectedPrev" href="#">
+          <i class="fas fa-angle-left"></i>
+        </a>
+        <span>&nbsp;</span>
+        <a id="selected-next" data-bind="selectedNext" href="#">
+          <i class="fas fa-angle-right"></i>
+        </a>
+        <a id="selected-remove" data-bind="selectedRemove" href="#">
+          <i class="fas fa-times"></i>
+        </a>
+      </div>
+      <div id="selected-container" data-bind="selectedContainer">
+      </div>
+    </div>
+    <div id="controls" data-bind="controls">
+      <div id="more-controls" data-bind="moreControls" class="hide">
+        <a id="search" data-bind="search" href="#">
+          <i class="fas fa-search"></i>
+        </a>
+        <a id="download" data-bind="download" href="#">
+          <i class="fas fa-download"></i>
+        </a>
+        <a id="export" data-bind="export" href="#">
+          <i class="fas fa-camera"></i>
+        </a>
+        <a id="largepreview" data-bind="largepreview" href="#">
+          <i class="fas fa-expand"></i>
+        </a>
+      </div>
+      <a id="show-controls" data-bind="showControls" href="#">
+        <i class="fas fa-bars"></i>
+      </a>
+    </div>
+    <div id="hover-indicator" data-bind="hoverIndicator"></div>
+    <canvas id="lore"></canvas>
+
+    
+    <script src="https://github.com/oolonek/dendron-private/blob/main/shared/210523_lotus_map4_2D.js?raw=true"></script>
+    
+    <script>
+
+      //status on whether to show or not the background canvas
+      let FullMolinBkg = false;
+
+      let smilesDrawer = new SmilesDrawer.Drawer({
+        width: 250 / window.devicePixelRatio,
+        height: 250 / window.devicePixelRatio,
+        experimental: true
+      });
+
+      class Faerun {
+        constructor() {
+          this.body = document.getElementsByTagName('body')[0];
+
+          this.selectedItems = [];
+          this.selectedIndicators = [];
+          this.selectedCurrent = [];
+          this.scatterMeta = [{"categorical": [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false], "fog_intensity": 0.0, "has_legend": true, "interactive": true, "is_range": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true], "label_index": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "legend": [[[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Alkaloids"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Alkaloids|Amino acids and Peptides"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Alkaloids|Terpenoids"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Amino acids and Peptides"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Amino acids and Peptides|Polyketides"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Amino acids and Peptides|Shikimates and Phenylpropanoids"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Carbohydrates"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Fatty acids"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Polyketides"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Polyketides|Terpenoids"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Shikimates and Phenylpropanoids"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Terpenoids"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Unknown"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Coumarins"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Diterpenoids"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Fatty acyls"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Flavonoids"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Isoflavonoids"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Lignans"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Linear polyketides"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Macrolides"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Meroterpenoids"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Monoterpenoids"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Oligopeptides"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Polycyclic aromatic polyketides"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Pseudoalkaloids"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Sesquiterpenoids"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Steroids"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Triterpenoids"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Tryptophan alkaloids"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Tyrosine alkaloids"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "Unknown"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Anthraquinones and anthrones"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Cholestane steroids"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Cinnamic acids and derivatives"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Colensane and Clerodane diterpenoids"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Cyclic peptides"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Ergostane steroids"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Eudesmane sesquiterpenoids"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Flavanones"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Flavones"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Flavonols"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Germacrane sesquiterpenoids"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Guaiane sesquiterpenoids"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Iridoids monoterpenoids"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Kaurane and Phyllocladane diterpenoids"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Labdane diterpenoids"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Lanostane, Tirucallane and Euphane triterpenoids"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Limonoids"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Oleanane triterpenoids"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "Unknown"]], [[[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Inorganic compounds"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Organic compounds"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Unknown"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Alkaloids and derivatives"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Benzenoids"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Homogeneous metal compounds"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Homogeneous non-metal compounds"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Hydrocarbon derivatives"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Hydrocarbons"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Lignans, neolignans and related compounds"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Lipids and lipid-like molecules"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Nucleosides, nucleotides, and analogues"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Organic 1,3-dipolar compounds"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Organic Polymers"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Organic acids and derivatives"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Organic nitrogen compounds"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Organic oxygen compounds"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Organohalogen compounds"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Organoheterocyclic compounds"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Organosulfur compounds"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Phenylpropanoids and polyketides"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "Unknown"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Anthracenes"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Benzene and substituted derivatives"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Benzopyrans"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Carboxylic acids and derivatives"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Cinnamic acids and derivatives"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Coumarins and derivatives"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Fatty Acyls"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Flavonoids"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Indoles and derivatives"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Isoflavonoids"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Lactones"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Macrolides and analogues"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Naphthopyrans"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Organooxygen compounds"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Peptidomimetics"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Phenols"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Prenol lipids"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Steroids and steroid derivatives"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "Tannins"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Cyclic depsipeptides"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Diterpene lactones"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Diterpenoids"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Flavonoid-3-O-glycosides"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Flavonoid-7-O-glycosides"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Gamma butyrolactones"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Germacranolides and derivatives"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Hydrolyzable tannins"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Kaurane diterpenoids"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Macrolides and analogues"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Naphthofurans"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "O-glycosyl compounds"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Phenolic glycosides"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Sesquiterpenoids"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Steroidal glycosides"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Steroidal saponins"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Terpene lactones"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Triterpene saponins"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "Triterpenoids"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Archaeplastida"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Fungi"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Metazoa"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Not attributed (Bacteria and Algae)"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "[\u0027Archaeplastida\u0027 \u0027Fungi\u0027 \u0027Metazoa\u0027 \u0027Not attributed (Bacteria and Algae)\u0027]"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "[\u0027Archaeplastida\u0027 \u0027Fungi\u0027 \u0027Metazoa\u0027]"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "[\u0027Archaeplastida\u0027 \u0027Fungi\u0027 \u0027Not attributed (Bacteria and Algae)\u0027]"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "[\u0027Archaeplastida\u0027 \u0027Fungi\u0027]"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "[\u0027Archaeplastida\u0027 \u0027Metazoa\u0027 \u0027Not attributed (Bacteria and Algae)\u0027]"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "[\u0027Archaeplastida\u0027 \u0027Metazoa\u0027]"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "[\u0027Archaeplastida\u0027 \u0027Not attributed (Bacteria and Algae)\u0027]"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "[\u0027Fungi\u0027 \u0027Metazoa\u0027 \u0027Not attributed (Bacteria and Algae)\u0027]"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "[\u0027Fungi\u0027 \u0027Metazoa\u0027]"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "[\u0027Fungi\u0027 \u0027Not attributed (Bacteria and Algae)\u0027]"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "[\u0027Metazoa\u0027 \u0027Not attributed (Bacteria and Algae)\u0027]"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Actinobacteria"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Arthropoda"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Ascomycota"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Basidiomycota"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Chlorophyta"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Chordata"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Cnidaria"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Cyanobacteria"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Echinodermata"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Firmicutes"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Mollusca"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Porifera"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Proteobacteria"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Rhodophyta"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Streptophyta"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Unknown"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "[\u0027Arthropoda\u0027 \u0027Streptophyta\u0027]"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "[\u0027Ascomycota\u0027 \u0027Streptophyta\u0027]"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "[\u0027Streptophyta\u0027 \u0027Unknown\u0027]"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Agaricomycetes"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Anthozoa"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Ascidiacea"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Deltaproteobacteria"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Demospongiae"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Dothideomycetes"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Eurotiomycetes"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Florideophycidae"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Gammaproteobacteria"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Gastropoda"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Insecta"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Jungermanniopsida"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Leotiomycetes"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Magnoliopsida"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Phaeophyceae"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Polypodiopsida"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Sordariomycetes"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Unknown"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "[\u0027Magnoliopsida\u0027 \u0027Unknown\u0027]"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Alcyonacea"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Apiales"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Asparagales"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Asterales"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Caryophyllales"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Eurotiales"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Fabales"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Gentianales"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Hypocreales"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Lamiales"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Magnoliales"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Malpighiales"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Polyporales"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Ranunculales"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Rosales"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Sapindales"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Solanales"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Streptomycetales"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "Unknown"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Alcyoniidae"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Annonaceae"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Apiaceae"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Apocynaceae"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Araliaceae"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Asteraceae"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Celastraceae"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Euphorbiaceae"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Fabaceae"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Lamiaceae"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Lauraceae"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Meliaceae"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Ranunculaceae"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Rubiaceae"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Rutaceae"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Solanaceae"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Streptomycetaceae"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Trichocomaceae"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "Unknown"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Aconitum"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Annona"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Artemisia"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Aspergillus"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Euphorbia"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Fusarium"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Ganoderma"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Garcinia"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Hypericum"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Isodon"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Laurencia"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Penicillium"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Piper"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Salvia"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Senecio"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Sinularia"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Streptomyces"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Taxus"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "Unknown"]], [[[0.7803921568627451, 0.7803921568627451, 0.7803921568627451, 1.0], "Other"], [[0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0], "Apis cerana"], [[1.0, 0.4980392156862745, 0.054901960784313725, 1.0], "Arabidopsis thaliana"], [[1.0, 0.7333333333333333, 0.47058823529411764, 1.0], "Aspergillus fumigatus"], [[0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0], "Aspergillus terreus"], [[0.596078431372549, 0.8745098039215686, 0.5411764705882353, 1.0], "Aspergillus versicolor"], [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392, 1.0], "Azadirachta indica"], [[1.0, 0.596078431372549, 0.5882352941176471, 1.0], "Camellia sinensis"], [[0.5803921568627451, 0.403921568627451, 0.7411764705882353, 1.0], "Ganoderma lucidum"], [[0.7725490196078432, 0.6901960784313725, 0.8352941176470589, 1.0], "Lyngbya majuscula"], [[0.5490196078431373, 0.33725490196078434, 0.29411764705882354, 1.0], "Melia azedarach"], [[0.7686274509803922, 0.611764705882353, 0.5803921568627451, 1.0], "Microcystis aeruginosa"], [[0.8901960784313725, 0.4666666666666667, 0.7607843137254902, 1.0], "Momordica charantia"], [[0.9686274509803922, 0.7137254901960784, 0.8235294117647058, 1.0], "Panax ginseng"], [[0.4980392156862745, 0.4980392156862745, 0.4980392156862745, 1.0], "Penicillium citrinum"], [[0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0], "Sorangium cellulosum"], [[0.7372549019607844, 0.7411764705882353, 0.13333333333333333, 1.0], "Streptomyces hygroscopicus"], [[0.8588235294117647, 0.8588235294117647, 0.5529411764705883, 1.0], "Tripterygium wilfordii"], [[0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0], "Trypanosoma brucei"], [[0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0], "Unknown"]], [[[0.8627450980392157, 0.8627450980392157, 0.8627450980392157, 1.0], "1 biosource"], [[1.0, 0.8549019607843137, 0.7254901960784313, 1.0], "2-5 biosources"], [[0.9803921568627451, 0.5019607843137255, 0.4470588235294118, 1.0], "6-20 biosources"], [[1.0, 0.38823529411764707, 0.2784313725490196, 1.0], "\u003e20 biosources"]], [[[0.8627450980392157, 0.8627450980392157, 0.8627450980392157, 1.0], "1 unique biosource"], [[1.0, 0.38823529411764707, 0.2784313725490196, 1.0], "2-5 unique biosources"]], [[[0.8627450980392157, 0.8627450980392157, 0.8627450980392157, 1.0], "1 unique biosource"], [[1.0, 0.8549019607843137, 0.7254901960784313, 1.0], "2-5 unique biosources"], [[0.9803921568627451, 0.5019607843137255, 0.4470588235294118, 1.0], "6-20 unique biosources"]], [[[0.8627450980392157, 0.8627450980392157, 0.8627450980392157, 1.0], "1 unique biosource"], [[1.0, 0.8549019607843137, 0.7254901960784313, 1.0], "2-5 unique biosources"], [[0.9803921568627451, 0.5019607843137255, 0.4470588235294118, 1.0], "6-20 unique biosources"], [[1.0, 0.38823529411764707, 0.2784313725490196, 1.0], "\u003e20 unique biosources"]], [[[0.8627450980392157, 0.8627450980392157, 0.8627450980392157, 1.0], "1 unique biosource"], [[1.0, 0.8549019607843137, 0.7254901960784313, 1.0], "2-5 unique biosources"], [[0.9803921568627451, 0.5019607843137255, 0.4470588235294118, 1.0], "6-20 unique biosources"], [[1.0, 0.38823529411764707, 0.2784313725490196, 1.0], "\u003e20 unique biosources"]], [[[0.8627450980392157, 0.8627450980392157, 0.8627450980392157, 1.0], "1 unique biosource"], [[1.0, 0.8549019607843137, 0.7254901960784313, 1.0], "2-5 unique biosources"], [[0.9803921568627451, 0.5019607843137255, 0.4470588235294118, 1.0], "6-20 unique biosources"], [[1.0, 0.38823529411764707, 0.2784313725490196, 1.0], "\u003e20 unique biosources"]], [[[0.8627450980392157, 0.8627450980392157, 0.8627450980392157, 1.0], "1 unique biosource"], [[1.0, 0.8549019607843137, 0.7254901960784313, 1.0], "2-5 unique biosources"], [[0.9803921568627451, 0.5019607843137255, 0.4470588235294118, 1.0], "6-20 unique biosources"], [[1.0, 0.38823529411764707, 0.2784313725490196, 1.0], "\u003e20 unique biosources"]], [[[0.8627450980392157, 0.8627450980392157, 0.8627450980392157, 1.0], "1 unique biosource"], [[1.0, 0.8549019607843137, 0.7254901960784313, 1.0], "2-5 unique biosources"], [[0.9803921568627451, 0.5019607843137255, 0.4470588235294118, 1.0], "6-20 unique biosources"], [[1.0, 0.38823529411764707, 0.2784313725490196, 1.0], "\u003e20 unique biosources"]], [[[0.6980392156862745, 0.13333333333333333, 0.13333333333333333, 1.0], "Simaroubaceae"], [[0.8274509803921568, 0.8274509803921568, 0.8274509803921568, 1.0], "Other"]], [[[0.1843137254901961, 0.2823529411764706, 0.34509803921568627, 1.0], "Colensane and Clerodane diterpenoids"], [[0.01568627450980392, 0.6745098039215687, 0.43137254901960786, 1.0], "Germacrane sesquiterpenoids"], [[0.5137254901960784, 0.7764705882352941, 0.26666666666666666, 1.0], "Oleanane triterpenoids"], [[0.0, 0.5490196078431373, 0.5137254901960784, 1.0], "Lanostane, Tirucallane and Euphane triterpenoids"], [[0.0, 0.6980392156862745, 0.7686274509803922, 1.0], "Flavones"], [[0.8392156862745098, 0.11764705882352941, 0.11764705882352941, 1.0], "Cyclic peptides"], [[0.0, 0.5568627450980392, 0.792156862745098, 1.0], "Flavonols"], [[0.9176470588235294, 0.8313725490196079, 0.0, 1.0], "Quassinoids"], [[0.0, 1.0, 0.6, 1.0], "Carotenoids (C40, \u03b2-\u03b2)"], [[0.8627450980392157, 0.8627450980392157, 0.8627450980392157, 1.0], "Other"], [[0.0, 0.41568627450980394, 0.47843137254901963, 1.0], "Guaiane sesquiterpenoids"]], [[[0.988362, 0.998364, 0.644924, 1.0], "0.4269078810563527"], [[0.976511, 0.989753, 0.61676, 1.0], "0.3925566934893928"], [[0.961812, 0.975924, 0.571925, 1.0], "0.3925566934893928"], [[0.954529, 0.965896, 0.540361, 1.0], "0.3925566934893928"], [[0.947937, 0.949318, 0.491426, 1.0], "0.9541105427360929"], [[0.946392, 0.930761, 0.442367, 1.0], "0.8456835324010163"], [[0.947594, 0.917399, 0.410665, 1.0], "0.3925566934893928"], [[0.951546, 0.896226, 0.365627, 1.0], "0.8456835324010163"], [[0.954997, 0.881569, 0.337475, 1.0], "0.9541105427360929"], [[0.960626, 0.859069, 0.29801, 1.0], "0.5427967286453237"], [[0.966243, 0.836191, 0.261534, 1.0], "0.8456835324010163"], [[0.969783, 0.820825, 0.238686, 1.0], "0.8456835324010163"], [[0.974638, 0.797692, 0.206332, 1.0], "0.9541105427360929"], [[0.977497, 0.782258, 0.185923, 1.0], "0.8456835324010163"], [[0.981173, 0.759135, 0.156863, 1.0], "0.8456835324010163"], [[0.984075, 0.736087, 0.129527, 1.0], "0.9541105427360929"], [[0.985566, 0.720782, 0.112229, 1.0], "0.4269078810563527"], [[0.987124, 0.697944, 0.087731, 1.0], "0.8456835324010163"], [[0.987874, 0.675267, 0.065257, 1.0], "0.7344489161900727"], [[0.987926, 0.66025, 0.05175, 1.0], "0.5427967286453237"], [[0.987337, 0.63789, 0.034916, 1.0], "0.3925566934893928"], [[0.986502, 0.623105, 0.027814, 1.0], "0.8456835324010163"], [[0.984591, 0.601122, 0.023606, 1.0], "0.8456835324010163"], [[0.981895, 0.579392, 0.02625, 1.0], "0.9541105427360929"], [[0.979666, 0.565057, 0.031409, 1.0], "0.8456835324010163"], [[0.975677, 0.543798, 0.043618, 1.0], "0.8456835324010163"], [[0.97259, 0.529798, 0.053324, 1.0], "0.9541105427360929"], [[0.967322, 0.509078, 0.068659, 1.0], "0.6958721165520032"], [[0.961293, 0.488716, 0.084289, 1.0], "0.7344489161900727"], [[0.956852, 0.475356, 0.094695, 1.0], "0.8456835324010163"], [[0.949562, 0.45566, 0.110164, 1.0], "0.3925566934893928"], [[0.944285, 0.442772, 0.120354, 1.0], "0.3925566934893928"], [[0.935747, 0.423831, 0.13544, 1.0], "0.8456835324010163"], [[0.92647, 0.405389, 0.150292, 1.0], "0.8157271800003849"], [[0.919879, 0.393389, 0.16007, 1.0], "0.8456835324010163"], [[0.90939, 0.375856, 0.174563, 1.0], "0.8456835324010163"], [[0.898192, 0.358911, 0.18886, 1.0], "0.3925566934893928"], [[0.890341, 0.347957, 0.198286, 1.0], "0.5427967286453237"], [[0.878001, 0.33206, 0.212268, 1.0], "0.5427967286453237"], [[0.869409, 0.321827, 0.221482, 1.0], "0.5427967286453237"], [[0.855992, 0.307038, 0.235133, 1.0], "0.8456835324010163"], [[0.841969, 0.292933, 0.248564, 1.0], "0.8456835324010163"], [[0.832299, 0.283913, 0.257383, 1.0], "0.8456835324010163"], [[0.817341, 0.270954, 0.27039, 1.0], "0.8456835324010163"], [[0.807082, 0.262692, 0.278898, 1.0], "0.8456835324010163"], [[0.791293, 0.250856, 0.29139, 1.0], "0.8157271800003849"], [[0.775059, 0.239667, 0.303526, 1.0], "0.3925566934893928"], [[0.76401, 0.232554, 0.311399, 1.0], "0.8456835324010163"], [[0.747127, 0.222378, 0.322856, 1.0], "0.9541105427360929"], [[0.735683, 0.215906, 0.330245, 1.0], "0.8456835324010163"], [[0.718264, 0.206636, 0.340931, 1.0], "0.3925566934893928"], [[0.700576, 0.197851, 0.351113, 1.0], "0.5427967286453237"], [[0.688653, 0.192239, 0.357603, 1.0], "0.8456835324010163"], [[0.670599, 0.184153, 0.366879, 1.0], "0.8456835324010163"], [[0.652369, 0.176421, 0.375586, 1.0], "0.9541105427360929"], [[0.640135, 0.171438, 0.381065, 1.0], "0.8456835324010163"], [[0.621685, 0.164184, 0.388781, 1.0], "0.8456835324010163"], [[0.60933, 0.159474, 0.393589, 1.0], "0.8456835324010163"], [[0.590734, 0.152563, 0.40029, 1.0], "0.8850771869639794"], [[0.572081, 0.145797, 0.406369, 1.0], "0.5427967286453237"], [[0.559624, 0.141346, 0.410078, 1.0], "0.5427967286453237"], [[0.54092, 0.134729, 0.415123, 1.0], "0.5427967286453237"], [[0.528444, 0.130341, 0.418142, 1.0], "0.9541105427360929"], [[0.50973, 0.123769, 0.422156, 1.0], "0.8456835324010163"], [[0.491022, 0.117179, 0.425552, 1.0], "0.8157271800003849"], [[0.478558, 0.112764, 0.427475, 1.0], "0.9541105427360929"], [[0.459875, 0.106089, 0.429846, 1.0], "0.8456835324010163"], [[0.441207, 0.099338, 0.431594, 1.0], "0.8456835324010163"], [[0.428768, 0.09479, 0.432412, 1.0], "0.8456835324010163"], [[0.410113, 0.087896, 0.433098, 1.0], "0.7344489161900727"], [[0.397674, 0.083257, 0.433183, 1.0], "0.8456835324010163"], [[0.379001, 0.076253, 0.432719, 1.0], "0.8456835324010163"], [[0.360284, 0.069247, 0.431497, 1.0], "0.3925566934893928"], [[0.347771, 0.064616, 0.430217, 1.0], "0.9541105427360929"], [[0.328921, 0.057827, 0.427511, 1.0], "0.8456835324010163"], [[0.316282, 0.05349, 0.425116, 1.0], "0.5427967286453237"], [[0.297178, 0.04747, 0.420491, 1.0], "0.5427967286453237"], [[0.27785, 0.042353, 0.414392, 1.0], "0.9541105427360929"], [[0.26481, 0.039647, 0.409345, 1.0], "0.9541105427360929"], [[0.244967, 0.037055, 0.400007, 1.0], "0.8456835324010163"], [[0.231538, 0.036405, 0.3924, 1.0], "0.8456835324010163"], [[0.211095, 0.03703, 0.378563, 1.0], "0.8456835324010163"], [[0.190367, 0.039309, 0.361447, 1.0], "0.8456835324010163"], [[0.176493, 0.041402, 0.348111, 1.0], "0.8456835324010163"], [[0.15585, 0.044559, 0.325338, 1.0], "0.5427967286453237"], [[0.135778, 0.046856, 0.299776, 1.0], "0.8456835324010163"], [[0.122908, 0.047536, 0.281624, 1.0], "0.8456835324010163"], [[0.104551, 0.047008, 0.25343, 1.0], "0.8456835324010163"], [[0.09299, 0.045583, 0.234358, 1.0], "0.3925566934893928"], [[0.076637, 0.041905, 0.205799, 1.0], "0.3925566934893928"], [[0.06134, 0.03659, 0.177642, 1.0], "0.9541105427360929"], [[0.051644, 0.032474, 0.159254, 1.0], "0.8157271800003849"], [[0.037668, 0.025921, 0.132232, 1.0], "0.5427967286453237"], [[0.029432, 0.021503, 0.114621, 1.0], "0.5427967286453237"], [[0.019373, 0.015133, 0.088767, 1.0], "0.5427967286453237"], [[0.011663, 0.009417, 0.06346, 1.0], "0.3925566934893928"], [[0.007676, 0.006136, 0.046836, 1.0], "0.8456835324010163"], [[0.003299, 0.002249, 0.024239, 1.0], "0.8157271800003849"], [[0.001462, 0.000466, 0.013866, 1.0], "0.3925566934893928"]], [[[0.988362, 0.998364, 0.644924, 1.0], "0.6006466123137475"], [[0.976511, 0.989753, 0.61676, 1.0], "0.45952890792291223"], [[0.961812, 0.975924, 0.571925, 1.0], "0.6703876598335701"], [[0.954529, 0.965896, 0.540361, 1.0], "0.6703876598335701"], [[0.947937, 0.949318, 0.491426, 1.0], "0.9810476614993479"], [[0.946392, 0.930761, 0.442367, 1.0], "0.8689369412184038"], [[0.947594, 0.917399, 0.410665, 1.0], "0.5994607549430797"], [[0.951546, 0.896226, 0.365627, 1.0], "0.9067934782608695"], [[0.954997, 0.881569, 0.337475, 1.0], "0.9754337366963114"], [[0.960626, 0.859069, 0.29801, 1.0], "0.5427967286453237"], [[0.966243, 0.836191, 0.261534, 1.0], "0.9722778891115564"], [[0.969783, 0.820825, 0.238686, 1.0], "0.7851698174782629"], [[0.974638, 0.797692, 0.206332, 1.0], "0.9810476614993479"], [[0.977497, 0.782258, 0.185923, 1.0], "0.7809186344765582"], [[0.981173, 0.759135, 0.156863, 1.0], "0.7809186344765582"], [[0.984075, 0.736087, 0.129527, 1.0], "0.8490646621679337"], [[0.985566, 0.720782, 0.112229, 1.0], "0.633033633033633"], [[0.987124, 0.697944, 0.087731, 1.0], "0.9067934782608695"], [[0.987874, 0.675267, 0.065257, 1.0], "0.68150765606596"], [[0.987926, 0.66025, 0.05175, 1.0], "0.5427967286453237"], [[0.987337, 0.63789, 0.034916, 1.0], "0.45952890792291223"], [[0.986502, 0.623105, 0.027814, 1.0], "0.7851698174782629"], [[0.984591, 0.601122, 0.023606, 1.0], "0.7809186344765582"], [[0.981895, 0.579392, 0.02625, 1.0], "0.9810476614993479"], [[0.979666, 0.565057, 0.031409, 1.0], "0.8689369412184038"], [[0.975677, 0.543798, 0.043618, 1.0], "0.7809186344765582"], [[0.97259, 0.529798, 0.053324, 1.0], "0.9534883720930233"], [[0.967322, 0.509078, 0.068659, 1.0], "0.7370701326834552"], [[0.961293, 0.488716, 0.084289, 1.0], "0.7805991440798858"], [[0.956852, 0.475356, 0.094695, 1.0], "0.9722778891115564"], [[0.949562, 0.45566, 0.110164, 1.0], "0.3425641025641026"], [[0.944285, 0.442772, 0.120354, 1.0], "0.565042372881356"], [[0.935747, 0.423831, 0.13544, 1.0], "0.9722778891115564"], [[0.92647, 0.405389, 0.150292, 1.0], "0.8643643643643644"], [[0.919879, 0.393389, 0.16007, 1.0], "0.7851698174782629"], [[0.90939, 0.375856, 0.174563, 1.0], "0.8689369412184038"], [[0.898192, 0.358911, 0.18886, 1.0], "0.565042372881356"], [[0.890341, 0.347957, 0.198286, 1.0], "0.5427967286453237"], [[0.878001, 0.33206, 0.212268, 1.0], "0.5427967286453237"], [[0.869409, 0.321827, 0.221482, 1.0], "0.5427967286453237"], [[0.855992, 0.307038, 0.235133, 1.0], "0.8689369412184038"], [[0.841969, 0.292933, 0.248564, 1.0], "0.7809186344765582"], [[0.832299, 0.283913, 0.257383, 1.0], "0.8689369412184038"], [[0.817341, 0.270954, 0.27039, 1.0], "0.7851698174782629"], [[0.807082, 0.262692, 0.278898, 1.0], "0.7809186344765582"], [[0.791293, 0.250856, 0.29139, 1.0], "0.7402491472638292"], [[0.775059, 0.239667, 0.303526, 1.0], "0.565042372881356"], [[0.76401, 0.232554, 0.311399, 1.0], "0.7235123367198839"], [[0.747127, 0.222378, 0.322856, 1.0], "1.0"], [[0.735683, 0.215906, 0.330245, 1.0], "0.7809186344765582"], [[0.718264, 0.206636, 0.340931, 1.0], "0.7682653518601524"], [[0.700576, 0.197851, 0.351113, 1.0], "0.5427967286453237"], [[0.688653, 0.192239, 0.357603, 1.0], "0.9067934782608695"], [[0.670599, 0.184153, 0.366879, 1.0], "0.9041951800059506"], [[0.652369, 0.176421, 0.375586, 1.0], "0.8490646621679337"], [[0.640135, 0.171438, 0.381065, 1.0], "0.8689369412184038"], [[0.621685, 0.164184, 0.388781, 1.0], "0.9067934782608695"], [[0.60933, 0.159474, 0.393589, 1.0], "0.9067934782608695"], [[0.590734, 0.152563, 0.40029, 1.0], "0.8361505243676742"], [[0.572081, 0.145797, 0.406369, 1.0], "0.5427967286453237"], [[0.559624, 0.141346, 0.410078, 1.0], "0.5427967286453237"], [[0.54092, 0.134729, 0.415123, 1.0], "0.5427967286453237"], [[0.528444, 0.130341, 0.418142, 1.0], "0.972201901975128"], [[0.50973, 0.123769, 0.422156, 1.0], "0.9722778891115564"], [[0.491022, 0.117179, 0.425552, 1.0], "0.7402491472638292"], [[0.478558, 0.112764, 0.427475, 1.0], "0.9748661417322835"], [[0.459875, 0.106089, 0.429846, 1.0], "0.8689369412184038"], [[0.441207, 0.099338, 0.431594, 1.0], "0.8689369412184038"], [[0.428768, 0.09479, 0.432412, 1.0], "0.7809186344765582"], [[0.410113, 0.087896, 0.433098, 1.0], "0.8349829628427714"], [[0.397674, 0.083257, 0.433183, 1.0], "0.9067934782608695"], [[0.379001, 0.076253, 0.432719, 1.0], "0.9722778891115564"], [[0.360284, 0.069247, 0.431497, 1.0], "0.4741086587436333"], [[0.347771, 0.064616, 0.430217, 1.0], "0.9754337366963114"], [[0.328921, 0.057827, 0.427511, 1.0], "0.9722778891115564"], [[0.316282, 0.05349, 0.425116, 1.0], "0.5427967286453237"], [[0.297178, 0.04747, 0.420491, 1.0], "0.5427967286453237"], [[0.27785, 0.042353, 0.414392, 1.0], "0.9810476614993479"], [[0.26481, 0.039647, 0.409345, 1.0], "0.8490646621679337"], [[0.244967, 0.037055, 0.400007, 1.0], "0.7809186344765582"], [[0.231538, 0.036405, 0.3924, 1.0], "0.8689369412184038"], [[0.211095, 0.03703, 0.378563, 1.0], "0.9067934782608695"], [[0.190367, 0.039309, 0.361447, 1.0], "0.7851698174782629"], [[0.176493, 0.041402, 0.348111, 1.0], "0.9067934782608695"], [[0.15585, 0.044559, 0.325338, 1.0], "0.5427967286453237"], [[0.135778, 0.046856, 0.299776, 1.0], "0.7851698174782629"], [[0.122908, 0.047536, 0.281624, 1.0], "0.7809186344765582"], [[0.104551, 0.047008, 0.25343, 1.0], "0.9722778891115564"], [[0.09299, 0.045583, 0.234358, 1.0], "0.5994607549430797"], [[0.076637, 0.041905, 0.205799, 1.0], "0.45952890792291223"], [[0.06134, 0.03659, 0.177642, 1.0], "0.9754337366963114"], [[0.051644, 0.032474, 0.159254, 1.0], "0.7402491472638292"], [[0.037668, 0.025921, 0.132232, 1.0], "0.5427967286453237"], [[0.029432, 0.021503, 0.114621, 1.0], "0.5427967286453237"], [[0.019373, 0.015133, 0.088767, 1.0], "0.5427967286453237"], [[0.011663, 0.009417, 0.06346, 1.0], "0.565042372881356"], [[0.007676, 0.006136, 0.046836, 1.0], "0.8689369412184038"], [[0.003299, 0.002249, 0.024239, 1.0], "0.9659646606246333"], [[0.001462, 0.000466, 0.013866, 1.0], "0.45952890792291223"]], [[[0.988362, 0.998364, 0.644924, 1.0], "0.5392689784442362"], [[0.976511, 0.989753, 0.61676, 1.0], "0.9463696369636964"], [[0.961812, 0.975924, 0.571925, 1.0], "0.8470031545741324"], [[0.954529, 0.965896, 0.540361, 1.0], "0.8470031545741324"], [[0.947937, 0.949318, 0.491426, 1.0], "0.9846343503720336"], [[0.946392, 0.930761, 0.442367, 1.0], "0.8425414364640884"], [[0.947594, 0.917399, 0.410665, 1.0], "0.5711920529801324"], [[0.951546, 0.896226, 0.365627, 1.0], "0.9525741820948517"], [[0.954997, 0.881569, 0.337475, 1.0], "1.0"], [[0.960626, 0.859069, 0.29801, 1.0], "0.5427967286453237"], [[0.966243, 0.836191, 0.261534, 1.0], "0.9863705199394245"], [[0.969783, 0.820825, 0.238686, 1.0], "0.9440809042236764"], [[0.974638, 0.797692, 0.206332, 1.0], "0.9913651315789473"], [[0.977497, 0.782258, 0.185923, 1.0], "0.9919003115264797"], [[0.981173, 0.759135, 0.156863, 1.0], "0.5810010214504596"], [[0.984075, 0.736087, 0.129527, 1.0], "0.9448669201520913"], [[0.985566, 0.720782, 0.112229, 1.0], "0.6554089709762533"], [[0.987124, 0.697944, 0.087731, 1.0], "0.5266787658802178"], [[0.987874, 0.675267, 0.065257, 1.0], "0.7846081651806663"], [[0.987926, 0.66025, 0.05175, 1.0], "0.5427967286453237"], [[0.987337, 0.63789, 0.034916, 1.0], "0.6281566911910916"], [[0.986502, 0.623105, 0.027814, 1.0], "0.9743690080219135"], [[0.984591, 0.601122, 0.023606, 1.0], "0.9402684563758389"], [[0.981895, 0.579392, 0.02625, 1.0], "0.9832609653262853"], [[0.979666, 0.565057, 0.031409, 1.0], "0.9612804025719877"], [[0.975677, 0.543798, 0.043618, 1.0], "0.9919003115264797"], [[0.97259, 0.529798, 0.053324, 1.0], "0.9265789473684211"], [[0.967322, 0.509078, 0.068659, 1.0], "0.7839506172839507"], [[0.961293, 0.488716, 0.084289, 1.0], "0.8516384587684551"], [[0.956852, 0.475356, 0.094695, 1.0], "0.9772298253893346"], [[0.949562, 0.45566, 0.110164, 1.0], "0.390848026868178"], [[0.944285, 0.442772, 0.120354, 1.0], "0.6329337094499294"], [[0.935747, 0.423831, 0.13544, 1.0], "0.9585492227979274"], [[0.92647, 0.405389, 0.150292, 1.0], "0.8816"], [[0.919879, 0.393389, 0.16007, 1.0], "0.9440809042236764"], [[0.90939, 0.375856, 0.174563, 1.0], "0.8720379146919431"], [[0.898192, 0.358911, 0.18886, 1.0], "0.6329337094499294"], [[0.890341, 0.347957, 0.198286, 1.0], "0.5427967286453237"], [[0.878001, 0.33206, 0.212268, 1.0], "0.5427967286453237"], [[0.869409, 0.321827, 0.221482, 1.0], "0.5427967286453237"], [[0.855992, 0.307038, 0.235133, 1.0], "0.8425414364640884"], [[0.841969, 0.292933, 0.248564, 1.0], "0.9376689580597822"], [[0.832299, 0.283913, 0.257383, 1.0], "0.9428998505231689"], [[0.817341, 0.270954, 0.27039, 1.0], "0.9743690080219135"], [[0.807082, 0.262692, 0.278898, 1.0], "0.46178756476683935"], [[0.791293, 0.250856, 0.29139, 1.0], "0.7365461847389558"], [[0.775059, 0.239667, 0.303526, 1.0], "0.6329337094499294"], [[0.76401, 0.232554, 0.311399, 1.0], "0.9084507042253521"], [[0.747127, 0.222378, 0.322856, 1.0], "1.0"], [[0.735683, 0.215906, 0.330245, 1.0], "0.9402684563758389"], [[0.718264, 0.206636, 0.340931, 1.0], "0.9766899766899767"], [[0.700576, 0.197851, 0.351113, 1.0], "0.5427967286453237"], [[0.688653, 0.192239, 0.357603, 1.0], "0.972508106583956"], [[0.670599, 0.184153, 0.366879, 1.0], "0.9812446717817562"], [[0.652369, 0.176421, 0.375586, 1.0], "0.9639344262295082"], [[0.640135, 0.171438, 0.381065, 1.0], "0.9876811594202899"], [[0.621685, 0.164184, 0.388781, 1.0], "0.9825510700389105"], [[0.60933, 0.159474, 0.393589, 1.0], "0.9878048780487805"], [[0.590734, 0.152563, 0.40029, 1.0], "0.9872705018359853"], [[0.572081, 0.145797, 0.406369, 1.0], "0.5427967286453237"], [[0.559624, 0.141346, 0.410078, 1.0], "0.5427967286453237"], [[0.54092, 0.134729, 0.415123, 1.0], "0.5427967286453237"], [[0.528444, 0.130341, 0.418142, 1.0], "0.9660331581075616"], [[0.50973, 0.123769, 0.422156, 1.0], "0.9863705199394245"], [[0.491022, 0.117179, 0.425552, 1.0], "0.5766016713091922"], [[0.478558, 0.112764, 0.427475, 1.0], "0.974993653211475"], [[0.459875, 0.106089, 0.429846, 1.0], "0.8586802605494195"], [[0.441207, 0.099338, 0.431594, 1.0], "0.8586802605494195"], [[0.428768, 0.09479, 0.432412, 1.0], "0.9782721158820487"], [[0.410113, 0.087896, 0.433098, 1.0], "0.9561551433389545"], [[0.397674, 0.083257, 0.433183, 1.0], "0.9825510700389105"], [[0.379001, 0.076253, 0.432719, 1.0], "0.9772298253893346"], [[0.360284, 0.069247, 0.431497, 1.0], "0.8371080139372822"], [[0.347771, 0.064616, 0.430217, 1.0], "0.9512267218445167"], [[0.328921, 0.057827, 0.427511, 1.0], "0.9772298253893346"], [[0.316282, 0.05349, 0.425116, 1.0], "0.5427967286453237"], [[0.297178, 0.04747, 0.420491, 1.0], "0.5427967286453237"], [[0.27785, 0.042353, 0.414392, 1.0], "0.9697760049094815"], [[0.26481, 0.039647, 0.409345, 1.0], "0.9448669201520913"], [[0.244967, 0.037055, 0.400007, 1.0], "0.9782721158820487"], [[0.231538, 0.036405, 0.3924, 1.0], "0.9612804025719877"], [[0.211095, 0.03703, 0.378563, 1.0], "0.5266787658802178"], [[0.190367, 0.039309, 0.361447, 1.0], "0.9384292461080986"], [[0.176493, 0.041402, 0.348111, 1.0], "0.9825510700389105"], [[0.15585, 0.044559, 0.325338, 1.0], "0.5427967286453237"], [[0.135778, 0.046856, 0.299776, 1.0], "0.9750922509225092"], [[0.122908, 0.047536, 0.281624, 1.0], "0.46178756476683935"], [[0.104551, 0.047008, 0.25343, 1.0], "0.9768503937007874"], [[0.09299, 0.045583, 0.234358, 1.0], "0.5025510204081632"], [[0.076637, 0.041905, 0.205799, 1.0], "0.6281566911910916"], [[0.06134, 0.03659, 0.177642, 1.0], "0.9882995319812793"], [[0.051644, 0.032474, 0.159254, 1.0], "0.48354712771890684"], [[0.037668, 0.025921, 0.132232, 1.0], "0.5427967286453237"], [[0.029432, 0.021503, 0.114621, 1.0], "0.5427967286453237"], [[0.019373, 0.015133, 0.088767, 1.0], "0.5427967286453237"], [[0.011663, 0.009417, 0.06346, 1.0], "0.9170305676855895"], [[0.007676, 0.006136, 0.046836, 1.0], "0.9487179487179487"], [[0.003299, 0.002249, 0.024239, 1.0], "0.8034351145038168"], [[0.001462, 0.000466, 0.013866, 1.0], "0.6281566911910916"]], [[[0.988362, 0.998364, 0.644924, 1.0], "0.1786234144312747"], [[0.976511, 0.989753, 0.61676, 1.0], "0.16102779809802487"], [[0.961812, 0.975924, 0.571925, 1.0], "0.16102779809802487"], [[0.954529, 0.965896, 0.540361, 1.0], "0.16102779809802487"], [[0.947937, 0.949318, 0.491426, 1.0], "0.13370712057244546"], [[0.946392, 0.930761, 0.442367, 1.0], "0.2000840285697137"], [[0.947594, 0.917399, 0.410665, 1.0], "0.16102779809802487"], [[0.951546, 0.896226, 0.365627, 1.0], "0.2000840285697137"], [[0.954997, 0.881569, 0.337475, 1.0], "0.13370712057244546"], [[0.960626, 0.859069, 0.29801, 1.0], "0.09307283657206766"], [[0.966243, 0.836191, 0.261534, 1.0], "0.2000840285697137"], [[0.969783, 0.820825, 0.238686, 1.0], "0.2000840285697137"], [[0.974638, 0.797692, 0.206332, 1.0], "0.13370712057244546"], [[0.977497, 0.782258, 0.185923, 1.0], "0.2000840285697137"], [[0.981173, 0.759135, 0.156863, 1.0], "0.2000840285697137"], [[0.984075, 0.736087, 0.129527, 1.0], "0.13370712057244546"], [[0.985566, 0.720782, 0.112229, 1.0], "0.1786234144312747"], [[0.987124, 0.697944, 0.087731, 1.0], "0.2000840285697137"], [[0.987874, 0.675267, 0.065257, 1.0], "0.1446727388265198"], [[0.987926, 0.66025, 0.05175, 1.0], "0.09307283657206766"], [[0.987337, 0.63789, 0.034916, 1.0], "0.16102779809802487"], [[0.986502, 0.623105, 0.027814, 1.0], "0.2000840285697137"], [[0.984591, 0.601122, 0.023606, 1.0], "0.2000840285697137"], [[0.981895, 0.579392, 0.02625, 1.0], "0.13370712057244546"], [[0.979666, 0.565057, 0.031409, 1.0], "0.2000840285697137"], [[0.975677, 0.543798, 0.043618, 1.0], "0.2000840285697137"], [[0.97259, 0.529798, 0.053324, 1.0], "0.13370712057244546"], [[0.967322, 0.509078, 0.068659, 1.0], "0.13334682314852286"], [[0.961293, 0.488716, 0.084289, 1.0], "0.1446727388265198"], [[0.956852, 0.475356, 0.094695, 1.0], "0.2000840285697137"], [[0.949562, 0.45566, 0.110164, 1.0], "0.16102779809802487"], [[0.944285, 0.442772, 0.120354, 1.0], "0.16102779809802487"], [[0.935747, 0.423831, 0.13544, 1.0], "0.2000840285697137"], [[0.92647, 0.405389, 0.150292, 1.0], "0.10806181559246358"], [[0.919879, 0.393389, 0.16007, 1.0], "0.2000840285697137"], [[0.90939, 0.375856, 0.174563, 1.0], "0.2000840285697137"], [[0.898192, 0.358911, 0.18886, 1.0], "0.16102779809802487"], [[0.890341, 0.347957, 0.198286, 1.0], "0.09307283657206766"], [[0.878001, 0.33206, 0.212268, 1.0], "0.09307283657206766"], [[0.869409, 0.321827, 0.221482, 1.0], "0.09307283657206766"], [[0.855992, 0.307038, 0.235133, 1.0], "0.2000840285697137"], [[0.841969, 0.292933, 0.248564, 1.0], "0.2000840285697137"], [[0.832299, 0.283913, 0.257383, 1.0], "0.2000840285697137"], [[0.817341, 0.270954, 0.27039, 1.0], "0.2000840285697137"], [[0.807082, 0.262692, 0.278898, 1.0], "0.2000840285697137"], [[0.791293, 0.250856, 0.29139, 1.0], "0.10806181559246358"], [[0.775059, 0.239667, 0.303526, 1.0], "0.16102779809802487"], [[0.76401, 0.232554, 0.311399, 1.0], "0.2000840285697137"], [[0.747127, 0.222378, 0.322856, 1.0], "0.13370712057244546"], [[0.735683, 0.215906, 0.330245, 1.0], "0.2000840285697137"], [[0.718264, 0.206636, 0.340931, 1.0], "0.16102779809802487"], [[0.700576, 0.197851, 0.351113, 1.0], "0.09307283657206766"], [[0.688653, 0.192239, 0.357603, 1.0], "0.2000840285697137"], [[0.670599, 0.184153, 0.366879, 1.0], "0.2000840285697137"], [[0.652369, 0.176421, 0.375586, 1.0], "0.13370712057244546"], [[0.640135, 0.171438, 0.381065, 1.0], "0.2000840285697137"], [[0.621685, 0.164184, 0.388781, 1.0], "0.2000840285697137"], [[0.60933, 0.159474, 0.393589, 1.0], "0.2000840285697137"], [[0.590734, 0.152563, 0.40029, 1.0], "0.47884505431675245"], [[0.572081, 0.145797, 0.406369, 1.0], "0.09307283657206766"], [[0.559624, 0.141346, 0.410078, 1.0], "0.09307283657206766"], [[0.54092, 0.134729, 0.415123, 1.0], "0.09307283657206766"], [[0.528444, 0.130341, 0.418142, 1.0], "0.13370712057244546"], [[0.50973, 0.123769, 0.422156, 1.0], "0.2000840285697137"], [[0.491022, 0.117179, 0.425552, 1.0], "0.10806181559246358"], [[0.478558, 0.112764, 0.427475, 1.0], "0.13370712057244546"], [[0.459875, 0.106089, 0.429846, 1.0], "0.2000840285697137"], [[0.441207, 0.099338, 0.431594, 1.0], "0.2000840285697137"], [[0.428768, 0.09479, 0.432412, 1.0], "0.2000840285697137"], [[0.410113, 0.087896, 0.433098, 1.0], "0.1446727388265198"], [[0.397674, 0.083257, 0.433183, 1.0], "0.2000840285697137"], [[0.379001, 0.076253, 0.432719, 1.0], "0.2000840285697137"], [[0.360284, 0.069247, 0.431497, 1.0], "0.16102779809802487"], [[0.347771, 0.064616, 0.430217, 1.0], "0.13370712057244546"], [[0.328921, 0.057827, 0.427511, 1.0], "0.2000840285697137"], [[0.316282, 0.05349, 0.425116, 1.0], "0.09307283657206766"], [[0.297178, 0.04747, 0.420491, 1.0], "0.09307283657206766"], [[0.27785, 0.042353, 0.414392, 1.0], "0.13370712057244546"], [[0.26481, 0.039647, 0.409345, 1.0], "0.13370712057244546"], [[0.244967, 0.037055, 0.400007, 1.0], "0.2000840285697137"], [[0.231538, 0.036405, 0.3924, 1.0], "0.2000840285697137"], [[0.211095, 0.03703, 0.378563, 1.0], "0.2000840285697137"], [[0.190367, 0.039309, 0.361447, 1.0], "0.2000840285697137"], [[0.176493, 0.041402, 0.348111, 1.0], "0.2000840285697137"], [[0.15585, 0.044559, 0.325338, 1.0], "0.09307283657206766"], [[0.135778, 0.046856, 0.299776, 1.0], "0.2000840285697137"], [[0.122908, 0.047536, 0.281624, 1.0], "0.2000840285697137"], [[0.104551, 0.047008, 0.25343, 1.0], "0.2000840285697137"], [[0.09299, 0.045583, 0.234358, 1.0], "0.16102779809802487"], [[0.076637, 0.041905, 0.205799, 1.0], "0.16102779809802487"], [[0.06134, 0.03659, 0.177642, 1.0], "0.13370712057244546"], [[0.051644, 0.032474, 0.159254, 1.0], "0.10806181559246358"], [[0.037668, 0.025921, 0.132232, 1.0], "0.09307283657206766"], [[0.029432, 0.021503, 0.114621, 1.0], "0.09307283657206766"], [[0.019373, 0.015133, 0.088767, 1.0], "0.09307283657206766"], [[0.011663, 0.009417, 0.06346, 1.0], "0.16102779809802487"], [[0.007676, 0.006136, 0.046836, 1.0], "0.2000840285697137"], [[0.003299, 0.002249, 0.024239, 1.0], "0.10806181559246358"], [[0.001462, 0.000466, 0.013866, 1.0], "0.16102779809802487"]], [[[0.988362, 0.998364, 0.644924, 1.0], "0.315996626370537"], [[0.976511, 0.989753, 0.61676, 1.0], "0.26252676659528906"], [[0.961812, 0.975924, 0.571925, 1.0], "0.43637101684595087"], [[0.954529, 0.965896, 0.540361, 1.0], "0.43637101684595087"], [[0.947937, 0.949318, 0.491426, 1.0], "0.15100787479570105"], [[0.946392, 0.930761, 0.442367, 1.0], "0.4616241423352244"], [[0.947594, 0.917399, 0.410665, 1.0], "0.1773517076093469"], [[0.951546, 0.896226, 0.365627, 1.0], "0.08929347826086957"], [[0.954997, 0.881569, 0.337475, 1.0], "0.09133984545852165"], [[0.960626, 0.859069, 0.29801, 1.0], "0.09307283657206766"], [[0.966243, 0.836191, 0.261534, 1.0], "0.19526932653185158"], [[0.969783, 0.820825, 0.238686, 1.0], "0.20110025874729015"], [[0.974638, 0.797692, 0.206332, 1.0], "0.15100787479570105"], [[0.977497, 0.782258, 0.185923, 1.0], "0.08583441309463997"], [[0.981173, 0.759135, 0.156863, 1.0], "0.08583441309463997"], [[0.984075, 0.736087, 0.129527, 1.0], "0.22055180661142906"], [[0.985566, 0.720782, 0.112229, 1.0], "0.14502164502164502"], [[0.987124, 0.697944, 0.087731, 1.0], "0.08929347826086957"], [[0.987874, 0.675267, 0.065257, 1.0], "0.06537102473498234"], [[0.987926, 0.66025, 0.05175, 1.0], "0.09307283657206766"], [[0.987337, 0.63789, 0.034916, 1.0], "0.26252676659528906"], [[0.986502, 0.623105, 0.027814, 1.0], "0.20110025874729015"], [[0.984591, 0.601122, 0.023606, 1.0], "0.08583441309463997"], [[0.981895, 0.579392, 0.02625, 1.0], "0.15100787479570105"], [[0.979666, 0.565057, 0.031409, 1.0], "0.4616241423352244"], [[0.975677, 0.543798, 0.043618, 1.0], "0.08583441309463997"], [[0.97259, 0.529798, 0.053324, 1.0], "0.7527359781121751"], [[0.967322, 0.509078, 0.068659, 1.0], "0.11129163281884646"], [[0.961293, 0.488716, 0.084289, 1.0], "0.20456490727532098"], [[0.956852, 0.475356, 0.094695, 1.0], "0.19526932653185158"], [[0.949562, 0.45566, 0.110164, 1.0], "0.312"], [[0.944285, 0.442772, 0.120354, 1.0], "0.09046610169491526"], [[0.935747, 0.423831, 0.13544, 1.0], "0.19526932653185158"], [[0.92647, 0.405389, 0.150292, 1.0], "0.23890557223890557"], [[0.919879, 0.393389, 0.16007, 1.0], "0.20110025874729015"], [[0.90939, 0.375856, 0.174563, 1.0], "0.4616241423352244"], [[0.898192, 0.358911, 0.18886, 1.0], "0.09046610169491526"], [[0.890341, 0.347957, 0.198286, 1.0], "0.09307283657206766"], [[0.878001, 0.33206, 0.212268, 1.0], "0.09307283657206766"], [[0.869409, 0.321827, 0.221482, 1.0], "0.09307283657206766"], [[0.855992, 0.307038, 0.235133, 1.0], "0.4616241423352244"], [[0.841969, 0.292933, 0.248564, 1.0], "0.08583441309463997"], [[0.832299, 0.283913, 0.257383, 1.0], "0.4616241423352244"], [[0.817341, 0.270954, 0.27039, 1.0], "0.20110025874729015"], [[0.807082, 0.262692, 0.278898, 1.0], "0.08583441309463997"], [[0.791293, 0.250856, 0.29139, 1.0], "0.35992881506747737"], [[0.775059, 0.239667, 0.303526, 1.0], "0.09046610169491526"], [[0.76401, 0.232554, 0.311399, 1.0], "0.34252539912917274"], [[0.747127, 0.222378, 0.322856, 1.0], "0.15"], [[0.735683, 0.215906, 0.330245, 1.0], "0.08583441309463997"], [[0.718264, 0.206636, 0.340931, 1.0], "0.14029583146571045"], [[0.700576, 0.197851, 0.351113, 1.0], "0.09307283657206766"], [[0.688653, 0.192239, 0.357603, 1.0], "0.08929347826086957"], [[0.670599, 0.184153, 0.366879, 1.0], "0.10978875334721809"], [[0.652369, 0.176421, 0.375586, 1.0], "0.22055180661142906"], [[0.640135, 0.171438, 0.381065, 1.0], "0.4616241423352244"], [[0.621685, 0.164184, 0.388781, 1.0], "0.08929347826086957"], [[0.60933, 0.159474, 0.393589, 1.0], "0.08929347826086957"], [[0.590734, 0.152563, 0.40029, 1.0], "0.4133251079580506"], [[0.572081, 0.145797, 0.406369, 1.0], "0.09307283657206766"], [[0.559624, 0.141346, 0.410078, 1.0], "0.09307283657206766"], [[0.54092, 0.134729, 0.415123, 1.0], "0.09307283657206766"], [[0.528444, 0.130341, 0.418142, 1.0], "0.1567910265788832"], [[0.50973, 0.123769, 0.422156, 1.0], "0.19526932653185158"], [[0.491022, 0.117179, 0.425552, 1.0], "0.35992881506747737"], [[0.478558, 0.112764, 0.427475, 1.0], "0.12006299212598426"], [[0.459875, 0.106089, 0.429846, 1.0], "0.4616241423352244"], [[0.441207, 0.099338, 0.431594, 1.0], "0.4616241423352244"], [[0.428768, 0.09479, 0.432412, 1.0], "0.08583441309463997"], [[0.410113, 0.087896, 0.433098, 1.0], "0.21182865487587213"], [[0.397674, 0.083257, 0.433183, 1.0], "0.08929347826086957"], [[0.379001, 0.076253, 0.432719, 1.0], "0.19526932653185158"], [[0.360284, 0.069247, 0.431497, 1.0], "0.1400679117147708"], [[0.347771, 0.064616, 0.430217, 1.0], "0.09133984545852165"], [[0.328921, 0.057827, 0.427511, 1.0], "0.19526932653185158"], [[0.316282, 0.05349, 0.425116, 1.0], "0.09307283657206766"], [[0.297178, 0.04747, 0.420491, 1.0], "0.09307283657206766"], [[0.27785, 0.042353, 0.414392, 1.0], "0.15100787479570105"], [[0.26481, 0.039647, 0.409345, 1.0], "0.22055180661142906"], [[0.244967, 0.037055, 0.400007, 1.0], "0.08583441309463997"], [[0.231538, 0.036405, 0.3924, 1.0], "0.4616241423352244"], [[0.211095, 0.03703, 0.378563, 1.0], "0.08929347826086957"], [[0.190367, 0.039309, 0.361447, 1.0], "0.20110025874729015"], [[0.176493, 0.041402, 0.348111, 1.0], "0.08929347826086957"], [[0.15585, 0.044559, 0.325338, 1.0], "0.09307283657206766"], [[0.135778, 0.046856, 0.299776, 1.0], "0.20110025874729015"], [[0.122908, 0.047536, 0.281624, 1.0], "0.08583441309463997"], [[0.104551, 0.047008, 0.25343, 1.0], "0.19526932653185158"], [[0.09299, 0.045583, 0.234358, 1.0], "0.1773517076093469"], [[0.076637, 0.041905, 0.205799, 1.0], "0.26252676659528906"], [[0.06134, 0.03659, 0.177642, 1.0], "0.09133984545852165"], [[0.051644, 0.032474, 0.159254, 1.0], "0.35992881506747737"], [[0.037668, 0.025921, 0.132232, 1.0], "0.09307283657206766"], [[0.029432, 0.021503, 0.114621, 1.0], "0.09307283657206766"], [[0.019373, 0.015133, 0.088767, 1.0], "0.09307283657206766"], [[0.011663, 0.009417, 0.06346, 1.0], "0.09046610169491526"], [[0.007676, 0.006136, 0.046836, 1.0], "0.4616241423352244"], [[0.003299, 0.002249, 0.024239, 1.0], "0.21725239616613418"], [[0.001462, 0.000466, 0.013866, 1.0], "0.26252676659528906"]], [[[0.988362, 0.998364, 0.644924, 1.0], "0.27085285848172447"], [[0.976511, 0.989753, 0.61676, 1.0], "0.7755775577557755"], [[0.961812, 0.975924, 0.571925, 1.0], "0.24132492113564669"], [[0.954529, 0.965896, 0.540361, 1.0], "0.24132492113564669"], [[0.947937, 0.949318, 0.491426, 1.0], "0.15920398009950248"], [[0.946392, 0.930761, 0.442367, 1.0], "0.7179251074278699"], [[0.947594, 0.917399, 0.410665, 1.0], "0.12665562913907286"], [[0.951546, 0.896226, 0.365627, 1.0], "0.1496322597007355"], [[0.954997, 0.881569, 0.337475, 1.0], "0.9188955996548749"], [[0.960626, 0.859069, 0.29801, 1.0], "0.09307283657206766"], [[0.966243, 0.836191, 0.261534, 1.0], "0.41292276627965674"], [[0.969783, 0.820825, 0.238686, 1.0], "0.3571286932381519"], [[0.974638, 0.797692, 0.206332, 1.0], "0.10814144736842106"], [[0.977497, 0.782258, 0.185923, 1.0], "0.440809968847352"], [[0.981173, 0.759135, 0.156863, 1.0], "0.3871297242083759"], [[0.984075, 0.736087, 0.129527, 1.0], "0.27099896301417215"], [[0.985566, 0.720782, 0.112229, 1.0], "0.15109938434476694"], [[0.987124, 0.697944, 0.087731, 1.0], "0.2539019963702359"], [[0.987874, 0.675267, 0.065257, 1.0], "0.08634443923040826"], [[0.987926, 0.66025, 0.05175, 1.0], "0.09307283657206766"], [[0.987337, 0.63789, 0.034916, 1.0], "0.13282958838735334"], [[0.986502, 0.623105, 0.027814, 1.0], "0.42574838583447466"], [[0.984591, 0.601122, 0.023606, 1.0], "0.2771812080536913"], [[0.981895, 0.579392, 0.02625, 1.0], "0.20281920583978352"], [[0.979666, 0.565057, 0.031409, 1.0], "0.8163265306122449"], [[0.975677, 0.543798, 0.043618, 1.0], "0.440809968847352"], [[0.97259, 0.529798, 0.053324, 1.0], "0.7360526315789474"], [[0.967322, 0.509078, 0.068659, 1.0], "0.10631001371742113"], [[0.961293, 0.488716, 0.084289, 1.0], "0.22038170687792583"], [[0.956852, 0.475356, 0.094695, 1.0], "0.1755545068428504"], [[0.949562, 0.45566, 0.110164, 1.0], "0.1952141057934509"], [[0.944285, 0.442772, 0.120354, 1.0], "0.11777150916784203"], [[0.935747, 0.423831, 0.13544, 1.0], "0.16062176165803108"], [[0.92647, 0.405389, 0.150292, 1.0], "0.1568"], [[0.919879, 0.393389, 0.16007, 1.0], "0.3571286932381519"], [[0.90939, 0.375856, 0.174563, 1.0], "0.2054320087495443"], [[0.898192, 0.358911, 0.18886, 1.0], "0.11777150916784203"], [[0.890341, 0.347957, 0.198286, 1.0], "0.09307283657206766"], [[0.878001, 0.33206, 0.212268, 1.0], "0.09307283657206766"], [[0.869409, 0.321827, 0.221482, 1.0], "0.09307283657206766"], [[0.855992, 0.307038, 0.235133, 1.0], "0.7179251074278699"], [[0.841969, 0.292933, 0.248564, 1.0], "0.15648412759712674"], [[0.832299, 0.283913, 0.257383, 1.0], "0.6098654708520179"], [[0.817341, 0.270954, 0.27039, 1.0], "0.42574838583447466"], [[0.807082, 0.262692, 0.278898, 1.0], "0.04987046632124352"], [[0.791293, 0.250856, 0.29139, 1.0], "0.14819277108433734"], [[0.775059, 0.239667, 0.303526, 1.0], "0.11777150916784203"], [[0.76401, 0.232554, 0.311399, 1.0], "0.45774647887323944"], [[0.747127, 0.222378, 0.322856, 1.0], "0.15"], [[0.735683, 0.215906, 0.330245, 1.0], "0.2771812080536913"], [[0.718264, 0.206636, 0.340931, 1.0], "0.3682983682983683"], [[0.700576, 0.197851, 0.351113, 1.0], "0.09307283657206766"], [[0.688653, 0.192239, 0.357603, 1.0], "0.19385309460031017"], [[0.670599, 0.184153, 0.366879, 1.0], "0.0886615515771526"], [[0.652369, 0.176421, 0.375586, 1.0], "0.48415300546448087"], [[0.640135, 0.171438, 0.381065, 1.0], "0.9543478260869566"], [[0.621685, 0.164184, 0.388781, 1.0], "0.11040856031128404"], [[0.60933, 0.159474, 0.393589, 1.0], "0.9547038327526133"], [[0.590734, 0.152563, 0.40029, 1.0], "0.819094247246022"], [[0.572081, 0.145797, 0.406369, 1.0], "0.09307283657206766"], [[0.559624, 0.141346, 0.410078, 1.0], "0.09307283657206766"], [[0.54092, 0.134729, 0.415123, 1.0], "0.09307283657206766"], [[0.528444, 0.130341, 0.418142, 1.0], "0.12414071977355438"], [[0.50973, 0.123769, 0.422156, 1.0], "0.41292276627965674"], [[0.491022, 0.117179, 0.425552, 1.0], "0.5329619312906221"], [[0.478558, 0.112764, 0.427475, 1.0], "0.12096978928662097"], [[0.459875, 0.106089, 0.429846, 1.0], "0.38657604078164826"], [[0.441207, 0.099338, 0.431594, 1.0], "0.38657604078164826"], [[0.428768, 0.09479, 0.432412, 1.0], "0.4981893429901707"], [[0.410113, 0.087896, 0.433098, 1.0], "0.9021922428330523"], [[0.397674, 0.083257, 0.433183, 1.0], "0.11040856031128404"], [[0.379001, 0.076253, 0.432719, 1.0], "0.1755545068428504"], [[0.360284, 0.069247, 0.431497, 1.0], "0.1332752613240418"], [[0.347771, 0.064616, 0.430217, 1.0], "0.1877032219923145"], [[0.328921, 0.057827, 0.427511, 1.0], "0.1755545068428504"], [[0.316282, 0.05349, 0.425116, 1.0], "0.09307283657206766"], [[0.297178, 0.04747, 0.420491, 1.0], "0.09307283657206766"], [[0.27785, 0.042353, 0.414392, 1.0], "0.2532985578398282"], [[0.26481, 0.039647, 0.409345, 1.0], "0.27099896301417215"], [[0.244967, 0.037055, 0.400007, 1.0], "0.4981893429901707"], [[0.231538, 0.036405, 0.3924, 1.0], "0.8163265306122449"], [[0.211095, 0.03703, 0.378563, 1.0], "0.2539019963702359"], [[0.190367, 0.039309, 0.361447, 1.0], "0.30592968340038484"], [[0.176493, 0.041402, 0.348111, 1.0], "0.11040856031128404"], [[0.15585, 0.044559, 0.325338, 1.0], "0.09307283657206766"], [[0.135778, 0.046856, 0.299776, 1.0], "0.6503690036900369"], [[0.122908, 0.047536, 0.281624, 1.0], "0.04987046632124352"], [[0.104551, 0.047008, 0.25343, 1.0], "0.2874015748031496"], [[0.09299, 0.045583, 0.234358, 1.0], "0.32142857142857145"], [[0.076637, 0.041905, 0.205799, 1.0], "0.13282958838735334"], [[0.06134, 0.03659, 0.177642, 1.0], "0.20124804992199688"], [[0.051644, 0.032474, 0.159254, 1.0], "0.08812046848856665"], [[0.037668, 0.025921, 0.132232, 1.0], "0.09307283657206766"], [[0.029432, 0.021503, 0.114621, 1.0], "0.09307283657206766"], [[0.019373, 0.015133, 0.088767, 1.0], "0.09307283657206766"], [[0.011663, 0.009417, 0.06346, 1.0], "0.20087336244541484"], [[0.007676, 0.006136, 0.046836, 1.0], "0.5384615384615384"], [[0.003299, 0.002249, 0.024239, 1.0], "0.24427480916030533"], [[0.001462, 0.000466, 0.013866, 1.0], "0.13282958838735334"]], [[[0.988362, 0.998364, 0.644924, 1.0], "0.08442503639010189"], [[0.976511, 0.989753, 0.61676, 1.0], "0.15794928066325287"], [[0.961812, 0.975924, 0.571925, 1.0], "0.15794928066325287"], [[0.954529, 0.965896, 0.540361, 1.0], "0.15794928066325287"], [[0.947937, 0.949318, 0.491426, 1.0], "0.011801848087504932"], [[0.946392, 0.930761, 0.442367, 1.0], "0.0166216513614629"], [[0.947594, 0.917399, 0.410665, 1.0], "0.15794928066325287"], [[0.951546, 0.896226, 0.365627, 1.0], "0.0166216513614629"], [[0.954997, 0.881569, 0.337475, 1.0], "0.011801848087504932"], [[0.960626, 0.859069, 0.29801, 1.0], "0.07000559205927583"], [[0.966243, 0.836191, 0.261534, 1.0], "0.0166216513614629"], [[0.969783, 0.820825, 0.238686, 1.0], "0.0166216513614629"], [[0.974638, 0.797692, 0.206332, 1.0], "0.011801848087504932"], [[0.977497, 0.782258, 0.185923, 1.0], "0.0166216513614629"], [[0.981173, 0.759135, 0.156863, 1.0], "0.0166216513614629"], [[0.984075, 0.736087, 0.129527, 1.0], "0.011801848087504932"], [[0.985566, 0.720782, 0.112229, 1.0], "0.08442503639010189"], [[0.987124, 0.697944, 0.087731, 1.0], "0.0166216513614629"], [[0.987874, 0.675267, 0.065257, 1.0], "0.01885193814869731"], [[0.987926, 0.66025, 0.05175, 1.0], "0.07000559205927583"], [[0.987337, 0.63789, 0.034916, 1.0], "0.15794928066325287"], [[0.986502, 0.623105, 0.027814, 1.0], "0.0166216513614629"], [[0.984591, 0.601122, 0.023606, 1.0], "0.0166216513614629"], [[0.981895, 0.579392, 0.02625, 1.0], "0.011801848087504932"], [[0.979666, 0.565057, 0.031409, 1.0], "0.0166216513614629"], [[0.975677, 0.543798, 0.043618, 1.0], "0.0166216513614629"], [[0.97259, 0.529798, 0.053324, 1.0], "0.011801848087504932"], [[0.967322, 0.509078, 0.068659, 1.0], "0.0981384055038446"], [[0.961293, 0.488716, 0.084289, 1.0], "0.01885193814869731"], [[0.956852, 0.475356, 0.094695, 1.0], "0.0166216513614629"], [[0.949562, 0.45566, 0.110164, 1.0], "0.15794928066325287"], [[0.944285, 0.442772, 0.120354, 1.0], "0.15794928066325287"], [[0.935747, 0.423831, 0.13544, 1.0], "0.0166216513614629"], [[0.92647, 0.405389, 0.150292, 1.0], "0.024787821635457362"], [[0.919879, 0.393389, 0.16007, 1.0], "0.0166216513614629"], [[0.90939, 0.375856, 0.174563, 1.0], "0.0166216513614629"], [[0.898192, 0.358911, 0.18886, 1.0], "0.15794928066325287"], [[0.890341, 0.347957, 0.198286, 1.0], "0.07000559205927583"], [[0.878001, 0.33206, 0.212268, 1.0], "0.07000559205927583"], [[0.869409, 0.321827, 0.221482, 1.0], "0.07000559205927583"], [[0.855992, 0.307038, 0.235133, 1.0], "0.0166216513614629"], [[0.841969, 0.292933, 0.248564, 1.0], "0.0166216513614629"], [[0.832299, 0.283913, 0.257383, 1.0], "0.0166216513614629"], [[0.817341, 0.270954, 0.27039, 1.0], "0.0166216513614629"], [[0.807082, 0.262692, 0.278898, 1.0], "0.0166216513614629"], [[0.791293, 0.250856, 0.29139, 1.0], "0.024787821635457362"], [[0.775059, 0.239667, 0.303526, 1.0], "0.15794928066325287"], [[0.76401, 0.232554, 0.311399, 1.0], "0.0166216513614629"], [[0.747127, 0.222378, 0.322856, 1.0], "0.011801848087504932"], [[0.735683, 0.215906, 0.330245, 1.0], "0.0166216513614629"], [[0.718264, 0.206636, 0.340931, 1.0], "0.15794928066325287"], [[0.700576, 0.197851, 0.351113, 1.0], "0.07000559205927583"], [[0.688653, 0.192239, 0.357603, 1.0], "0.0166216513614629"], [[0.670599, 0.184153, 0.366879, 1.0], "0.0166216513614629"], [[0.652369, 0.176421, 0.375586, 1.0], "0.011801848087504932"], [[0.640135, 0.171438, 0.381065, 1.0], "0.0166216513614629"], [[0.621685, 0.164184, 0.388781, 1.0], "0.0166216513614629"], [[0.60933, 0.159474, 0.393589, 1.0], "0.0166216513614629"], [[0.590734, 0.152563, 0.40029, 1.0], "0.2144082332761578"], [[0.572081, 0.145797, 0.406369, 1.0], "0.07000559205927583"], [[0.559624, 0.141346, 0.410078, 1.0], "0.07000559205927583"], [[0.54092, 0.134729, 0.415123, 1.0], "0.07000559205927583"], [[0.528444, 0.130341, 0.418142, 1.0], "0.011801848087504932"], [[0.50973, 0.123769, 0.422156, 1.0], "0.0166216513614629"], [[0.491022, 0.117179, 0.425552, 1.0], "0.024787821635457362"], [[0.478558, 0.112764, 0.427475, 1.0], "0.011801848087504932"], [[0.459875, 0.106089, 0.429846, 1.0], "0.0166216513614629"], [[0.441207, 0.099338, 0.431594, 1.0], "0.0166216513614629"], [[0.428768, 0.09479, 0.432412, 1.0], "0.0166216513614629"], [[0.410113, 0.087896, 0.433098, 1.0], "0.01885193814869731"], [[0.397674, 0.083257, 0.433183, 1.0], "0.0166216513614629"], [[0.379001, 0.076253, 0.432719, 1.0], "0.0166216513614629"], [[0.360284, 0.069247, 0.431497, 1.0], "0.15794928066325287"], [[0.347771, 0.064616, 0.430217, 1.0], "0.011801848087504932"], [[0.328921, 0.057827, 0.427511, 1.0], "0.0166216513614629"], [[0.316282, 0.05349, 0.425116, 1.0], "0.07000559205927583"], [[0.297178, 0.04747, 0.420491, 1.0], "0.07000559205927583"], [[0.27785, 0.042353, 0.414392, 1.0], "0.011801848087504932"], [[0.26481, 0.039647, 0.409345, 1.0], "0.011801848087504932"], [[0.244967, 0.037055, 0.400007, 1.0], "0.0166216513614629"], [[0.231538, 0.036405, 0.3924, 1.0], "0.0166216513614629"], [[0.211095, 0.03703, 0.378563, 1.0], "0.0166216513614629"], [[0.190367, 0.039309, 0.361447, 1.0], "0.0166216513614629"], [[0.176493, 0.041402, 0.348111, 1.0], "0.0166216513614629"], [[0.15585, 0.044559, 0.325338, 1.0], "0.07000559205927583"], [[0.135778, 0.046856, 0.299776, 1.0], "0.0166216513614629"], [[0.122908, 0.047536, 0.281624, 1.0], "0.0166216513614629"], [[0.104551, 0.047008, 0.25343, 1.0], "0.0166216513614629"], [[0.09299, 0.045583, 0.234358, 1.0], "0.15794928066325287"], [[0.076637, 0.041905, 0.205799, 1.0], "0.15794928066325287"], [[0.06134, 0.03659, 0.177642, 1.0], "0.011801848087504932"], [[0.051644, 0.032474, 0.159254, 1.0], "0.024787821635457362"], [[0.037668, 0.025921, 0.132232, 1.0], "0.07000559205927583"], [[0.029432, 0.021503, 0.114621, 1.0], "0.07000559205927583"], [[0.019373, 0.015133, 0.088767, 1.0], "0.07000559205927583"], [[0.011663, 0.009417, 0.06346, 1.0], "0.15794928066325287"], [[0.007676, 0.006136, 0.046836, 1.0], "0.0166216513614629"], [[0.003299, 0.002249, 0.024239, 1.0], "0.024787821635457362"], [[0.001462, 0.000466, 0.013866, 1.0], "0.15794928066325287"]], [[[0.988362, 0.998364, 0.644924, 1.0], "0.1208883890919314"], [[0.976511, 0.989753, 0.61676, 1.0], "0.2558172733761599"], [[0.961812, 0.975924, 0.571925, 1.0], "0.4280495230363304"], [[0.954529, 0.965896, 0.540361, 1.0], "0.4280495230363304"], [[0.947937, 0.949318, 0.491426, 1.0], "0.015634028362471727"], [[0.946392, 0.930761, 0.442367, 1.0], "0.04118276056672706"], [[0.947594, 0.917399, 0.410665, 1.0], "0.09916117435590174"], [[0.951546, 0.896226, 0.365627, 1.0], "0.02653985507246377"], [[0.954997, 0.881569, 0.337475, 1.0], "0.04672692812363318"], [[0.960626, 0.859069, 0.29801, 1.0], "0.07000559205927583"], [[0.966243, 0.836191, 0.261534, 1.0], "0.04518127163417745"], [[0.969783, 0.820825, 0.238686, 1.0], "0.05822979556633022"], [[0.974638, 0.797692, 0.206332, 1.0], "0.015634028362471727"], [[0.977497, 0.782258, 0.185923, 1.0], "0.02094296215987519"], [[0.981173, 0.759135, 0.156863, 1.0], "0.02094296215987519"], [[0.984075, 0.736087, 0.129527, 1.0], "0.03886563594430682"], [[0.985566, 0.720782, 0.112229, 1.0], "0.04195804195804196"], [[0.987124, 0.697944, 0.087731, 1.0], "0.02653985507246377"], [[0.987874, 0.675267, 0.065257, 1.0], "0.030153121319199058"], [[0.987926, 0.66025, 0.05175, 1.0], "0.07000559205927583"], [[0.987337, 0.63789, 0.034916, 1.0], "0.2558172733761599"], [[0.986502, 0.623105, 0.027814, 1.0], "0.05822979556633022"], [[0.984591, 0.601122, 0.023606, 1.0], "0.02094296215987519"], [[0.981895, 0.579392, 0.02625, 1.0], "0.015634028362471727"], [[0.979666, 0.565057, 0.031409, 1.0], "0.04118276056672706"], [[0.975677, 0.543798, 0.043618, 1.0], "0.02094296215987519"], [[0.97259, 0.529798, 0.053324, 1.0], "0.08333333333333333"], [[0.967322, 0.509078, 0.068659, 1.0], "0.059301380991064176"], [[0.961293, 0.488716, 0.084289, 1.0], "0.025106990014265335"], [[0.956852, 0.475356, 0.094695, 1.0], "0.04518127163417745"], [[0.949562, 0.45566, 0.110164, 1.0], "0.22215384615384615"], [[0.944285, 0.442772, 0.120354, 1.0], "0.08665254237288135"], [[0.935747, 0.423831, 0.13544, 1.0], "0.04518127163417745"], [[0.92647, 0.405389, 0.150292, 1.0], "0.11711711711711711"], [[0.919879, 0.393389, 0.16007, 1.0], "0.05822979556633022"], [[0.90939, 0.375856, 0.174563, 1.0], "0.04118276056672706"], [[0.898192, 0.358911, 0.18886, 1.0], "0.08665254237288135"], [[0.890341, 0.347957, 0.198286, 1.0], "0.07000559205927583"], [[0.878001, 0.33206, 0.212268, 1.0], "0.07000559205927583"], [[0.869409, 0.321827, 0.221482, 1.0], "0.07000559205927583"], [[0.855992, 0.307038, 0.235133, 1.0], "0.04118276056672706"], [[0.841969, 0.292933, 0.248564, 1.0], "0.02094296215987519"], [[0.832299, 0.283913, 0.257383, 1.0], "0.04118276056672706"], [[0.817341, 0.270954, 0.27039, 1.0], "0.05822979556633022"], [[0.807082, 0.262692, 0.278898, 1.0], "0.02094296215987519"], [[0.791293, 0.250856, 0.29139, 1.0], "0.08275248405754115"], [[0.775059, 0.239667, 0.303526, 1.0], "0.08665254237288135"], [[0.76401, 0.232554, 0.311399, 1.0], "0.08925979680696662"], [[0.747127, 0.222378, 0.322856, 1.0], "0.15"], [[0.735683, 0.215906, 0.330245, 1.0], "0.02094296215987519"], [[0.718264, 0.206636, 0.340931, 1.0], "0.08157776781712237"], [[0.700576, 0.197851, 0.351113, 1.0], "0.07000559205927583"], [[0.688653, 0.192239, 0.357603, 1.0], "0.02653985507246377"], [[0.670599, 0.184153, 0.366879, 1.0], "0.03153823266884856"], [[0.652369, 0.176421, 0.375586, 1.0], "0.03886563594430682"], [[0.640135, 0.171438, 0.381065, 1.0], "0.04118276056672706"], [[0.621685, 0.164184, 0.388781, 1.0], "0.02653985507246377"], [[0.60933, 0.159474, 0.393589, 1.0], "0.02653985507246377"], [[0.590734, 0.152563, 0.40029, 1.0], "0.1850709438618137"], [[0.572081, 0.145797, 0.406369, 1.0], "0.07000559205927583"], [[0.559624, 0.141346, 0.410078, 1.0], "0.07000559205927583"], [[0.54092, 0.134729, 0.415123, 1.0], "0.07000559205927583"], [[0.528444, 0.130341, 0.418142, 1.0], "0.08851499634235552"], [[0.50973, 0.123769, 0.422156, 1.0], "0.04518127163417745"], [[0.491022, 0.117179, 0.425552, 1.0], "0.08275248405754115"], [[0.478558, 0.112764, 0.427475, 1.0], "0.01694488188976378"], [[0.459875, 0.106089, 0.429846, 1.0], "0.04118276056672706"], [[0.441207, 0.099338, 0.431594, 1.0], "0.04118276056672706"], [[0.428768, 0.09479, 0.432412, 1.0], "0.02094296215987519"], [[0.410113, 0.087896, 0.433098, 1.0], "0.03667045270160636"], [[0.397674, 0.083257, 0.433183, 1.0], "0.02653985507246377"], [[0.379001, 0.076253, 0.432719, 1.0], "0.04518127163417745"], [[0.360284, 0.069247, 0.431497, 1.0], "0.07215619694397284"], [[0.347771, 0.064616, 0.430217, 1.0], "0.04672692812363318"], [[0.328921, 0.057827, 0.427511, 1.0], "0.04518127163417745"], [[0.316282, 0.05349, 0.425116, 1.0], "0.07000559205927583"], [[0.297178, 0.04747, 0.420491, 1.0], "0.07000559205927583"], [[0.27785, 0.042353, 0.414392, 1.0], "0.015634028362471727"], [[0.26481, 0.039647, 0.409345, 1.0], "0.03886563594430682"], [[0.244967, 0.037055, 0.400007, 1.0], "0.02094296215987519"], [[0.231538, 0.036405, 0.3924, 1.0], "0.04118276056672706"], [[0.211095, 0.03703, 0.378563, 1.0], "0.02653985507246377"], [[0.190367, 0.039309, 0.361447, 1.0], "0.05822979556633022"], [[0.176493, 0.041402, 0.348111, 1.0], "0.02653985507246377"], [[0.15585, 0.044559, 0.325338, 1.0], "0.07000559205927583"], [[0.135778, 0.046856, 0.299776, 1.0], "0.05822979556633022"], [[0.122908, 0.047536, 0.281624, 1.0], "0.02094296215987519"], [[0.104551, 0.047008, 0.25343, 1.0], "0.04518127163417745"], [[0.09299, 0.045583, 0.234358, 1.0], "0.09916117435590174"], [[0.076637, 0.041905, 0.205799, 1.0], "0.2558172733761599"], [[0.06134, 0.03659, 0.177642, 1.0], "0.04672692812363318"], [[0.051644, 0.032474, 0.159254, 1.0], "0.08275248405754115"], [[0.037668, 0.025921, 0.132232, 1.0], "0.07000559205927583"], [[0.029432, 0.021503, 0.114621, 1.0], "0.07000559205927583"], [[0.019373, 0.015133, 0.088767, 1.0], "0.07000559205927583"], [[0.011663, 0.009417, 0.06346, 1.0], "0.08665254237288135"], [[0.007676, 0.006136, 0.046836, 1.0], "0.04118276056672706"], [[0.003299, 0.002249, 0.024239, 1.0], "0.06859229314729086"], [[0.001462, 0.000466, 0.013866, 1.0], "0.2558172733761599"]], [[[0.988362, 0.998364, 0.644924, 1.0], "0.12127460168697282"], [[0.976511, 0.989753, 0.61676, 1.0], "0.7656765676567657"], [[0.961812, 0.975924, 0.571925, 1.0], "0.08675078864353312"], [[0.954529, 0.965896, 0.540361, 1.0], "0.08675078864353312"], [[0.947937, 0.949318, 0.491426, 1.0], "0.019504248668163606"], [[0.946392, 0.930761, 0.442367, 1.0], "0.20257826887661143"], [[0.947594, 0.917399, 0.410665, 1.0], "0.12665562913907286"], [[0.951546, 0.896226, 0.365627, 1.0], "0.0961197058077606"], [[0.954997, 0.881569, 0.337475, 1.0], "0.5125107851596203"], [[0.960626, 0.859069, 0.29801, 1.0], "0.07000559205927583"], [[0.966243, 0.836191, 0.261534, 1.0], "0.12619888944977284"], [[0.969783, 0.820825, 0.238686, 1.0], "0.15407495538370017"], [[0.974638, 0.797692, 0.206332, 1.0], "0.09580592105263158"], [[0.977497, 0.782258, 0.185923, 1.0], "0.09813084112149532"], [[0.981173, 0.759135, 0.156863, 1.0], "0.1003064351378958"], [[0.984075, 0.736087, 0.129527, 1.0], "0.05789837538886969"], [[0.985566, 0.720782, 0.112229, 1.0], "0.03905013192612137"], [[0.987124, 0.697944, 0.087731, 1.0], "0.25063520871143374"], [[0.987874, 0.675267, 0.065257, 1.0], "0.06006569685593618"], [[0.987926, 0.66025, 0.05175, 1.0], "0.07000559205927583"], [[0.987337, 0.63789, 0.034916, 1.0], "0.10340027838536488"], [[0.986502, 0.623105, 0.027814, 1.0], "0.35942085697515164"], [[0.984591, 0.601122, 0.023606, 1.0], "0.1087248322147651"], [[0.981895, 0.579392, 0.02625, 1.0], "0.03033163425838525"], [[0.979666, 0.565057, 0.031409, 1.0], "0.09463237349734414"], [[0.975677, 0.543798, 0.043618, 1.0], "0.09813084112149532"], [[0.97259, 0.529798, 0.053324, 1.0], "0.06868421052631579"], [[0.967322, 0.509078, 0.068659, 1.0], "0.04458161865569273"], [[0.961293, 0.488716, 0.084289, 1.0], "0.03168887288440764"], [[0.956852, 0.475356, 0.094695, 1.0], "0.04943369513921661"], [[0.949562, 0.45566, 0.110164, 1.0], "0.18933669185558355"], [[0.944285, 0.442772, 0.120354, 1.0], "0.11706629055007052"], [[0.935747, 0.423831, 0.13544, 1.0], "0.06994818652849741"], [[0.92647, 0.405389, 0.150292, 1.0], "0.1104"], [[0.919879, 0.393389, 0.16007, 1.0], "0.15407495538370017"], [[0.90939, 0.375856, 0.174563, 1.0], "0.020780167699598978"], [[0.898192, 0.358911, 0.18886, 1.0], "0.11706629055007052"], [[0.890341, 0.347957, 0.198286, 1.0], "0.07000559205927583"], [[0.878001, 0.33206, 0.212268, 1.0], "0.07000559205927583"], [[0.869409, 0.321827, 0.221482, 1.0], "0.07000559205927583"], [[0.855992, 0.307038, 0.235133, 1.0], "0.20257826887661143"], [[0.841969, 0.292933, 0.248564, 1.0], "0.01768749517262686"], [[0.832299, 0.283913, 0.257383, 1.0], "0.11434977578475336"], [[0.817341, 0.270954, 0.27039, 1.0], "0.35942085697515164"], [[0.807082, 0.262692, 0.278898, 1.0], "0.022538860103626945"], [[0.791293, 0.250856, 0.29139, 1.0], "0.06104417670682731"], [[0.775059, 0.239667, 0.303526, 1.0], "0.11706629055007052"], [[0.76401, 0.232554, 0.311399, 1.0], "0.31690140845070425"], [[0.747127, 0.222378, 0.322856, 1.0], "0.15"], [[0.735683, 0.215906, 0.330245, 1.0], "0.1087248322147651"], [[0.718264, 0.206636, 0.340931, 1.0], "0.2494172494172494"], [[0.700576, 0.197851, 0.351113, 1.0], "0.07000559205927583"], [[0.688653, 0.192239, 0.357603, 1.0], "0.044691949809671505"], [[0.670599, 0.184153, 0.366879, 1.0], "0.0886615515771526"], [[0.652369, 0.176421, 0.375586, 1.0], "0.10965391621129326"], [[0.640135, 0.171438, 0.381065, 1.0], "0.26956521739130435"], [[0.621685, 0.164184, 0.388781, 1.0], "0.021279182879377433"], [[0.60933, 0.159474, 0.393589, 1.0], "0.22125435540069685"], [[0.590734, 0.152563, 0.40029, 1.0], "0.36621787025703795"], [[0.572081, 0.145797, 0.406369, 1.0], "0.07000559205927583"], [[0.559624, 0.141346, 0.410078, 1.0], "0.07000559205927583"], [[0.54092, 0.134729, 0.415123, 1.0], "0.07000559205927583"], [[0.528444, 0.130341, 0.418142, 1.0], "0.06389001213101496"], [[0.50973, 0.123769, 0.422156, 1.0], "0.12619888944977284"], [[0.491022, 0.117179, 0.425552, 1.0], "0.18384401114206128"], [[0.478558, 0.112764, 0.427475, 1.0], "0.017072861132267074"], [[0.459875, 0.106089, 0.429846, 1.0], "0.03200226564712546"], [[0.441207, 0.099338, 0.431594, 1.0], "0.03200226564712546"], [[0.428768, 0.09479, 0.432412, 1.0], "0.13191929643041903"], [[0.410113, 0.087896, 0.433098, 1.0], "0.7504215851602024"], [[0.397674, 0.083257, 0.433183, 1.0], "0.021279182879377433"], [[0.379001, 0.076253, 0.432719, 1.0], "0.04943369513921661"], [[0.360284, 0.069247, 0.431497, 1.0], "0.08623693379790941"], [[0.347771, 0.064616, 0.430217, 1.0], "0.06414425066509016"], [[0.328921, 0.057827, 0.427511, 1.0], "0.04943369513921661"], [[0.316282, 0.05349, 0.425116, 1.0], "0.07000559205927583"], [[0.297178, 0.04747, 0.420491, 1.0], "0.07000559205927583"], [[0.27785, 0.042353, 0.414392, 1.0], "0.04725375882172445"], [[0.26481, 0.039647, 0.409345, 1.0], "0.05789837538886969"], [[0.244967, 0.037055, 0.400007, 1.0], "0.13191929643041903"], [[0.231538, 0.036405, 0.3924, 1.0], "0.09463237349734414"], [[0.211095, 0.03703, 0.378563, 1.0], "0.25063520871143374"], [[0.190367, 0.039309, 0.361447, 1.0], "0.04215497638621655"], [[0.176493, 0.041402, 0.348111, 1.0], "0.021279182879377433"], [[0.15585, 0.044559, 0.325338, 1.0], "0.07000559205927583"], [[0.135778, 0.046856, 0.299776, 1.0], "0.30350553505535055"], [[0.122908, 0.047536, 0.281624, 1.0], "0.022538860103626945"], [[0.104551, 0.047008, 0.25343, 1.0], "0.07464566929133858"], [[0.09299, 0.045583, 0.234358, 1.0], "0.11096938775510204"], [[0.076637, 0.041905, 0.205799, 1.0], "0.10340027838536488"], [[0.06134, 0.03659, 0.177642, 1.0], "0.0686427457098284"], [[0.051644, 0.032474, 0.159254, 1.0], "0.07027328499721137"], [[0.037668, 0.025921, 0.132232, 1.0], "0.07000559205927583"], [[0.029432, 0.021503, 0.114621, 1.0], "0.07000559205927583"], [[0.019373, 0.015133, 0.088767, 1.0], "0.07000559205927583"], [[0.011663, 0.009417, 0.06346, 1.0], "0.14847161572052403"], [[0.007676, 0.006136, 0.046836, 1.0], "0.4551282051282051"], [[0.003299, 0.002249, 0.024239, 1.0], "0.08396946564885496"], [[0.001462, 0.000466, 0.013866, 1.0], "0.10340027838536488"]], [[[1.0, 1.2246467991473532e-16, 6.123233995736766e-17, 1.0], "52"], [[1.0, 0.024637449195382022, 0.012319659535238468, 1.0], "34"], [[1.0, 0.06156090613394323, 0.03079505855617055, 1.0], "25"], [[1.0, 0.08613293949614632, 0.043106538086295734, 1.0], "32"], [[1.0, 0.12288829066471434, 0.061560906133942946, 1.0], "26"], [[1.0, 0.1594757912099809, 0.07999425118854168, 1.0], "17"], [[1.0, 0.18374951781657037, 0.092268359463302, 1.0], "18"], [[1.0, 0.21994635783966854, 0.1106526818915008, 1.0], "33"], [[1.0, 0.24391372010837745, 0.12288829066471427, 1.0], "29"], [[1.0, 0.279582592596744, 0.14120615182309149, 1.0], "16"], [[1.0, 0.31486958889350797, 0.15947579120998084, 1.0], "75"], [[1.0, 0.3381582748158175, 0.17162567916635985, 1.0], "27"], [[1.0, 0.37270199199091436, 0.18980109344182594, 1.0], "44"], [[1.0, 0.3954512068705424, 0.20188240915701017, 1.0], "30"], [[1.0, 0.4291206087726091, 0.2199463578396687, 1.0], "45"], [[1.0, 0.4622038835403133, 0.2379351950426188, 1.0], "28"], [[1.0, 0.4839114241003016, 0.24988298979423082, 1.0], "11"], [[1.0, 0.5159178263577514, 0.2677330033224681, 1.0], "35"], [[1.0, 0.5472195469221114, 0.28549158627534216, 1.0], "28"], [[1.0, 0.5676747161445903, 0.29727685063120274, 1.0], "29"], [[1.0, 0.5977074592660937, 0.3148695888935079, 1.0], "37"], [[1.0, 0.6172782212897929, 0.3265387128400833, 1.0], "28"], [[1.0, 0.6459280624867872, 0.34394891863392807, 1.0], "78"], [[1.0, 0.6736956436465573, 0.36124166618715303, 1.0], "44"], [[1.0, 0.6916984393193701, 0.3727019919909141, 1.0], "25"], [[0.9901960784313726, 0.717911923064442, 0.3897858732926794, 1.0], "77"], [[0.9745098039215687, 0.7348449670469757, 0.4011015349327188, 1.0], "24"], [[0.9509803921568627, 0.7594049166547073, 0.4179603448867836, 1.0], "11"], [[0.9274509803921569, 0.782927610492103, 0.43467642176596505, 1.0], "14"], [[0.9117647058823528, 0.7980172272802396, 0.4457383557765383, 1.0], "38"], [[0.888235294117647, 0.8197404829072212, 0.46220388354031317, 1.0], "23"], [[0.8725490196078431, 0.8336023852211195, 0.47309355683601007, 1.0], "17"], [[0.8490196078431373, 0.8534437988883159, 0.48929291693392357, 1.0], "10"], [[0.8254901960784313, 0.872119510983611, 0.5053251839489482, 1.0], "15"], [[0.8098039215686275, 0.8839097102136121, 0.5159178263577512, 1.0], "25"], [[0.7862745098039214, 0.9005867023006376, 0.5316594672504363, 1.0], "30"], [[0.7627450980392156, 0.9160336012803335, 0.5472195469221113, 1.0], "30"], [[0.7470588235294118, 0.9256376597815563, 0.5574894393428856, 1.0], "9"], [[0.723529411764706, 0.9389883606150565, 0.5727351400805052, 1.0], "14"], [[0.7078431372549019, 0.9471773565640402, 0.582790598933161, 1.0], "20"], [[0.6843137254901961, 0.9583812154701222, 0.5977074592660937, 1.0], "18"], [[0.6607843137254901, 0.9682760409157589, 0.6124202030492502, 1.0], "30"], [[0.6450980392156862, 0.9741386021045102, 0.622112816721474, 1.0], "18"], [[0.6215686274509804, 0.9818225628535369, 0.6364742361471414, 1.0], "28"], [[0.6058823529411765, 0.9862007473534026, 0.6459280624867874, 1.0], "29"], [[0.5823529411764705, 0.9916446955107427, 0.6599245348787227, 1.0], "27"], [[0.5588235294117647, 0.9957341762950346, 0.6736956436465573, 1.0], "21"], [[0.5431372549019609, 0.9977051801738729, 0.6827488552151855, 1.0], "24"], [[0.5196078431372548, 0.9995257197133659, 0.6961339459629267, 1.0], "35"], [[0.503921568627451, 0.9999810273487268, 0.7049255469061473, 1.0], "73"], [[0.48039215686274506, 0.9995257197133659, 0.717911923064442, 1.0], "21"], [[0.45686274509803915, 0.9977051801738729, 0.7306531329586932, 1.0], "23"], [[0.4411764705882353, 0.9957341762950345, 0.7390089172206591, 1.0], "45"], [[0.41764705882352937, 0.9916446955107427, 0.7513318895568734, 1.0], "35"], [[0.39411764705882346, 0.9862007473534026, 0.763398282741103, 1.0], "23"], [[0.3784313725490196, 0.9818225628535369, 0.7712979623471807, 1.0], "66"], [[0.3549019607843137, 0.9741386021045101, 0.7829276104921028, 1.0], "33"], [[0.3392156862745098, 0.9682760409157589, 0.7905324123001634, 1.0], "41"], [[0.3156862745098039, 0.9583812154701222, 0.8017142839800667, 1.0], "13"], [[0.292156862745098, 0.9471773565640402, 0.8126223709664456, 1.0], "49"], [[0.27647058823529413, 0.9389883606150565, 0.8197404829072211, 1.0], "49"], [[0.2529411764705882, 0.9256376597815563, 0.8301840308155506, 1.0], "25"], [[0.23725490196078436, 0.9160336012803335, 0.8369891083319778, 1.0], "28"], [[0.21372549019607845, 0.9005867023006374, 0.8469582108244671, 1.0], "55"], [[0.19019607843137254, 0.883909710213612, 0.8566380778638627, 1.0], "52"], [[0.17450980392156867, 0.8721195109836108, 0.8629289996673897, 1.0], "36"], [[0.15098039215686276, 0.8534437988883159, 0.8721195109836108, 1.0], "19"], [[0.12745098039215685, 0.8336023852211194, 0.8810121942857845, 1.0], "18"], [[0.11176470588235299, 0.8197404829072211, 0.8867736859200619, 1.0], "49"], [[0.08823529411764708, 0.7980172272802395, 0.8951632913550623, 1.0], "68"], [[0.0725490196078431, 0.7829276104921027, 0.9005867023006374, 1.0], "96"], [[0.0490196078431373, 0.7594049166547071, 0.9084652718195236, 1.0], "23"], [[0.025490196078431393, 0.7348449670469757, 0.9160336012803335, 1.0], "33"], [[0.009803921568627416, 0.7179119230644418, 0.9209055179449537, 1.0], "43"], [[0.013725490196078438, 0.6916984393193699, 0.9279510898565746, 1.0], "38"], [[0.02941176470588236, 0.6736956436465572, 0.9324722294043558, 1.0], "33"], [[0.05294117647058827, 0.6459280624867872, 0.9389883606150565, 1.0], "24"], [[0.07647058823529412, 0.6172782212897929, 0.9451838281608196, 1.0], "23"], [[0.09215686274509804, 0.5977074592660936, 0.9491349440359013, 1.0], "26"], [[0.11568627450980395, 0.5676747161445901, 0.9547913248866443, 1.0], "27"], [[0.13137254901960782, 0.5472195469221112, 0.9583812154701222, 1.0], "16"], [[0.15490196078431373, 0.5159178263577511, 0.9634931442059831, 1.0], "66"], [[0.17843137254901964, 0.4839114241003015, 0.9682760409157589, 1.0], "24"], [[0.1941176470588235, 0.46220388354031317, 0.9712810319161138, 1.0], "75"], [[0.21764705882352942, 0.42912060877260894, 0.9755119679804366, 1.0], "46"], [[0.24117647058823533, 0.39545120687054247, 0.9794097676013659, 1.0], "24"], [[0.2568627450980392, 0.37270199199091397, 0.9818225628535369, 1.0], "29"], [[0.2803921568627451, 0.33815827481581706, 0.9851622334675065, 1.0], "11"], [[0.296078431372549, 0.31486958889350786, 0.987201839553569, 1.0], "20"], [[0.3196078431372549, 0.2795825925967438, 0.989980213280707, 1.0], "40"], [[0.3431372549019608, 0.24391372010837714, 0.9924205096719357, 1.0], "53"], [[0.3588235294117647, 0.2199463578396686, 0.9938591368952737, 1.0], "16"], [[0.38235294117647056, 0.18374951781657034, 0.9957341762950345, 1.0], "21"], [[0.39803921568627454, 0.1594757912099808, 0.9967953249171991, 1.0], "30"], [[0.4215686274509804, 0.12288829066471411, 0.9981033287370441, 1.0], "36"], [[0.44509803921568625, 0.08613293949614599, 0.9990704811844932, 1.0], "25"], [[0.4607843137254902, 0.061560906133942835, 0.9995257197133659, 1.0], "22"], [[0.4843137254901961, 0.02463744919538197, 0.9999241101148306, 1.0], "17"], [[0.5, 0.0, 1.0, 1.0], "19"]], [[[1.0, 1.2246467991473532e-16, 6.123233995736766e-17, 1.0], "0.09451913974677553"], [[1.0, 0.024637449195382022, 0.012319659535238468, 1.0], "0.3283191338303159"], [[1.0, 0.06156090613394323, 0.03079505855617055, 1.0], "0.4325874896461957"], [[1.0, 0.08613293949614632, 0.043106538086295734, 1.0], "0.5237028162347651"], [[1.0, 0.12288829066471434, 0.061560906133942946, 1.0], "0.18172220743107326"], [[1.0, 0.1594757912099809, 0.07999425118854168, 1.0], "0.8767619956218199"], [[1.0, 0.18374951781657037, 0.092268359463302, 1.0], "0.5112098420305289"], [[1.0, 0.21994635783966854, 0.1106526818915008, 1.0], "0.9888918471186842"], [[1.0, 0.24391372010837745, 0.12288829066471427, 1.0], "0.423705404685836"], [[1.0, 0.279582592596744, 0.14120615182309149, 1.0], "0.051957608567033485"], [[1.0, 0.31486958889350797, 0.15947579120998084, 1.0], "0.07211424683469411"], [[1.0, 0.3381582748158175, 0.17162567916635985, 1.0], "0.6697543190155011"], [[1.0, 0.37270199199091436, 0.18980109344182594, 1.0], "0.15431235948408473"], [[1.0, 0.3954512068705424, 0.20188240915701017, 1.0], "0.9059005591054313"], [[1.0, 0.4291206087726091, 0.2199463578396687, 1.0], "0.12086587386108152"], [[1.0, 0.4622038835403133, 0.2379351950426188, 1.0], "0.8096600993965212"], [[1.0, 0.4839114241003016, 0.24988298979423082, 1.0], "0.0003734765116554254"], [[1.0, 0.5159178263577514, 0.2677330033224681, 1.0], "0.8096600993965212"], [[1.0, 0.5472195469221114, 0.28549158627534216, 1.0], "0.9464745296414625"], [[1.0, 0.5676747161445903, 0.29727685063120274, 1.0], "0.28606267009821323"], [[1.0, 0.5977074592660937, 0.3148695888935079, 1.0], "0.4156479262809135"], [[1.0, 0.6172782212897929, 0.3265387128400833, 1.0], "0.5421418323275352"], [[1.0, 0.6459280624867872, 0.34394891863392807, 1.0], "0.148895101171459"], [[1.0, 0.6736956436465573, 0.36124166618715303, 1.0], "0.04046673470595196"], [[1.0, 0.6916984393193701, 0.3727019919909141, 1.0], "0.6091642261270855"], [[0.9901960784313726, 0.717911923064442, 0.3897858732926794, 1.0], "0.13828984735534255"], [[0.9745098039215687, 0.7348449670469757, 0.4011015349327188, 1.0], "0.7373017986037156"], [[0.9509803921568627, 0.7594049166547073, 0.4179603448867836, 1.0], "0.06632905869127914"], [[0.9274509803921569, 0.782927610492103, 0.43467642176596505, 1.0], "0.8096600993965212"], [[0.9117647058823528, 0.7980172272802396, 0.4457383557765383, 1.0], "0.16048581528813158"], [[0.888235294117647, 0.8197404829072212, 0.46220388354031317, 1.0], "0.7039828866406342"], [[0.8725490196078431, 0.8336023852211195, 0.47309355683601007, 1.0], "0.6961343332150042"], [[0.8490196078431373, 0.8534437988883159, 0.48929291693392357, 1.0], "0.9951485031357236"], [[0.8254901960784313, 0.872119510983611, 0.5053251839489482, 1.0], "0.32053344278783574"], [[0.8098039215686275, 0.8839097102136121, 0.5159178263577512, 1.0], "0.6091642261270855"], [[0.7862745098039214, 0.9005867023006376, 0.5316594672504363, 1.0], "0.20465403502544077"], [[0.7627450980392156, 0.9160336012803335, 0.5472195469221113, 1.0], "0.32053344278783574"], [[0.7470588235294118, 0.9256376597815563, 0.5574894393428856, 1.0], "0.12086587386108152"], [[0.723529411764706, 0.9389883606150565, 0.5727351400805052, 1.0], "0.2514680215359129"], [[0.7078431372549019, 0.9471773565640402, 0.582790598933161, 1.0], "0.6091642261270855"], [[0.6843137254901961, 0.9583812154701222, 0.5977074592660937, 1.0], "0.7373017986037156"], [[0.6607843137254901, 0.9682760409157589, 0.6124202030492502, 1.0], "0.9831769169329073"], [[0.6450980392156862, 0.9741386021045102, 0.622112816721474, 1.0], "0.7373017986037156"], [[0.6215686274509804, 0.9818225628535369, 0.6364742361471414, 1.0], "0.5421418323275352"], [[0.6058823529411765, 0.9862007473534026, 0.6459280624867874, 1.0], "0.9484916725831263"], [[0.5823529411764705, 0.9916446955107427, 0.6599245348787227, 1.0], "0.5112098420305289"], [[0.5588235294117647, 0.9957341762950346, 0.6736956436465573, 1.0], "0.2514680215359129"], [[0.5431372549019609, 0.9977051801738729, 0.6827488552151855, 1.0], "0.7373017986037156"], [[0.5196078431372548, 0.9995257197133659, 0.6961339459629267, 1.0], "0.2514680215359129"], [[0.503921568627451, 0.9999810273487268, 0.7049255469061473, 1.0], "0.29204199207194415"], [[0.48039215686274506, 0.9995257197133659, 0.717911923064442, 1.0], "0.6501153709620163"], [[0.45686274509803915, 0.9977051801738729, 0.7306531329586932, 1.0], "0.9373262039995267"], [[0.4411764705882353, 0.9957341762950345, 0.7390089172206591, 1.0], "0.6091642261270855"], [[0.41764705882352937, 0.9916446955107427, 0.7513318895568734, 1.0], "0.16420024257484322"], [[0.39411764705882346, 0.9862007473534026, 0.763398282741103, 1.0], "0.34290135782747605"], [[0.3784313725490196, 0.9818225628535369, 0.7712979623471807, 1.0], "0.15431235948408473"], [[0.3549019607843137, 0.9741386021045101, 0.7829276104921028, 1.0], "0.9249829901786771"], [[0.3392156862745098, 0.9682760409157589, 0.7905324123001634, 1.0], "0.4134773251686191"], [[0.3156862745098039, 0.9583812154701222, 0.8017142839800667, 1.0], "0.7849200538397823"], [[0.292156862745098, 0.9471773565640402, 0.8126223709664456, 1.0], "0.4109942610341971"], [[0.27647058823529413, 0.9389883606150565, 0.8197404829072211, 1.0], "0.674391344219619"], [[0.2529411764705882, 0.9256376597815563, 0.8301840308155506, 1.0], "0.4325874896461957"], [[0.23725490196078436, 0.9160336012803335, 0.8369891083319778, 1.0], "0.2514680215359129"], [[0.21372549019607845, 0.9005867023006374, 0.8469582108244671, 1.0], "0.045242426931724054"], [[0.19019607843137254, 0.883909710213612, 0.8566380778638627, 1.0], "0.8874929742042362"], [[0.17450980392156867, 0.8721195109836108, 0.8629289996673897, 1.0], "0.12086587386108152"], [[0.15098039215686276, 0.8534437988883159, 0.8721195109836108, 1.0], "0.561420246124719"], [[0.12745098039215685, 0.8336023852211194, 0.8810121942857845, 1.0], "0.8933336291563129"], [[0.11176470588235299, 0.8197404829072211, 0.8867736859200619, 1.0], "0.32666252514495325"], [[0.08823529411764708, 0.7980172272802395, 0.8951632913550623, 1.0], "0.22270663235120103"], [[0.0725490196078431, 0.7829276104921027, 0.9005867023006374, 1.0], "0.0989213554608922"], [[0.0490196078431373, 0.7594049166547071, 0.9084652718195236, 1.0], "0.09205271565495207"], [[0.025490196078431393, 0.7348449670469757, 0.9160336012803335, 1.0], "0.8621649804756834"], [[0.009803921568627416, 0.7179119230644418, 0.9209055179449537, 1.0], "0.13650381611643592"], [[0.013725490196078438, 0.6916984393193699, 0.9279510898565746, 1.0], "0.10321818423855166"], [[0.02941176470588236, 0.6736956436465572, 0.9324722294043558, 1.0], "0.4183565554372264"], [[0.05294117647058827, 0.6459280624867872, 0.9389883606150565, 1.0], "0.38995200272157143"], [[0.07647058823529412, 0.6172782212897929, 0.9451838281608196, 1.0], "0.34290135782747605"], [[0.09215686274509804, 0.5977074592660936, 0.9491349440359013, 1.0], "0.09451913974677553"], [[0.11568627450980395, 0.5676747161445901, 0.9547913248866443, 1.0], "0.7984040350254408"], [[0.13137254901960782, 0.5472195469221112, 0.9583812154701222, 1.0], "0.9597699236776713"], [[0.15490196078431373, 0.5159178263577511, 0.9634931442059831, 1.0], "0.24075738078333925"], [[0.17843137254901964, 0.4839114241003015, 0.9682760409157589, 1.0], "0.8562115430126612"], [[0.1941176470588235, 0.46220388354031317, 0.9712810319161138, 1.0], "0.22585160040231925"], [[0.21764705882352942, 0.42912060877260894, 0.9755119679804366, 1.0], "0.4369989498284227"], [[0.24117647058823533, 0.39545120687054247, 0.9794097676013659, 1.0], "0.7373017986037156"], [[0.2568627450980392, 0.37270199199091397, 0.9818225628535369, 1.0], "0.9484916725831263"], [[0.2803921568627451, 0.33815827481581706, 0.9851622334675065, 1.0], "0.9249829901786771"], [[0.296078431372549, 0.31486958889350786, 0.987201839553569, 1.0], "0.38995200272157143"], [[0.3196078431372549, 0.2795825925967438, 0.989980213280707, 1.0], "0.13763903680037864"], [[0.3431372549019608, 0.24391372010837714, 0.9924205096719357, 1.0], "0.4102325168619098"], [[0.3588235294117647, 0.2199463578396686, 0.9938591368952737, 1.0], "0.6613973198438055"], [[0.38235294117647056, 0.18374951781657034, 0.9957341762950345, 1.0], "0.4413438498402556"], [[0.39803921568627454, 0.1594757912099808, 0.9967953249171991, 1.0], "0.9059005591054313"], [[0.4215686274509804, 0.12288829066471411, 0.9981033287370441, 1.0], "0.27877618033368834"], [[0.44509803921568625, 0.08613293949614599, 0.9990704811844932, 1.0], "0.6091642261270855"], [[0.4607843137254902, 0.061560906133942835, 0.9995257197133659, 1.0], "0.4911641373801917"], [[0.4843137254901961, 0.02463744919538197, 0.9999241101148306, 1.0], "0.08375857886640634"], [[0.5, 0.0, 1.0, 1.0], "0.561420246124719"]], [[[1.0, 1.2246467991473532e-16, 6.123233995736766e-17, 1.0], "0.7692307692307693"], [[1.0, 0.024637449195382022, 0.012319659535238468, 1.0], "0.7058823529411765"], [[1.0, 0.06156090613394323, 0.03079505855617055, 1.0], "0.72"], [[1.0, 0.08613293949614632, 0.043106538086295734, 1.0], "0.53125"], [[1.0, 0.12288829066471434, 0.061560906133942946, 1.0], "0.6153846153846154"], [[1.0, 0.1594757912099809, 0.07999425118854168, 1.0], "0.5882352941176471"], [[1.0, 0.18374951781657037, 0.092268359463302, 1.0], "0.3333333333333333"], [[1.0, 0.21994635783966854, 0.1106526818915008, 1.0], "0.5454545454545454"], [[1.0, 0.24391372010837745, 0.12288829066471427, 1.0], "0.6551724137931034"], [[1.0, 0.279582592596744, 0.14120615182309149, 1.0], "0.375"], [[1.0, 0.31486958889350797, 0.15947579120998084, 1.0], "0.48"], [[1.0, 0.3381582748158175, 0.17162567916635985, 1.0], "0.5555555555555556"], [[1.0, 0.37270199199091436, 0.18980109344182594, 1.0], "0.6363636363636364"], [[1.0, 0.3954512068705424, 0.20188240915701017, 1.0], "0.8333333333333334"], [[1.0, 0.4291206087726091, 0.2199463578396687, 1.0], "0.37777777777777777"], [[1.0, 0.4622038835403133, 0.2379351950426188, 1.0], "0.35714285714285715"], [[1.0, 0.4839114241003016, 0.24988298979423082, 1.0], "0.0"], [[1.0, 0.5159178263577514, 0.2677330033224681, 1.0], "0.37142857142857144"], [[1.0, 0.5472195469221114, 0.28549158627534216, 1.0], "0.0"], [[1.0, 0.5676747161445903, 0.29727685063120274, 1.0], "0.7241379310344828"], [[1.0, 0.5977074592660937, 0.3148695888935079, 1.0], "0.7027027027027027"], [[1.0, 0.6172782212897929, 0.3265387128400833, 1.0], "0.6428571428571429"], [[1.0, 0.6459280624867872, 0.34394891863392807, 1.0], "0.5641025641025641"], [[1.0, 0.6736956436465573, 0.36124166618715303, 1.0], "0.6363636363636364"], [[1.0, 0.6916984393193701, 0.3727019919909141, 1.0], "0.56"], [[0.9901960784313726, 0.717911923064442, 0.3897858732926794, 1.0], "0.6363636363636364"], [[0.9745098039215687, 0.7348449670469757, 0.4011015349327188, 1.0], "0.8333333333333334"], [[0.9509803921568627, 0.7594049166547073, 0.4179603448867836, 1.0], "0.0"], [[0.9274509803921569, 0.782927610492103, 0.43467642176596505, 1.0], "0.0"], [[0.9117647058823528, 0.7980172272802396, 0.4457383557765383, 1.0], "0.631578947368421"], [[0.888235294117647, 0.8197404829072212, 0.46220388354031317, 1.0], "0.2608695652173913"], [[0.8725490196078431, 0.8336023852211195, 0.47309355683601007, 1.0], "0.5882352941176471"], [[0.8490196078431373, 0.8534437988883159, 0.48929291693392357, 1.0], "0.7"], [[0.8254901960784313, 0.872119510983611, 0.5053251839489482, 1.0], "0.7333333333333333"], [[0.8098039215686275, 0.8839097102136121, 0.5159178263577512, 1.0], "0.6"], [[0.7862745098039214, 0.9005867023006376, 0.5316594672504363, 1.0], "0.6"], [[0.7627450980392156, 0.9160336012803335, 0.5472195469221113, 1.0], "0.43333333333333335"], [[0.7470588235294118, 0.9256376597815563, 0.5574894393428856, 1.0], "0.3333333333333333"], [[0.723529411764706, 0.9389883606150565, 0.5727351400805052, 1.0], "0.42857142857142855"], [[0.7078431372549019, 0.9471773565640402, 0.582790598933161, 1.0], "0.65"], [[0.6843137254901961, 0.9583812154701222, 0.5977074592660937, 1.0], "0.5555555555555556"], [[0.6607843137254901, 0.9682760409157589, 0.6124202030492502, 1.0], "0.5666666666666667"], [[0.6450980392156862, 0.9741386021045102, 0.622112816721474, 1.0], "0.7222222222222222"], [[0.6215686274509804, 0.9818225628535369, 0.6364742361471414, 1.0], "0.5714285714285714"], [[0.6058823529411765, 0.9862007473534026, 0.6459280624867874, 1.0], "0.5862068965517241"], [[0.5823529411764705, 0.9916446955107427, 0.6599245348787227, 1.0], "0.8148148148148148"], [[0.5588235294117647, 0.9957341762950346, 0.6736956436465573, 1.0], "0.47619047619047616"], [[0.5431372549019609, 0.9977051801738729, 0.6827488552151855, 1.0], "0.5"], [[0.5196078431372548, 0.9995257197133659, 0.6961339459629267, 1.0], "0.6857142857142857"], [[0.503921568627451, 0.9999810273487268, 0.7049255469061473, 1.0], "0.6164383561643836"], [[0.48039215686274506, 0.9995257197133659, 0.717911923064442, 1.0], "0.47619047619047616"], [[0.45686274509803915, 0.9977051801738729, 0.7306531329586932, 1.0], "0.21739130434782608"], [[0.4411764705882353, 0.9957341762950345, 0.7390089172206591, 1.0], "0.6222222222222222"], [[0.41764705882352937, 0.9916446955107427, 0.7513318895568734, 1.0], "0.4857142857142857"], [[0.39411764705882346, 0.9862007473534026, 0.763398282741103, 1.0], "0.5652173913043478"], [[0.3784313725490196, 0.9818225628535369, 0.7712979623471807, 1.0], "0.5454545454545454"], [[0.3549019607843137, 0.9741386021045101, 0.7829276104921028, 1.0], "0.6666666666666666"], [[0.3392156862745098, 0.9682760409157589, 0.7905324123001634, 1.0], "0.6341463414634146"], [[0.3156862745098039, 0.9583812154701222, 0.8017142839800667, 1.0], "0.6923076923076923"], [[0.292156862745098, 0.9471773565640402, 0.8126223709664456, 1.0], "0.6326530612244898"], [[0.27647058823529413, 0.9389883606150565, 0.8197404829072211, 1.0], "0.5306122448979592"], [[0.2529411764705882, 0.9256376597815563, 0.8301840308155506, 1.0], "0.32"], [[0.23725490196078436, 0.9160336012803335, 0.8369891083319778, 1.0], "0.6428571428571429"], [[0.21372549019607845, 0.9005867023006374, 0.8469582108244671, 1.0], "0.43636363636363634"], [[0.19019607843137254, 0.883909710213612, 0.8566380778638627, 1.0], "0.6538461538461539"], [[0.17450980392156867, 0.8721195109836108, 0.8629289996673897, 1.0], "0.5"], [[0.15098039215686276, 0.8534437988883159, 0.8721195109836108, 1.0], "0.5263157894736842"], [[0.12745098039215685, 0.8336023852211194, 0.8810121942857845, 1.0], "0.3333333333333333"], [[0.11176470588235299, 0.8197404829072211, 0.8867736859200619, 1.0], "0.7142857142857143"], [[0.08823529411764708, 0.7980172272802395, 0.8951632913550623, 1.0], "0.5588235294117647"], [[0.0725490196078431, 0.7829276104921027, 0.9005867023006374, 1.0], "0.59375"], [[0.0490196078431373, 0.7594049166547071, 0.9084652718195236, 1.0], "0.6086956521739131"], [[0.025490196078431393, 0.7348449670469757, 0.9160336012803335, 1.0], "0.36363636363636365"], [[0.009803921568627416, 0.7179119230644418, 0.9209055179449537, 1.0], "0.5348837209302325"], [[0.013725490196078438, 0.6916984393193699, 0.9279510898565746, 1.0], "0.5526315789473685"], [[0.02941176470588236, 0.6736956436465572, 0.9324722294043558, 1.0], "0.5454545454545454"], [[0.05294117647058827, 0.6459280624867872, 0.9389883606150565, 1.0], "0.5"], [[0.07647058823529412, 0.6172782212897929, 0.9451838281608196, 1.0], "0.6956521739130435"], [[0.09215686274509804, 0.5977074592660936, 0.9491349440359013, 1.0], "0.5769230769230769"], [[0.11568627450980395, 0.5676747161445901, 0.9547913248866443, 1.0], "0.8148148148148148"], [[0.13137254901960782, 0.5472195469221112, 0.9583812154701222, 1.0], "0.75"], [[0.15490196078431373, 0.5159178263577511, 0.9634931442059831, 1.0], "0.5303030303030303"], [[0.17843137254901964, 0.4839114241003015, 0.9682760409157589, 1.0], "0.4166666666666667"], [[0.1941176470588235, 0.46220388354031317, 0.9712810319161138, 1.0], "0.6133333333333333"], [[0.21764705882352942, 0.42912060877260894, 0.9755119679804366, 1.0], "0.45652173913043476"], [[0.24117647058823533, 0.39545120687054247, 0.9794097676013659, 1.0], "0.7083333333333334"], [[0.2568627450980392, 0.37270199199091397, 0.9818225628535369, 1.0], "0.5862068965517241"], [[0.2803921568627451, 0.33815827481581706, 0.9851622334675065, 1.0], "0.5454545454545454"], [[0.296078431372549, 0.31486958889350786, 0.987201839553569, 1.0], "0.75"], [[0.3196078431372549, 0.2795825925967438, 0.989980213280707, 1.0], "0.65"], [[0.3431372549019608, 0.24391372010837714, 0.9924205096719357, 1.0], "0.6037735849056604"], [[0.3588235294117647, 0.2199463578396686, 0.9938591368952737, 1.0], "0.5625"], [[0.38235294117647056, 0.18374951781657034, 0.9957341762950345, 1.0], "0.8571428571428571"], [[0.39803921568627454, 0.1594757912099808, 0.9967953249171991, 1.0], "0.2"], [[0.4215686274509804, 0.12288829066471411, 0.9981033287370441, 1.0], "0.4444444444444444"], [[0.44509803921568625, 0.08613293949614599, 0.9990704811844932, 1.0], "0.92"], [[0.4607843137254902, 0.061560906133942835, 0.9995257197133659, 1.0], "0.5454545454545454"], [[0.4843137254901961, 0.02463744919538197, 0.9999241101148306, 1.0], "0.35294117647058826"], [[0.5, 0.0, 1.0, 1.0], "0.7368421052631579"]], [[[0.03137254901960784, 0.18823529411764706, 0.4196078431372549, 1.0], "18"], [[0.03137254901960784, 0.19635524798154555, 0.4316647443291042, 1.0], "6"], [[0.03137254901960784, 0.2085351787773933, 0.4497500961168781, 1.0], "14"], [[0.03137254901960784, 0.2166551326412918, 0.46180699730872743, 1.0], "10"], [[0.03137254901960784, 0.22883506343713955, 0.47989234909650136, 1.0], "6"], [[0.03137254901960784, 0.2410149942329873, 0.4979777008842753, 1.0], "6"], [[0.03137254901960784, 0.2491349480968858, 0.5100346020761246, 1.0], "6"], [[0.03137254901960784, 0.2613148788927335, 0.5281199538638985, 1.0], "6"], [[0.03137254901960784, 0.26943483275663205, 0.5401768550557479, 1.0], "8"], [[0.03137254901960784, 0.28161476355247983, 0.5582622068435218, 1.0], "6"], [[0.03137254901960784, 0.29379469434832756, 0.5763475586312957, 1.0], "6"], [[0.03137254901960784, 0.301914648212226, 0.588404459823145, 1.0], "6"], [[0.03137254901960784, 0.3140945790080738, 0.606489811610919, 1.0], "6"], [[0.03483275663206459, 0.32207612456747403, 0.6152249134948098, 1.0], "6"], [[0.044059976931949255, 0.3338869665513264, 0.6244521337946944, 1.0], "6"], [[0.05328719723183391, 0.34569780853517873, 0.6336793540945791, 1.0], "6"], [[0.059438677431757014, 0.35357170319108033, 0.6398308342945022, 1.0], "0"], [[0.06866589773164168, 0.3653825451749327, 0.6490580545943868, 1.0], "6"], [[0.07789311803152635, 0.37719338715878503, 0.6582852748942715, 1.0], "0"], [[0.08404459823144944, 0.38506728181468663, 0.6644367550941945, 1.0], "12"], [[0.09327181853133411, 0.396878123798539, 0.6736639753940792, 1.0], "6"], [[0.09942329873125721, 0.4047520184544406, 0.6798154555940024, 1.0], "6"], [[0.10865051903114188, 0.41656286043829294, 0.689042675893887, 1.0], "6"], [[0.11787773933102653, 0.4283737024221453, 0.6982698961937717, 1.0], "6"], [[0.12402921953094964, 0.4362475970780469, 0.7044213763936947, 1.0], "7"], [[0.13448673587081894, 0.4482122260668973, 0.7124183006535948, 1.0], "6"], [[0.1426066897347174, 0.45633217993079583, 0.7166013071895425, 1.0], "6"], [[0.1547866205305652, 0.46851211072664356, 0.722875816993464, 1.0], "0"], [[0.16696655132641292, 0.48069204152249134, 0.7291503267973857, 1.0], "0"], [[0.17508650519031155, 0.4888119953863899, 0.7333333333333334, 1.0], "6"], [[0.18726643598615916, 0.5009919261822375, 0.7396078431372549, 1.0], "6"], [[0.19538638985005768, 0.5091118800461361, 0.7437908496732026, 1.0], "6"], [[0.20756632064590544, 0.5212918108419838, 0.7500653594771242, 1.0], "6"], [[0.2197462514417532, 0.5334717416378316, 0.7563398692810458, 1.0], "6"], [[0.2278662053056517, 0.54159169550173, 0.7605228758169935, 1.0], "6"], [[0.24004613610149955, 0.5537716262975779, 0.7667973856209152, 1.0], "6"], [[0.2522260668973472, 0.5659515570934256, 0.7730718954248366, 1.0], "6"], [[0.26071510957324107, 0.5738408304498269, 0.7772087658592849, 1.0], "3"], [[0.2758477508650519, 0.5841753171856978, 0.783114186851211, 1.0], "6"], [[0.28593617839292584, 0.5910649750096116, 0.7870511341791618, 1.0], "6"], [[0.30106881968473664, 0.6013994617454825, 0.7929565551710881, 1.0], "6"], [[0.31620146097654767, 0.6117339484813534, 0.7988619761630142, 1.0], "6"], [[0.32628988850442137, 0.6186236063052672, 0.802798923490965, 1.0], "6"], [[0.3414225297962322, 0.628958093041138, 0.8087043444828912, 1.0], "6"], [[0.35151095732410614, 0.6358477508650519, 0.812641291810842, 1.0], "6"], [[0.366643598615917, 0.6461822376009227, 0.8185467128027681, 1.0], "6"], [[0.3817762399077278, 0.6565167243367935, 0.8244521337946944, 1.0], "6"], [[0.3918646674356017, 0.6634063821607075, 0.8283890811226452, 1.0], "6"], [[0.4069973087274125, 0.6737408688965782, 0.8342945021145713, 1.0], "6"], [[0.41708573625528644, 0.6806305267204922, 0.8382314494425221, 1.0], "6"], [[0.43529411764705883, 0.690965013456363, 0.8425990003844676, 1.0], "6"], [[0.4541176470588236, 0.7012995001922339, 0.8466589773164168, 1.0], "5"], [[0.4666666666666667, 0.7081891580161477, 0.8493656286043829, 1.0], "6"], [[0.48549019607843136, 0.7185236447520185, 0.8534256055363322, 1.0], "6"], [[0.5043137254901962, 0.7288581314878894, 0.8574855824682814, 1.0], "6"], [[0.5168627450980392, 0.7357477893118032, 0.8601922337562476, 1.0], "14"], [[0.5356862745098039, 0.746082276047674, 0.8642522106881968, 1.0], "6"], [[0.548235294117647, 0.7529719338715878, 0.866958861976163, 1.0], "6"], [[0.5670588235294118, 0.7633064206074587, 0.8710188389081123, 1.0], "6"], [[0.5858823529411765, 0.7736409073433295, 0.8750788158400615, 1.0], "7"], [[0.5984313725490196, 0.7805305651672433, 0.8777854671280276, 1.0], "6"], [[0.6172549019607844, 0.7908650519031142, 0.8818454440599769, 1.0], "8"], [[0.627604767397155, 0.7955555555555556, 0.8851518646674356, 1.0], "6"], [[0.6423683198769704, 0.8018300653594771, 0.890319108035371, 1.0], "6"], [[0.6571318723567858, 0.8081045751633986, 0.8954863514033065, 1.0], "6"], [[0.6669742406766629, 0.8122875816993463, 0.8989311803152633, 1.0], "6"], [[0.6817377931564783, 0.818562091503268, 0.9040984236831988, 1.0], "6"], [[0.6965013456362937, 0.8248366013071895, 0.9092656670511342, 1.0], "6"], [[0.7063437139561707, 0.8290196078431372, 0.9127104959630911, 1.0], "6"], [[0.7211072664359862, 0.8352941176470587, 0.9178777393310266, 1.0], "21"], [[0.7309496347558632, 0.8394771241830065, 0.9213225682429834, 1.0], "6"], [[0.7457131872356786, 0.8457516339869281, 0.9264898116109189, 1.0], "6"], [[0.760476739715494, 0.8520261437908496, 0.9316570549788543, 1.0], "6"], [[0.7703191080353711, 0.8562091503267973, 0.9351018838908113, 1.0], "6"], [[0.7816378316032295, 0.8622683583237216, 0.9389773164167627, 1.0], "6"], [[0.7875432525951558, 0.8662053056516724, 0.9409457900807382, 1.0], "11"], [[0.7964013840830451, 0.8721107266435986, 0.9438985005767013, 1.0], "6"], [[0.8052595155709343, 0.8780161476355247, 0.9468512110726643, 1.0], "6"], [[0.8111649365628605, 0.8819530949634755, 0.9488196847366398, 1.0], "6"], [[0.8200230680507498, 0.8878585159554018, 0.9517723952326028, 1.0], "6"], [[0.8259284890426759, 0.8917954632833525, 0.9537408688965783, 1.0], "7"], [[0.8347866205305652, 0.8977008842752787, 0.9566935793925413, 1.0], "6"], [[0.8436447520184545, 0.9036063052672049, 0.9596462898885044, 1.0], "6"], [[0.8495501730103806, 0.9075432525951557, 0.9616147635524798, 1.0], "6"], [[0.8584083044982699, 0.9134486735870818, 0.9645674740484429, 1.0], "6"], [[0.8672664359861592, 0.9193540945790081, 0.967520184544406, 1.0], "6"], [[0.873279507881584, 0.9232910419069588, 0.9694886582083814, 1.0], "6"], [[0.8825067281814687, 0.929196462898885, 0.9724413687043445, 1.0], "5"], [[0.8886582083813918, 0.9331334102268358, 0.9744098423683198, 1.0], "6"], [[0.8978854286812764, 0.939038831218762, 0.977362552864283, 1.0], "6"], [[0.9071126489811611, 0.9449442522106881, 0.9803152633602461, 1.0], "6"], [[0.9132641291810842, 0.9488811995386389, 0.9822837370242214, 1.0], "6"], [[0.9224913494809689, 0.9547866205305651, 0.9852364475201846, 1.0], "6"], [[0.928642829680892, 0.9587235678585159, 0.9872049211841599, 1.0], "6"], [[0.9378700499807766, 0.9646289888504421, 0.990157631680123, 1.0], "6"], [[0.9470972702806613, 0.9705344098423683, 0.9931103421760861, 1.0], "6"], [[0.9532487504805844, 0.9744713571703191, 0.9950788158400615, 1.0], "6"], [[0.9624759707804691, 0.9803767781622452, 0.9980315263360247, 1.0], "6"], [[0.9686274509803922, 0.984313725490196, 1.0, 1.0], "6"]]], "legend_title": ["lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus", "lotus"], "mapping": {"c": "c", "cs": "cs", "knn": "knn", "labels": "labels", "s": "s", "x": "x", "y": "y", "z": "z"}, "max_c": [13.0, 19.0, 19.0, 2.0, 19.0, 19.0, 19.0, 14.0, 19.0, 19.0, 19.0, 19.0, 19.0, 19.0, 3.0, 1.0, 2.0, 3.0, 3.0, 3.0, 3.0, 3.0, 1.0, 10.0, 0.9541105427360929, 1.0, 1.0, 0.47884505431675245, 1.0, 1.0, 0.25806451612903225, 1.0, 1.0, 500.0, 0.9951485031357236, 1.0, 116.0], "max_legend_label": ["13.00", "19.00", "19.00", "2.00", "19.00", "19.00", "19.00", "14.00", "19.00", "19.00", "19.00", "19.00", "19.00", "19.00", "3.00", "1.00", "2.00", "3.00", "3.00", "3.00", "3.00", "3.00", "1.00", "10.00", "0.95", "1.00", "1.00", "0.48", "1.00", "1.00", "0.26", "1.00", "1.00", "500.00", "1.00", "1.00", "116.00"], "max_point_size": 10, "min_c": [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3602941176470588, 0.3425641025641026, 0.3183856502242152, 0.09307283657206766, 0.061764705882352944, 0.0486322188449848, 0.011801848087504932, 0.015634028362471727, 0.017072861132267074, 0.0, 9.05957874807715e-05, 0.0, 0.0], "min_legend_label": ["1.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.36", "0.34", "0.32", "0.09", "0.06", "0.05", "0.01", "0.02", "0.02", "0.00", "0.00", "0.00", "0.00"], "name": "lotus", "ondblclick": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "point_scale": 2.0, "selected_labels": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "series_title": ["chemo_np_classifier_pathway", "chemo_np_classifier_superclass", "chemo_np_classifier_class", "chemo_cf_kingdom", "chemo_cf_superclass", "chemo_cf_class", "chemo_cf_parent", "kingdom_bio", "phylum_bio", "class_bio", "order_bio", "family_bio", "genus_bio", "species_bio", "biosource_count", "kingdom_nunique", "phylum_nunique", "class_nunique", "order_nunique", "family_nunique", "genus_nunique", "species_nunique", "Simaroubaceae vs others", "Top8 classes, quassinoids and carotenoids", "Pathway kingdom specificity", "Superclass kingdom specificity", "Class kingdom specificity", "Pathway family specificity", "Superclass family specificity", "Class family specificity", "Pathway genus specificity", "Superclass genus specificity", "Class genus specificity", "HAC", "C Frac", "Ring Atom Frac", "Largest Ring Size"], "shader": "smoothCircle", "title_index": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}];
+          this.treeMeta = [{"color": "#e6e6e6", "fog_intensity": 0.0, "mapping": {"c": "c", "from": "from", "to": "to", "x": "x", "y": "y", "z": "z"}, "name": "lotus_tree", "point_helper": "lotus"}];
+          this.seriesState = {};
+          this.el = {};
+
+          this.currentPoint = null;
+
+          this.lore = null;
+          this.clearColorHex = '#ffffff';
+          this.clearColor = null;
+          this.view = 'front';
+          this.antiAliasing = true;
+          this.alphaBlending = false;
+
+          this.treeHelpers = [];
+          this.pointHelpers = [];
+          this.octreeHelpers = [];
+          this.coordinatesHelper = null;
+
+          this.ohIndexToPhName = [];
+          this.ohIndexToPhIndex = [];
+          this.phIndexMap = {};
+          this.ohIndexMap = {};
+
+          this.min = [Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE];
+          this.max = [-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE];
+          this.maxRadius = -Number.MAX_VALUE;
+
+          this.coords = {
+            show: false,
+            grid: false,
+            ticks: true,
+            tickCount: 10,
+            tickLength: 2.0,
+            color: '#888888',
+            box: false,
+            offset: 5.0
+          };
+
+          this.legend = {
+            show: true,
+            title: 'Legend'
+          };
+
+          this.el = Faerun.bindElements();
+
+          this.scatterMeta.forEach(s => {
+            this.seriesState[s.name] = 0;
+          });
+
+          this.clearColor = Lore.Core.Color.fromHex(this.clearColorHex);
+          this.alphaBlending = (this.view === 'free' ? false : true) || this.alphaBlending;
+
+          this.initLore();
+          this.initTreeHelpers();
+          this.initPointHelpers();
+          this.initCoords();
+          this.initAxes();
+          this.initView();
+          this.initEvents();
+          this.renderLegend();
+        }
+
+        initLore() {
+          this.lore = Lore.init('lore', {
+            antialiasing: this.antiAliasing,
+            clearColor: this.clearColorHex,
+            alphaBlending: this.alphaBlending,
+            preserveDrawingBuffer: true
+          });
+        }
+
+        initTreeHelpers() {
+          this.treeMeta.forEach(t => {
+            let th = new Lore.Helpers.TreeHelper(this.lore, t.name, 'tree');
+            th.setXYZHexS(data[t.name].x, data[t.name].y, data[t.name].z, t.color);
+            th.setFog([this.clearColor.components[0], this.clearColor.components[1], 
+                       this.clearColor.components[2], this.clearColor.components[3]],
+                      t.fog_intensity);
+            this.treeHelpers.push(th);
+          });
+        }
+
+        initPointHelpers() {
+          this.scatterMeta.forEach(s => {           
+            let ph = new Lore.Helpers.PointHelper(
+              this.lore, s.name, s.shader, { maxPointSize: s.max_point_size }
+            );
+
+            ph.setXYZRGBS(data[s.name].x, data[s.name].y, data[s.name].z, 
+                          data[s.name]['colors'][0].r, data[s.name]['colors'][0].g, 
+                          data[s.name]['colors'][0].b, data[s.name]['s'] ? data[s.name]['s'][0] : 1.0);
+
+            ph.setPointScale(s.point_scale);
+            ph.setFog([this.clearColor.components[0], this.clearColor.components[1],
+                       this.clearColor.components[2], this.clearColor.components[3]],
+                      s.fog_intensity)
+
+            this.phIndexMap[s.name] = this.pointHelpers.length;
+            this.pointHelpers.push(ph);
+
+            this.min[0] = Faerun.getMin(data[s.name].x, this.min[0]);
+            this.min[1] = Faerun.getMin(data[s.name].y, this.min[1]);
+            this.min[2] = Faerun.getMin(data[s.name].z, this.min[2]);
+            this.max[0] = Faerun.getMax(data[s.name].x, this.max[0]);
+            this.max[1] = Faerun.getMax(data[s.name].y, this.max[1]);
+            this.max[2] = Faerun.getMax(data[s.name].z, this.max[2]);
+            this.maxRadius = ph.getMaxRadius();
+    
+            if (s.interactive && data[s.name].labels) {
+              this.octreeHelpers.push(
+                new Lore.Helpers.OctreeHelper(this.lore, 'Octree_' + s.name, 'tree', ph)
+              );
+
+              this.ohIndexMap[s.name] = this.octreeHelpers.length - 1;
+              this.ohIndexToPhName.push(s.name);
+              this.ohIndexToPhIndex.push(this.phIndexMap[s.name]);
+            }
+          });
+        }
+
+        initCoords() {
+          if (!this.coords.show) return;
+
+          let min = [0, 0, 0];
+          let max = [0, 0, 0];
+
+          for (var i = 0; i < 3; i++) {
+            min[i] = this.min[i] - this.coords.offset;
+            max[i] = this.max[i] + this.coords.offset;
+          }
+
+          this.coordinatesHelper = new Lore.Helpers.CoordinatesHelper(this.lore, 'Coordinates', 'coordinates', {
+            position: new Lore.Math.Vector3f(min[0], min[1], min[2]),
+            axis: {
+              x: {
+                length: max[0] - min[0],
+                color: Lore.Core.Color.fromHex(this.coords.color)
+              },
+              y: {
+                length: max[1] - min[1],
+                color: Lore.Core.Color.fromHex(this.coords.color)
+              },
+              z: {
+                length: max[2] - min[2],
+                color: Lore.Core.Color.fromHex(this.coords.color)
+              }
+            },
+            ticks: {
+              enabled: this.coords.ticks,
+              x: {
+                length: this.coords.tickLength,
+                color: Lore.Core.Color.fromHex(this.coords.color),
+                count: this.coords.tickCount
+              },
+              y: {
+                length: this.coords.tickLength,
+                color: Lore.Core.Color.fromHex(this.coords.color),
+                count: this.coords.tickCount
+              },
+              z: {
+                length: this.coords.tickLength,
+                color: Lore.Core.Color.fromHex(this.coords.color),
+                count: this.coords.tickCount
+              }
+            },
+            box: {
+              enabled: this.coords.box,
+              x: {
+                color: Lore.Core.Color.fromHex(this.coords.color)
+              },
+              y: {
+                color: Lore.Core.Color.fromHex(this.coords.color)
+              },
+              z: {
+                color: Lore.Core.Color.fromHex(this.coords.color)
+              }
+            }
+          });
+        }
+
+        initAxes() {
+          // Wait for DOM to get ready
+          setTimeout(() => {
+            this.updateTitle(true);
+            this.updateXAxis(true);
+            this.updateYAxis(true);
+          }, 500);
+        }
+
+        initView() {
+          let center = new Lore.Math.Vector3f(
+              (this.max[0] + this.min[0]) / 2.0, 
+              (this.max[1] + this.min[1]) / 2.0, 
+              (this.max[2] + this.min[2]) / 2.0
+            );
+          this.lore.controls.setLookAt(center);
+          this.lore.controls.setRadius(this.maxRadius + 100);
+          this.lore.controls.setView(0.9, -0.5)
+          this.lore.controls.setViewByName(this.view);
+        }
+
+        initEvents() {
+          this.lore.controls.addEventListener('updated', () => {
+            // Update the position / content of the annotations every time
+            // the view changes
+            this.updateTitle();
+            this.updateYAxis();
+            this.updateXAxis();
+            this.updateSelectedIndicators();
+          });
+
+          Lore.Helpers.OctreeHelper.joinHoveredChanged(this.octreeHelpers, e => {
+            let phName = this.ohIndexToPhName[e.source];
+            if (e.e && data[phName].labels) {
+              let fullLabel = data[phName].labels[e.e.index];
+              let labelIndex = this.scatterMeta[this.ohIndexToPhIndex[e.source]]
+                                  .label_index[this.seriesState[phName]];
+              let titleIndex = this.scatterMeta[this.ohIndexToPhIndex[e.source]]
+                                  .title_index[this.seriesState[phName]];
+
+              let rgbColor = this.pointHelpers[e.source].getColor(e.e.index);
+              let hexColor = Lore.Core.Color.rgbToHex(rgbColor[0], rgbColor[1], rgbColor[2]);
+
+              this.currentPoint = {
+                index: e.e.index,
+                fullLabel: fullLabel.split('__'),
+                source: phName,
+                label: fullLabel.split('__')[labelIndex],
+                color: hexColor,
+                labelIndex: labelIndex,
+                titleIndex: titleIndex
+              }
+              
+              if (FullMolinBkg == true) {
+
+                document.getElementById("overlay-structure-container").style.visibility = "visible";
+
+                var overlayStruc_Width = document.getElementById("overlay-structure-container").offsetWidth
+                var overlayStruc_Height = document.getElementById("overlay-structure-container").offsetHeight
+
+                if (overlayStruc_Width > overlayStruc_Height) {overlayStruc_Width = overlayStruc_Height}
+
+                smilesDrawer = new SmilesDrawer.Drawer({
+                  width: overlayStruc_Width / window.devicePixelRatio,
+                  height: overlayStruc_Width / window.devicePixelRatio,
+                  bondThickness: 1.4,
+                  experimental: true
+                });
+
+                this.setTipContent();
+
+
+                smilesDrawer = new SmilesDrawer.Drawer({
+                  width: 250 / window.devicePixelRatio,
+                  height: 250 / window.devicePixelRatio,
+                  bondThickness: 1.4,
+                  experimental: true
+                });
+              } else {
+
+                document.getElementById("overlay-structure-container").style.visibility = "hidden";
+                this.setTipContent__();
+
+                this.el.tip.classList.add('show');
+
+                let pointSize = this.pointHelpers[e.source].getPointSize() / window.devicePixelRatio;
+                let x = e.e.screenPosition[0];
+                let y = e.e.screenPosition[1];
+
+                this.el.hoverIndicator.style.width = pointSize + 'px';
+                this.el.hoverIndicator.style.height = pointSize + 'px';
+                this.el.hoverIndicator.style.left = (x - pointSize / 2.0 - 1) + 'px';
+                this.el.hoverIndicator.style.top = (y - pointSize / 2.0 - 1) + 'px';
+
+                this.el.hoverIndicator.classList.add('show');
+                }
+
+            } else {
+              this.currentPoint = null;
+              this.el.tip.classList.remove('show');
+              this.el.hoverIndicator.classList.remove('show');
+            }
+          });
+
+          Lore.Helpers.OctreeHelper.joinSelectedChanged(this.octreeHelpers, items => {
+            this.selectedItems = items;
+            this.updateSelected();
+          });
+
+          Lore.Helpers.OctreeHelper.joinReselected(this.octreeHelpers, item => {
+            this.updateSelected(
+              this.getSelectedIndex(item[0].source, item[0].item.e.index)
+            );
+          });
+
+          // Event listeners
+          this.el.selectedPrev.addEventListener('click', e => {
+            e.preventDefault();
+            this.updateSelected(this.selectedCurrent - 1);
+            return false;
+          });
+
+          this.el.selectedNext.addEventListener('click', e => {
+            e.preventDefault();
+            this.updateSelected(this.selectedCurrent + 1);
+            return false;
+          });
+
+          this.el.selectedRemove.addEventListener('click', e => {
+            e.preventDefault();
+            let item = this.selectedItems[this.selectedCurrent]
+            this.octreeHelpers[item.source].removeSelected(item.index);
+            return false;
+          });
+
+          document.addEventListener('dblclick', e => {
+            if (this.currentPoint) {
+              var index = this.currentPoint.index;
+              var labels = this.currentPoint.label.split('__');
+              var source = this.currentPoint.source;
+              eval(this.scatterMeta[this.phIndexMap[source]].ondblclick[this.seriesState[source]]);
+            }
+          });
+
+          document.addEventListener('mousemove', e => {
+            if (FullMolinBkg == false) {
+
+              document.getElementById("tip").style.visibility = "visible";
+
+              let x = e.clientX;
+              let y = e.clientY;
+
+              if (x > window.innerWidth - this.el.tip.offsetWidth - 20) {
+                x -= this.el.tip.offsetWidth;
+              } else {
+                x += 10;
+              }
+
+              if (y > window.innerHeight - this.el.tip.offsetHeight - 20) {
+                y -= this.el.tip.offsetHeight;
+              } else {
+                y += 10;
+              }
+
+              if (this.el.tip) {
+                this.el.tip.style.top = y + 'px';
+                this.el.tip.style.left = x + 'px';
+              }
+            } else {
+              
+              document.getElementById("tip").style.visibility = "hidden";
+
+            }
+          });
+
+          this.el.selectedToggle.addEventListener('click', e => {
+            this.el.selectedContainer.classList.toggle('hide');
+            if (this.el.selectedContainer.classList.contains('hide'))
+              this.el.selectedToggle.innerHTML = '<i class="fas fa-toggle-off"></i>';
+            else
+              this.el.selectedToggle.innerHTML = '<i class="fas fa-toggle-on"></i>';
+            
+            e.preventDefault();
+            return false;
+          });
+
+          this.el.showControls.addEventListener('click', e => {
+            this.el.moreControls.classList.toggle('hide');
+            e.preventDefault();
+            return false;
+          });
+
+          this.el.search.addEventListener('click', e => {
+            let searchTerm = prompt('Please enter a search term:', '');
+            const results = this.search(searchTerm);
+
+            for (const [name, indices] of Object.entries(results)) {
+              if (!name in this.ohIndexMap) return;
+              indices.forEach(index => {
+                this.octreeHelpers[this.ohIndexMap[name]].addSelected(index);
+              });
+            }
+            
+            e.preventDefault();
+            return false;
+          });
+
+          window.addEventListener('keydown', e => {
+            if ((e.keyCode == 114) || (e.ctrlKey && e.keyCode == 70)) {
+              this.search();
+              e.preventDefault();
+              return false;
+            }
+          });
+
+          this.el.export.addEventListener('click', e => {
+            e.preventDefault();
+
+            let canvas = document.getElementById('lore');
+            let zoom = this.lore.controls.getZoom();
+
+            canvas.style.width = (canvas.width * 2) + 'px';
+            canvas.style.height = (canvas.height * 2) + 'px';
+            this.lore.controls.setZoom(zoom * 2);
+
+            setTimeout(() => {
+              let blob = this.lore.canvas.toBlob(blob => {
+                let a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.setAttribute('download', 'export.png');
+                a.click();
+                
+                setTimeout(() => {
+                  canvas.style.width = '100%';
+                  canvas.style.height = '100%';
+                  lore.controls.setZoom(zoom);
+                }, 2000);
+              });
+            }, 2000);
+          });
+
+          this.el.download.addEventListener('click', e => {
+            e.preventDefault();
+
+            let text = ''
+            this.selectedItems.forEach(item => {
+              let phIndex = this.ohIndexToPhIndex[item.source];
+              let meta = this.scatterMeta[phIndex];
+              let phName = this.ohIndexToPhName[item.source];
+              let seriesState = this.seriesState[phName];
+
+              let fullLabel = data[phName].labels[item.item.index].split('__');
+
+              let labelIndex = meta.label_index[seriesState];
+              let titleIndex = meta.title_index[seriesState];
+              let selectedLabels = meta.selected_labels[seriesState];
+
+              fullLabel.forEach((l, i) => {
+                text += l + ';'
+              });
+              text = text.slice(0, -1); 
+              text += '\n';
+            });
+
+            var a = document.createElement('a');
+            a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            a.setAttribute('download', 'faerun_list.csv');
+
+            a.style.display = 'none';
+            document.body.appendChild(a);
+
+            a.click();
+
+            document.body.removeChild(a);
+
+            return false;
+          });
+
+          this.el.largepreview.addEventListener('click', e => {
+            
+            //Switch display mode:
+            if (FullMolinBkg == false) {
+              FullMolinBkg = true;
+            } else {
+              FullMolinBkg = false;
+              //HIDE BIG CANVAS IN BACKGROUND:
+              document.getElementById("overlay-structure-container").style.visibility = "hidden";
+            }
+          });
+        }
+
+        setTipContent__() {
+          SmilesDrawer.parse(this.currentPoint.label, tree => {
+            smilesDrawer.draw(tree, 'smiles-canvas', 'light', false);
+            let tipImage = Faerun.createElement('img');
+            tipImage.src = this.el.smilesCanvas.toDataURL();
+            this.el.tipText.innerHTML = '';
+            if (this.currentPoint.titleIndex !== this.currentPoint.labelIndex)
+              this.el.tipText.innerHTML = `${this.currentPoint.fullLabel[this.currentPoint.titleIndex]}<br />`;
+            this.el.tipText.appendChild(tipImage);
+            this.el.tip.style.borderColor = this.currentPoint.color;
+          }, err => { console.log(err); });
+        }
+
+        setTipContent() {
+          SmilesDrawer.parse(this.currentPoint.label, tree => {
+            smilesDrawer.draw(tree, 'overlay-structure', 'dark', false);
+            document.getElementById("tip").style.visibility = "hidden";
+            //let tipImage = Faerun.createElement('img');
+            //tipImage.src = this.el.smilesCanvas.toDataURL();
+            //this.el.tipText.innerHTML = '';
+            //if (this.currentPoint.titleIndex !== this.currentPoint.labelIndex)
+            //  this.el.tipText.innerHTML = `${this.currentPoint.fullLabel[this.currentPoint.titleIndex]}<br />`;
+           // this.el.tipText.appendChild(tipImage);
+            //this.el.tip.style.borderColor = this.currentPoint.color;
+          }, err => { console.log(err); });
+        }
+
+        setSelectedContent(fullLabel, labelIndex, selectedLabels, img) {
+          this.el.selectedContainer.innerHTML = '';
+          if (img)
+            this.el.selectedContainer.appendChild(img);
+
+          fullLabel.forEach((l, i) => {
+            if (i === labelIndex) return;
+            if (selectedLabels && selectedLabels[i]) {
+              this.el.selectedContainer.appendChild(
+                Faerun.createElement('div', { classes: 'label', content: selectedLabels[i] })
+              );
+            }
+            this.el.selectedContainer.appendChild(
+              Faerun.createElement('div', { classes: 'content', content: l })
+            );
+          });
+
+          // Update the indicator
+          this.updateSelectedIndicators();
+        }
+
+        renderLegend() {
+          if (!this.legend.show) return;
+
+          
+          let legend = document.getElementById('legend');
+          
+          if (legend) this.body.removeChild(legend);
+
+          legend = Faerun.createElement('div', { id: 'legend' });
+          this.body.appendChild(legend)
+          
+          if (this.legend.title && this.legend.title !== '')
+            legend.appendChild(Faerun.createElement('h2', { content: 'Legend' }));
+          
+          let container = Faerun.createElement('div', { classes: 'container' });
+          legend.appendChild(container);
+
+          this.scatterMeta.forEach(s => {
+            let index = this.seriesState[s.name];
+            if (s.has_legend) {
+              let legendSection = []
+              if (!s.is_range[index]) {
+                s.legend[index].forEach(v => {
+                  legendSection.push(Faerun.createElement('div', { classes: 'legend-element' }, [
+                    Faerun.createColorBox(v[0]),
+                    Faerun.createElement('div', { classes: 'legend-label', content: v[1] }),
+                  ]))
+                })
+              } else {
+                legendSection.push(Faerun.createElement('div', { classes: 'legend-element-range' }, [
+                  ...Faerun.createColorScale(s.legend[index]),
+                  Faerun.createElement('div', { 
+                    classes: 'legend-label max', 
+                    content: s.max_legend_label[index] 
+                  }),
+                  Faerun.createElement('div', {
+                    classes: 'legend-label min',
+                    content: s.min_legend_label[index] 
+                  })
+                ]))
+              }
+
+              let series = [];
+              for (var i = 0; i < s.series_title.length; i++) {
+                series.push(
+                  Faerun.createElement('option', { 
+                    value: i, 
+                    content: s.series_title[i], 
+                    selected: i === index
+                  })
+                );
+              }
+
+
+              let sectionHeader = Faerun.createElement(
+                'h3', { content: s.legend_title[index] }
+              );
+              sectionHeader.addEventListener('click', e => {
+                this.toggleLegendSection(s.name);
+              });
+
+              let seriesSelector = Faerun.createElement(
+                'select', 
+                { 
+                  id: `select-${s.name}`, 
+                  classes: 'series-selector',
+                  'data-name': s.name,
+                  hidden: s.series_title.length < 2,
+                }, 
+                [ ...series ]
+              );
+              seriesSelector.addEventListener('change', e => {
+                let value = document.getElementById(`select-${s.name}`).value;
+                this.changeSeries(value, s.name);
+              });
+
+
+              container.appendChild(
+                Faerun.createElement(
+                  'div', { id: `legend-${s.name}`, 
+                  classes: 'legend-section', 
+                  'data-name': `${s.name}` },
+                  [ sectionHeader, seriesSelector, ...legendSection ]
+                )
+              );
+            }
+          });
+        }
+
+        toggleLegendSection(name) {
+          let section = document.getElementById('legend-' + name);
+          let geometry = this.pointHelpers[this.phIndexMap[name]].geometry;
+          let isVisible = geometry.isVisible;
+
+          if (isVisible) {
+            geometry.hide();
+            section.style.opacity = 0.5;
+          } else {
+            geometry.show();
+            section.style.opacity = 1.0;
+          }
+        }
+
+        getSelectedIndex(source, index) {
+          let selectedIndex = null;
+          this.selectedItems.forEach((item, i) => {
+            if (item.source == source && item.item.index == index) {
+              selectedIndex = i;
+              return;
+            }
+          });
+          return selectedIndex;
+        }
+
+        updateSelected(current = -1) {
+          let n = this.selectedItems.length
+          // Hide the container if no items are selected
+          if (n === 0) {
+            this.el.selected.style.display = 'none';
+            return;
+          } else {
+            this.el.selected.style.display = 'block';
+          }
+
+          if (current < 0) current = n - 1;
+          if (current >= n) current = 0;
+          this.selectedCurrent = current;
+
+          let item = this.selectedItems[current];
+
+          let phIndex = this.ohIndexToPhIndex[item.source];
+          let meta = this.scatterMeta[phIndex];
+          let phName = this.ohIndexToPhName[item.source];
+          let seriesState = this.seriesState[phName];
+
+          let fullLabel = data[phName].labels[item.item.index].split('__');
+
+          let labelIndex = meta.label_index[seriesState];
+          let titleIndex = meta.title_index[seriesState];
+          let selectedLabels = meta.selected_labels[seriesState];
+
+          SmilesDrawer.parse(fullLabel[labelIndex], tree => {
+            smilesDrawer.draw(tree, 'smiles-canvas', 'dark', false);
+            let img = Faerun.createElement('img');
+            img.src = this.el.smilesCanvas.toDataURL();
+            
+            this.el.selectedCurrent.innerHTML = current + 1;
+            this.el.selectedTotal.innerHTML = n;
+            this.el.selectedTitle.innerHTML = fullLabel[titleIndex];
+
+            this.setSelectedContent(fullLabel, labelIndex, selectedLabels, img);
+          }, err => { console.log(err); });
+
+          // Remove all indicators
+          this.selectedIndicators.forEach(indicator => {
+            indicator.element.parentElement.removeChild(indicator.element);
+          });
+          this.selectedIndicators.length = 0;
+
+          // Add the indicator for this object
+          let indicatorElement = Faerun.createElement(
+            'div', 
+            { classes: 'selected-indicator' },
+            [
+              Faerun.createElement('div', { classes: 'crosshair-x' }),
+              Faerun.createElement('div', { classes: 'crosshair-y' })
+            ]
+          );
+
+          this.body.appendChild(indicatorElement);
+          this.selectedIndicators.push({
+            element: indicatorElement,
+            index: item.item.index,
+            ohIndex: item.source,
+            phIndex: phIndex
+          });
+          this.updateSelectedIndicators();
+        }
+
+        updateSelectedIndicators() {
+          this.selectedIndicators.forEach(indicator => {
+            let pointSize = this.pointHelpers[indicator.phIndex].getPointSize();
+            let screenPosition = this.octreeHelpers[indicator.ohIndex]
+                                     .getScreenPosition(indicator.index);
+            
+            // Make the crosshairs larger than the point
+            pointSize = Faerun.getMax([pointSize / window.devicePixelRatio, 10 / window.devicePixelRatio]);
+            pointSize *= 1.25;
+            let halfPointSize = pointSize / 2.0;
+            indicator.element.style.left = (screenPosition[0] - halfPointSize) + 'px';
+            indicator.element.style.top = (screenPosition[1] - halfPointSize) + 'px';
+            indicator.element.style.width = pointSize + 'px';
+            indicator.element.style.height = pointSize + 'px';
+          });
+        }
+
+        updateTitle(first = false) {
+          if (this.el.title === undefined) return;
+
+          let bb = this.el.title.getBoundingClientRect();
+          let scenePosition = new Lore.Math.Vector3f(
+            (this.min[0] + this.min[0]) / 2.0, this.min[1], 
+            (this.min[2] + this.min[2]) / 2.0
+          );
+
+          let screenPosition = this.lore.controls.camera.sceneToScreen(scenePosition, this.lore);
+          
+          this.el.title.style.left = (screenPosition[0] - (bb.width / 2.0)) + 'px';
+          this.el.title.style.top = (screenPosition[1] - bb.height) + 'px';
+
+          if (first) this.el.title.classList.add('show');
+        }
+
+        updateXAxis(first = false) {
+          if (this.el.xAxis === undefined) return;
+          
+          let bb = this.el.xAxis.getBoundingClientRect();
+          let scenePosition = new Lore.Math.Vector3f(
+            (this.min[0] + this.min[0]) / 2.0, this.min[1], 
+            (this.min[2] + this.min[2]) / 2.0
+          );
+
+          let screenPosition = this.lore.controls.camera.sceneToScreen(scenePosition, this.lore);
+          
+          this.el.xAxis.style.left = (screenPosition[0] - (bb.width / 2.0)) + 'px';
+          this.el.xAxis.style.top = (screenPosition[1]) + 'px';
+
+          if (first) this.el.xAxis.classList.add('show');
+        }
+
+        updateYAxis(first = false) {
+          if (this.el.yAxis === undefined) return;
+            
+          let bb = this.el.yAxis.getBoundingClientRect();
+          let scenePosition = new Lore.Math.Vector3f(
+            this.min[0], (this.min[1] + this.min[1]) / 2.0, 
+            (this.min[2] + this.min[2]) / 2.0
+          );
+          
+          let screenPosition = this.lore.controls.camera.sceneToScreen(scenePosition, this.lore);
+          
+          this.el.yAxis.style.left = (screenPosition[0] - bb.height) + 'px';
+          this.el.yAxis.style.top = (screenPosition[1] - bb.width / 2.0) + 'px';
+
+          if (first) this.el.yAxis.classList.add('show');
+        }
+
+        changeSeries(value, name) {
+          value = parseInt(value);
+          this.seriesState[name] = value;
+          this.renderLegend();
+
+          this.pointHelpers[this.phIndexMap[name]].setRGBFromArrays(
+            data[name]['colors'][value].r, 
+            data[name]['colors'][value].g, 
+            data[name]['colors'][value].b
+          );
+
+          if (data[name]['s']) {
+            if (data[name]['s'][value]) {
+              this.pointHelpers[this.phIndexMap[name]].setSize(
+                data[name]['s'][value]
+              );
+            } else {
+              this.pointHelpers[this.phIndexMap[name]].setSize(1.0);
+            }
+          }
+        }
+
+        search(term) {
+          let results = {}
+          let re = new RegExp(term, 'i');
+
+          Object.keys(data).forEach(name => {
+            if (!('labels' in data[name])) return;
+            results[name] = []
+            data[name]['labels'].forEach((label, i) => {
+              if (re.test(label))
+                results[name].push(i)
+            });
+          });
+
+          return results;
+        }
+
+        static createColorBox(value) {
+          return Faerun.createElement(
+            'div', 
+            { 
+              classes: 'color-box', 
+              style: `background-color: rgba(${value[0] * 255}, ${value[1] * 255 }, ${value[2] * 255 }, ${value[3] });
+                      border-color: rgba(${value[0] * 255 }, ${value[1] * 255 }, ${value[2] * 255 }, ${value[3] })`
+            }
+          );
+        }
+
+        static createColorScale(values) {
+          let scale = [];
+
+          values.forEach(value => {
+            scale.push(
+              Faerun.createElement(
+                'div', 
+                { 
+                  classes: 'color-stripe', 
+                  style: `background-color: rgba(${value[0][0] * 255}, ${value[0][1] * 255}, ${value[0][2] * 255}, ${value[0][3]});
+                          border-color: rgba(${value[0][0] * 255}, ${value[0][1] * 255}, ${value[0][2] * 255}, ${value[0][3]})`,
+                  alt: value[1]
+                }
+              ),
+            )
+          });
+
+          return scale;
+        }
+        
+        static createElement(tag, values = {}, children = []) {
+          let element = document.createElement(tag);
+
+          for (const key of Object.keys(values)) {
+            if (key === 'classes')
+              element.classList.add(...values[key].split(' '));
+            else if (key === 'content')
+              element.innerHTML = values[key];
+            else if (key === 'hidden') {
+              if (values[key])
+                element.setAttribute('hidden', true);
+            }
+            else if (key === 'selected') {
+              if (values[key])
+                element.setAttribute('selected', true);
+            }
+            else
+              element.setAttribute(key, values[key]);
+          }
+
+          if (children) {
+            if (Array.isArray(children)) {
+              children.forEach(child => {
+                element.appendChild(child);
+              })
+            } else {
+              element.appendChild(children);
+            }
+          }
+
+          return element;
+        }
+
+        static bindElements() {
+          let result = {};
+          document.querySelectorAll('[data-bind]').forEach(e => {
+            result[e.getAttribute('data-bind')] = e;
+          });
+          return result;
+        }
+
+        static getMin(arr, other = Number.MAX_VALUE) {
+          let m = Number.MAX_VALUE;
+          for (var i = 0; i < arr.length; i++)
+              if (arr[i] < m) m = arr[i];
+          
+          if (m < other) return m;
+          return other;
+        }
+
+        static getMax(arr, other = -Number.MAX_VALUE) {
+          let m = -Number.MAX_VALUE;
+          for (var i = 0; i < arr.length; i++)
+              if (arr[i] > m) m = arr[i];
+          
+          if (m > other) return m;
+          return other;
+        }
+      }
+
+      let f = new Faerun();
+    </script>
+  </body>
+</html>
